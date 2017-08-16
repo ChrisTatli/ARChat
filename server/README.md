@@ -1,4 +1,4 @@
-# house_martell_project
+# house-martell-project
 
 > Proximity-based Augmented Reality Chat Application - SERVER
 
@@ -14,7 +14,7 @@ Getting up and running is as easy as 1, 2, 3.
 2. Install your dependencies
 
     ```
-    cd path/to/house_martell_project/server; npm install
+    cd path/to/house-martell-project/server; npm install
     ```
 
 3. Start your app
