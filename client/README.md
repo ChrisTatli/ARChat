@@ -1,5 +1,10 @@
-# feathers-react-native-chat
-A React Native example chat app using Feathers that talks with the [feathers-chat](https://github.com/feathersjs/feathers-chat) server.
+# house-martell-project 
+
+> Client
+
+## About
+
+React-native client that talks to the Feathers-based server.
 
 ## Getting Started
 
@@ -28,7 +33,7 @@ A React Native example chat app using Feathers that talks with the [feathers-cha
     yarn install
     ```
 
-5. Start the [feathers-chat](https://github.com/feathersjs/feathers-chat) server.
+5. Start the server.
 
 6. Start the iOS app
 
