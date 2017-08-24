@@ -27,8 +27,7 @@ export default class Launch extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topSection}>
-          <Image source={require('../../images/feathers_logo_wide.png')} style={styles.logo}/>
-          <Text style={styles.tagline}>Chat Demo</Text>
+          <Text style={styles.tagline}>ARchat</Text>
         </View>
         <View style={styles.bottomSection}>
           <Button title='Sign In'

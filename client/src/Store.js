@@ -7,7 +7,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 const PLACEHOLDER = 'https://raw.githubusercontent.com/feathersjs/feathers-chat/master/public/placeholder.png';
-const API_URL = 'http://localhost:3030';
+const API_URL = 'http://52.62.125.103:8080';
 
 @autobind
 export default class Store {
@@ -155,12 +155,12 @@ export default class Store {
     return {
       _id: message._id,
       text: message.text,
-      position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
-      createdAt: new Date(message.createdAt),
+      //position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
+      //createdAt: new Date(message.createdAt),
       user: {
         _id: message.user._id ? message.user._id : '',
         name: message.user.email ? message.user.email : message.name,
-        avatar: message.user.avatar ? message.user.avatar : PLACEHOLDER,
+        avatar: /*message.user.avatar ? message.user.avatar : */ PLACEHOLDER,
       }
     };
   }
