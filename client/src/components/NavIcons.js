@@ -1,19 +1,19 @@
 import React from 'react'
 import {StyleSheet, TouchableOpacity} from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default {
   closeButton (goBack) {
     return (
       <TouchableOpacity onPress={() => goBack()}>
-        <Icon name='ios-close' style={styles.close}/>
+        <Icon name='close' style={styles.close}/>
       </TouchableOpacity>
     )
   },
 
   settingsButton (navigate) {
     return (<TouchableOpacity onPress={() => navigate('Settings')}>
-        <Icon name='ios-settings' style={styles.settings}/>
+        <Icon name='settings' style={styles.settings}/>
       </TouchableOpacity>
     )
   }
@@ -22,7 +22,7 @@ export default {
 const styles = StyleSheet.create({
   close: {
     marginLeft: 10,
-    fontSize: 44,
+    fontSize: 28,
     color: '#000',
   },
   settings: {
