@@ -121,8 +121,6 @@ client/.env
 # Yarn
 client/yarn.lock
 
-# package.json
-client/package.json
 #Logs
 server/logs
 server/*.log
