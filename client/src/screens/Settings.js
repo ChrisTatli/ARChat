@@ -39,8 +39,8 @@ export default class Settings extends Component {
         <View style={styles.bottomSection}>
           <Button title='Sign Out'
                   onPress={this.props.screenProps.store.promptForLogout}
-                  backgroundColor='#48fdf6'
-                  color={'black'}
+                  backgroundColor='#777'
+                  color={'white'}
                   buttonStyle={styles.signoutButton}/>
         </View>
       </View>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontSize: 20,
     fontWeight: "200",
-    color: '#48fdf6'
+    color: '#333'
   },
   bottomSection: {
     position: 'absolute',

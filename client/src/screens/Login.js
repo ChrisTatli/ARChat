@@ -69,7 +69,7 @@ export default class Login extends Component {
     }
 
     const commonInputProps = {
-      style: [baseStyles.input, baseStyles.darkFont],
+      style: [baseStyles.input, baseStyles.greyFont],
       underlineColorAndroid: 'transparent',
       placeholderTextColor: '#AAA',
       autoCorrect: false,
@@ -104,8 +104,7 @@ export default class Login extends Component {
             <View style={{height: 60}}>
               <Button title='Login'
                       onPress={this.login}
-                      color='#000'
-                      backgroundColor='#48fdf6'
+                      backgroundColor='#31D8A0'
                       buttonStyle={{marginTop: 10, borderRadius: 5}}/>
             </View>
           </View>

@@ -23,7 +23,6 @@ export default class Signup extends React.Component {
   });
 
   @observable email = '';
-  @observable username = '';
   @observable password = '';
   @observable loading = false;
 
@@ -40,18 +39,14 @@ export default class Signup extends React.Component {
     this.password = text;
   }
 
-  onChangeUsername(text) {
-    this.username = text;
-  }
-
   register() {
     if (!Utils.validateEmail(this.email) || !Utils.validatePassword(this.password)) {
-      Alert.alert('Please enter a valid email, username or password.');
+      Alert.alert('Please enter a valid email or password.');
       return;
     }
 
     this.loading = true;
-    this.store.createAccount(this.email, this.username, this.password).catch(error => {
+    this.store.createAccount(this.email, this.password).catch(error => {
       console.log(error);
       Alert.alert('Error', 'Please enter a valid email or password.');
       this.loading = false;
@@ -79,18 +74,6 @@ export default class Signup extends React.Component {
             </View>
             <View style={baseStyles.inputContainer}>
               <TextInput
-                style={[baseStyles.input, baseStyles.darkFont]}
-                placeholder='Username'
-                placeholderTextColor='#AAA'
-                autoCorrect={false}
-                autoCapitalize='none'
-                returnKeyType='next'
-                value={this.username}
-                onChangeText={this.onChangeUsername}
-              />
-            </View>
-            <View style={baseStyles.inputContainer}>
-              <TextInput
                 secureTextEntry={true}
                 style={[baseStyles.input, baseStyles.darkFont]}
                 placeholder='Password'
@@ -105,8 +88,7 @@ export default class Signup extends React.Component {
             <View style={{height: 60}}>
               <Button title='Create Account Now'
                       onPress={this.register}
-                      color='#000'
-                      backgroundColor='#48fdf6'
+                      backgroundColor='#31D8A0'
                       buttonStyle={{marginTop: 10, borderRadius: 5}}/>
             </View>
           </View>

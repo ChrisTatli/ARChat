@@ -27,22 +27,16 @@ export default class Launch extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topSection}>
-          <View style={styles.outerCircle}>
-            <View style={styles.innerCircle}>
-               <Text style={styles.tagline}>ARchat</Text>
-            </View>
-          </View>
+          <Text style={styles.tagline}>ARchat</Text>
         </View>
         <View style={styles.bottomSection}>
           <Button title='Sign In'
                   onPress={this._showLogin}
-                  color='#000'
-                  backgroundColor='#48fdf6'
+                  backgroundColor='#BBB'
                   buttonStyle={{borderRadius: 5}}/>
           <Button title='Create Account'
                   onPress={this._showSignup}
-                  color='#000'
-                  backgroundColor='#48fdf6'
+                  backgroundColor='#31D8A0'
                   buttonStyle={{marginTop: 10, borderRadius: 5}}/>
         </View>
       </View>
@@ -53,7 +47,7 @@ export default class Launch extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000'
+    backgroundColor: 'white'
   },
   logo: {
     resizeMode: 'contain',
@@ -64,7 +58,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 28,
     fontWeight: '200',
-    color: '#48fdf6',
+    color: '#999'
   },
   bottomSection: {
     position: 'absolute',
@@ -84,20 +78,4 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 140
   },
-  outerCircle: {
-    borderRadius: 75,
-    width: 150,
-    height: 150,
-    backgroundColor: '#48fdf6',
-  },
-  innerCircle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 70,
-    width: 140,
-    height: 140,
-    margin: 2,
-    backgroundColor: '#000'
-  }
 });
