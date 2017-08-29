@@ -4,7 +4,7 @@ var {StyleSheet, Dimensions, Platform} = React;
 
 module.exports = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#000',
     flex: 1
   },
   inputs: {
@@ -31,10 +31,10 @@ module.exports = StyleSheet.create({
     padding: 5
   },
   greyFont: {
-    color: '#555'
+    color: '#fff'
   },
   darkFont: {
-    color: '#000'
+    color: '#48fdf6'
   }
 });
 

@@ -35,5 +35,6 @@ export default class Application extends Component {
       </View>
     );
   }
-
 }
+
+

@@ -6,7 +6,8 @@ import feathers from 'feathers/client'
 import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
-const PLACEHOLDER = 'https://raw.githubusercontent.com/feathersjs/feathers-chat/master/public/placeholder.png';
+
+const PLACEHOLDER = 'http://thecatapi.com/api/images/get?format=src&type=png';
 const API_URL = 'http://52.62.125.103:8080';
 
 @autobind
@@ -64,8 +65,15 @@ export default class Store {
     });
   }
 
-  createAccount(email, password) {
-    const userData = {email, password};
+  createAccount(email, username, password) {
+    const userData = {
+      email, 
+      username, 
+      password,
+      friends : [],
+      friendRequests : [],
+      meetRequests: []
+    };
     return this.app.service('users').create(userData).then((result) => {
       return this.authenticate(Object.assign(userData, {strategy: 'local'}))
     });
@@ -155,12 +163,12 @@ export default class Store {
     return {
       _id: message._id,
       text: message.text,
-      //position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
       //createdAt: new Date(message.createdAt),
       user: {
-        _id: message.user._id ? message.user._id : '',
+        //display all messages on the left
+        //_id: message.user._id ? message.user._id : '',
         name: message.user.email ? message.user.email : message.name,
-        avatar: /*message.user.avatar ? message.user.avatar : */ PLACEHOLDER,
+        avatar: /*message.user.avatar ? message.user.avatar : */ PLACEHOLDER
       }
     };
   }
@@ -176,11 +184,18 @@ export default class Store {
   }
 
   sendMessage(messages = {}, rowID = null) {
-    this.app.service('messages').create({text: messages[0].text}).then(result => {
-      console.log('message created!');
-    }).catch((error) => {
-      console.log('ERROR creating message');
-      console.log(error);
-    });
+    this.app.service('messages').create({
+      user: {
+        _id: this.user._id,
+        email: this.user.email,
+        username: this.user.username
+      },
+      text: messages[0].text
+    }).then(result => {
+        console.log('message created!');
+        }).catch((error) => {
+          console.log('ERROR creating message');
+          console.log(error);
+      });
+    }
   }
-}

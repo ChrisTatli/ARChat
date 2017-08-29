@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
   close: {
     marginLeft: 10,
     fontSize: 44,
-    color: '#555'
+    color: '#000',
   },
   settings: {
     marginRight: 10,
     fontSize: 28,
-    color: '#555'
+    color: '#555',
   }
 });

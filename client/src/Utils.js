@@ -15,4 +15,11 @@ export default class Utils {
     }
     return false;
   }
+
+  static validateUsername(username) {
+    if (username.length > 0) {
+      return true;
+    }
+    return false;
+  }
 }
