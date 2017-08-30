@@ -5,7 +5,19 @@ import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 import {StackNavigator} from 'react-navigation';
 
-import {Launch, Login, Signup, Chat, Settings} from './screens'
+import {Launch, 
+        Login, 
+        Signup, 
+        Chat, 
+        Settings,
+        FriendList,
+        FriendSearch,
+        FriendRequest,
+        MeetView,
+        XRay,
+        MainMenu
+
+} from './screens'
 
 import Store from './Store';
 
