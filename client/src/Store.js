@@ -163,12 +163,12 @@ export default class Store {
     return {
       _id: message._id,
       text: message.text,
-      //createdAt: new Date(message.createdAt),
+      position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
+      createdAt: message.createdAt,
       user: {
-        //display all messages on the left
-        //_id: message.user._id ? message.user._id : '',
-        name: message.user.email ? message.user.email : message.name,
-        avatar: /*message.user.avatar ? message.user.avatar : */ PLACEHOLDER
+        _id: message.user._id ? message.user._id : '',
+        name: message.user.username,
+        avatar: message.user.avatar
       }
     };
   }
@@ -188,7 +188,8 @@ export default class Store {
       user: {
         _id: this.user._id,
         email: this.user.email,
-        username: this.user.username
+        username: this.user.username,
+        avatar: this.user.avatar
       },
       text: messages[0].text
     }).then(result => {
