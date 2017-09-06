@@ -53,7 +53,7 @@ export default class Signup extends React.Component {
     this.loading = true;
     this.store.createAccount(this.email, this.username, this.password).catch(error => {
       console.log(error);
-      Alert.alert('Error', 'Please enter a valid email or password.');
+      Alert.alert('Error', `${error}`);
       this.loading = false;
     });
   }
