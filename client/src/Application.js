@@ -5,10 +5,10 @@ import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 import {StackNavigator} from 'react-navigation';
 
-import {Launch, 
-        Login, 
-        Signup, 
-        Chat, 
+import {Launch,
+        Login,
+        Signup,
+        Chat,
         Settings,
         FriendList,
         FriendSearch,
@@ -30,6 +30,12 @@ const UnauthenticatedNavigator = StackNavigator({
 const MainNavigator = StackNavigator({
   Chat: {screen: Chat},
   Settings: {screen: Settings},
+  //FriendList: {screen: FriendList},
+  //FriendRequest: {screen: FriendRequest},
+  //FriendSearch: {screen: FriendSearch},
+  MainMenu: {screen: MainMenu},
+  //MeetView: {screen: MeetView},
+  //XRay: {screen: XRay},
 }, {mode: 'modal'});
 
 @autobind @observer
@@ -48,5 +54,3 @@ export default class Application extends Component {
     );
   }
 }
-
-
