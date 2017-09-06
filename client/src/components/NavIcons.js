@@ -16,6 +16,13 @@ export default {
         <Icon name='settings' style={styles.settings}/>
       </TouchableOpacity>
     )
+  },
+
+  menuButton (navigate) {
+    return (<TouchableOpacity onPress={() => navigate('MainMenu')}>
+        <Icon name='menu' style={styles.menu}/>
+      </TouchableOpacity>
+    )
   }
 }
 
@@ -27,6 +34,11 @@ const styles = StyleSheet.create({
   },
   settings: {
     marginRight: 10,
+    fontSize: 28,
+    color: '#555',
+  },
+  menu: {
+    marginLeft: 10,
     fontSize: 28,
     color: '#555',
   }

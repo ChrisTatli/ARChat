@@ -22,6 +22,7 @@ const maxHeight = Platform.OS === 'ios' ? Dimensions.get('window').height - 65 :
 export default class Chat extends Component {
   static navigationOptions = ({navigation}) => ({
     headerRight: NavIcons.settingsButton(navigation.navigate),
+    headerLeft: NavIcons.menuButton(navigation.navigate),
     gesturesEnabled: false
   });
 
@@ -76,5 +77,3 @@ const styles = StyleSheet.create({
     marginRight: 10
   }
 });
-
-
