@@ -1,7 +1,7 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
 const { restrictToOwner } = require('feathers-authentication-hooks');
-
+const errors = require('feathers-errors');
 const { hashPassword } = require('feathers-authentication-local').hooks;
 const restrict = [
   authenticate('jwt'),
@@ -41,9 +41,21 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [
+      hook => {
+       if(`${hook.error}`.includes('email')) {
+        throw new Error('Email already in use.');
+       } 
+       if(`${hook.error}`.includes('username')) {
+        throw new Error('Username already in use.'); 
+       }
+      } 
+    ],
     update: [],
     patch: [],
     remove: []
   }
 };
+
+
+
