@@ -31,5 +31,5 @@
       "passwordField": "password"
     }
   },
-  "mongodb": "mongodb://localhost:27017/house_martell_project"
+  "mongodb": "mongodb://localhost:27017/archat"
 }

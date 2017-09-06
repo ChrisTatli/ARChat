@@ -7,16 +7,26 @@ import {
   View,
   Platform,
   TextInput,
-  Button
+  Button,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 
 import {autobind} from 'core-decorators';
 import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
-import {GiftedChat} from 'react-native-gifted-chat';
+import {GiftedChat, Message, Avatar, Bubble, LoadEarlier, Send} from 'react-native-gifted-chat';
 import NavIcons from '../components/NavIcons';
 
 const maxHeight = Platform.OS === 'ios' ? Dimensions.get('window').height - 65 : Dimensions.get('window').height - 85;
+
+class CustomMessage extends Message {
+  renderAvatar() {
+    return (
+      <Avatar {...this.getInnerComponentProps()} />    
+    );
+  }
+}
 
 @observer @autobind
 export default class Chat extends Component {
@@ -31,6 +41,84 @@ export default class Chat extends Component {
     this.props.screenProps.store.loadMessages();
   }
 
+renderBubble(props) {
+  if(props.isSameUser(props.currentMessage, props.previousMessage) && 
+      props.isSameDay(props.currentMessage, props.previousMessage)) {
+  return (
+       <Bubble
+         {...props}
+          wrapperStyle={{
+            right: {
+            backgroundColor: 'black'
+           },
+           left: {
+             backgroundColor: 'black'
+          }
+        }}
+        textStyle={{
+           left: {
+            color: 'white',
+           },
+          right: {
+            color: 'white'
+            }
+          }}
+        />
+    );
+  }
+  return (
+    <View>
+    <Text style={{color: '#48fdf6'}}>{props.currentMessage.user.name}</Text>
+      <Bubble
+        {...props}
+        wrapperStyle={{
+            right: {
+            backgroundColor: 'black'
+           },
+           left: {
+             backgroundColor: 'black'
+          }
+        }}
+        textStyle={{
+           left: {
+            color: 'white'
+           },
+          right: {
+            color: 'white'
+            }
+          }}
+        />
+    </View>
+  );
+}
+
+renderLoadEarlier(props) {
+  return (
+    <LoadEarlier
+      {...props}
+      wrapperStyle={{
+        backgroundColor: '#48fdf6'
+      }}
+      textStyle={{
+        color: 'black'
+      }}
+    />
+  );
+}
+
+renderSend(props) {
+  if(props.text.trim().length > 0) {
+   return (
+      <TouchableOpacity onPress={() => {
+        props.onSend({text: props.text.trim()}, true);
+      }}>
+        <Image style={styles.sendButton} source={require('../../images/send-button.png')} />
+      </TouchableOpacity>
+    );
+  }
+  return null;
+}
+
 render() {
   return (
     <View style={styles.container}>
@@ -44,7 +132,13 @@ render() {
         keyboardDismissMode='on-drag'
         autoFocus={false}
         maxHeight={maxHeight}
+        renderMessage={props => <CustomMessage {...props} />}
+        placeholder='Say something!'
+        renderBubble={this.renderBubble.bind(this)}
+        renderLoadEarlier={this.renderLoadEarlier.bind(this)}
+        renderSend={this.renderSend.bind(this)}
       />}
+
       {this.props.screenProps.store.isConnecting && <View style={styles.banner}>
         <Text style={styles.bannerText}>Reconnecting...</Text>
       </View>}
@@ -56,7 +150,7 @@ render() {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'white'
+    backgroundColor: 'black'
   },
   banner: {
     position: 'absolute',
@@ -75,5 +169,16 @@ const styles = StyleSheet.create({
   },
   settings: {
     marginRight: 10
-  }
+  },
+  sendButton: {
+    flex: 1,
+    resizeMode: 'contain',
+    width: 30,
+    height: 30,
+    marginRight: 10
+  },
+  username: {
+    color: '#48fdf6'
+  },
+
 });
