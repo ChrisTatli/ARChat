@@ -20,7 +20,7 @@ import { NavigationActions } from 'react-navigation'
 export default class MainMenu extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Menu',
-    headerLeft: NavIcons.closeButton(navigation.goBack)
+    headerLeft: NavIcons.closeButton(navigation.goBack),
   });
 
   _showFriendList() {
@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
   signoutButton: {
     borderRadius: 5,
     borderWidth: 0,
-    borderColor: '#777'
+    borderColor: 'black'
   },
   navButton: {
     borderRadius: 5,
     borderWidth: 0,
-    borderColor: '#777',
+    borderColor: 'black',
     marginTop: 20,
     width: 150
   },
