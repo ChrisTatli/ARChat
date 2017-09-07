@@ -31,6 +31,10 @@ export default class MainMenu extends Component {
     this.props.navigation.navigate('FriendSearch');
   }
 
+  _showFriendRequest() {
+     this.props.navigation.navigate('FriendRequest');
+ }
+
   render() {
     const user = this.props.screenProps.store.user;
 
@@ -46,7 +50,12 @@ export default class MainMenu extends Component {
                   backgroundColor='#48fdf6'
                   color={'black'}
                   buttonStyle={styles.navButton}/>
-          <Button title='Search Friends'
+          <Button title="Friend Requests"
+                  onPress={this._showFriendRequest}
+                  backgroundColor='#48fdf6'
+                  color={'black'}
+                  buttonStyle={styles.navButton}/>
+          <Button title="Search Friends"
                   onPress={this._showFriendSearch}
                   backgroundColor='#48fdf6'
                   color={'black'}
@@ -56,6 +65,7 @@ export default class MainMenu extends Component {
                   backgroundColor='#48fdf6'
                   color={'black'}
                   buttonStyle={styles.navButton}/>
+
         </View>
         <View style={styles.bottomSection}>
           <Button title='Sign Out'
