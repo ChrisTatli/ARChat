@@ -27,10 +27,6 @@ export default class MainMenu extends Component {
     this.props.navigation.navigate('FriendList');
   }
 
-  _showFriendSearch() {
-    this.props.navigation.navigate('FriendSearch');
-  }
-
   _showFriendRequest() {
      this.props.navigation.navigate('FriendRequest');
  }
@@ -52,11 +48,6 @@ export default class MainMenu extends Component {
                   buttonStyle={styles.navButton}/>
           <Button title="Friend Requests"
                   onPress={this._showFriendRequest}
-                  backgroundColor='#48fdf6'
-                  color={'black'}
-                  buttonStyle={styles.navButton}/>
-          <Button title="Search Friends"
-                  onPress={this._showFriendSearch}
                   backgroundColor='#48fdf6'
                   color={'black'}
                   buttonStyle={styles.navButton}/>
