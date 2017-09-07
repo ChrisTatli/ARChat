@@ -37,11 +37,6 @@ export default class Settings extends Component {
           <Text style={styles.email}>{user.email}</Text>
         </View>
         <View style={styles.bottomSection}>
-          <Button title='Sign Out'
-                  onPress={this.props.screenProps.store.promptForLogout}
-                  backgroundColor='#48fdf6'
-                  color={'black'}
-                  buttonStyle={styles.signoutButton}/>
         </View>
       </View>
     );

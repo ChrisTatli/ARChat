@@ -45,8 +45,21 @@ export default class Signup extends React.Component {
   }
 
   register() {
-    if (!Utils.validateEmail(this.email) || !Utils.validatePassword(this.password)) {
-      Alert.alert('Please enter a valid email, username or password.');
+    //if (!Utils.validateEmail(this.email) || !Utils.validatePassword(this.password)) {
+     // Alert.alert('Please enter a valid email, username or password.');
+     // return;
+    //}
+    
+    const submittedEmail = Utils.validateEmail(this.email);
+    const submittedUsername = Utils.validateUsername(this.username);
+
+    if (!submittedEmail.valid) {
+      Alert.alert('Invalid Email', submittedEmail.message);
+      return;
+    }
+
+    if(!submittedUsername.valid) {
+      Alert.alert('Invalid Username', submittedUsername.message);
       return;
     }
 
