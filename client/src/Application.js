@@ -30,7 +30,7 @@ const UnauthenticatedNavigator = StackNavigator({
 const MainNavigator = StackNavigator({
   Chat: {screen: Chat},
   Settings: {screen: Settings},
-  //FriendList: {screen: FriendList},
+  FriendList: {screen: FriendList},
   //FriendRequest: {screen: FriendRequest},
   //FriendSearch: {screen: FriendSearch},
   MainMenu: {screen: MainMenu},
