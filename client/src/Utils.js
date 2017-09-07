@@ -1,15 +1,25 @@
 export default class Utils {
 
   static validateEmail(email) {
-    //TODO: Add more robust validation
-    if (email.length > 0) {
-      return true;
-    }
-    return false;
+    const regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    
+    if(email.length <= 0) { 
+        return { 
+            valid: false, 
+            message: 'Please enter an email address.' 
+          }; 
+      }
+      if(!regex.test(email)) { 
+        return { 
+            valid: false, 
+            message: 'Please enter a valid email address.' 
+          }; 
+      }
+    
+      return { valid: true, message: 'Nice job, champ!' };
   }
 
   static validatePassword(password) {
-    //TODO: Add more robust validation
     if (password.length > 0) {
       return true;
     }
@@ -17,9 +27,33 @@ export default class Utils {
   }
 
   static validateUsername(username) {
-    if (username.length > 0) {
-      return true;
+    const regex = /^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/;
+    
+    if(username.length <= 0) { 
+        return { 
+            valid: false, 
+            message: 'Please enter a username. '
+        }; 
     }
-    return false;
+    if(username.length > 20) { 
+      return { 
+          valid: false,
+          message: 'Usernames cannot be more than 20 characters long.'
+        };
+    }
+    if(!regex.test(username)) {
+      return {
+          valid: false,
+          message: 'Usernames can only contain alphanumeric characters or'
+                    + ' non-adjacent hyphens, and cannot begin with a hyphen.'
+      }
+    }
+
+    return { valid: true, message: 'Nice job, champ!'}
   }
+
 }
+
+
+
+
