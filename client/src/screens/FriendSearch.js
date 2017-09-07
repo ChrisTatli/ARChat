@@ -17,6 +17,9 @@ import {Button} from 'react-native-elements';
 import NavIcons from '../components/NavIcons';
 import Utils from '../Utils';
 
+const baseStyles = require('../baseStyles');
+
+
 @autobind @observer
 export default class FriendSearch extends Component{
 
@@ -37,7 +40,39 @@ export default class FriendSearch extends Component{
    }
 
    render(){
-      
+      const commonInputProps = {
+        style: [baseStyles.input, baseStyles.darkFont],
+        underlineColorAndroid: 'transparent',
+        placeholderTextColor: '#AAA',
+        autoCorrect: false,
+        autoCapitalize: 'none'
+      };
+
+      return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={baseStyles.container}>
+            <View style={baseStyles.inputs}>
+              <View style={baseStyles.inputContainer}>
+                <TextInput
+                  {...commonInputProps}
+                  autoFocus={true}
+                  placeholder='Search Friends'
+                  returnKeyType='send'
+                  value={this.searchString}
+                  onChangeText={this.onChangeSearchString}
+                />
+              </View>
+              <View style={{height: 60}}>
+                <Button title='Search'
+                        onPress={this.search}
+                        color='#000'
+                        backgroundColor='#48fdf6'
+                        buttonStyle={{marginTop: 10, borderRadius: 5}}/>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      );
    }
 
 
