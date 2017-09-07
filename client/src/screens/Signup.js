@@ -52,6 +52,7 @@ export default class Signup extends React.Component {
     
     const submittedEmail = Utils.validateEmail(this.email);
     const submittedUsername = Utils.validateUsername(this.username);
+    const submittedPassword = Utils.validatePassword(this.password);
 
     if (!submittedEmail.valid) {
       Alert.alert('Invalid Email', submittedEmail.message);
@@ -60,6 +61,11 @@ export default class Signup extends React.Component {
 
     if(!submittedUsername.valid) {
       Alert.alert('Invalid Username', submittedUsername.message);
+      return;
+    }
+
+    if(!submittedPassword.valid) {
+      Alert.alert('Invalid Password', submittedPassword.message);
       return;
     }
 

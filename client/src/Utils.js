@@ -20,10 +20,23 @@ export default class Utils {
   }
 
   static validatePassword(password) {
-    if (password.length > 0) {
-      return true;
+    const regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+    
+    if(password.length < 8) {
+      return {
+        valid: false,
+        message: 'Password must be at least 8 characters long.'
+      };
     }
-    return false;
+    if(!regex.test(password)) {
+      return {
+        valid: false,
+        message: 'Password must contain at least one uppercase, one lowercase letter, ' +
+          'one digit and one special character.'
+      };
+    }
+
+    return { valid: true, message: 'Nice job, champ!' };
   }
 
   static validateUsername(username) {
