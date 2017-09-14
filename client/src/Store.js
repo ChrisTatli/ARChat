@@ -17,6 +17,7 @@ export default class Store {
   @observable isConnecting = false;
   @observable user = null;
   @observable messages = [];
+  @observable meetParticipants = []; 
   @observable hasMoreMessages = false;
   @observable skip = 0;
 
@@ -39,6 +40,19 @@ export default class Store {
 
     this.app.service('messages').on('removed', removedMessage => {
       this.deleteMessage(removedMessage);
+    });
+
+    this.app.service('meet-requests').on('created', createdMeetRequest => {
+      if(createdMeetRequest.toUser._id == this.user._id) {
+        this.user.meetRequests.push(createdMeetRequest);
+      }
+    });
+
+    this.app.service('meet-requests').on('removed', removedMeetRequest => {
+      if(removedMeetRequest.toUser._id == this.user._id ||
+          removedMeetRequest.fromUser._id == this.user._id) {
+          this.deleteMeetRequest(removedMeetRequest);
+      }   
     });
 
     if (this.app.get('accessToken')) {
@@ -130,6 +144,7 @@ export default class Store {
     this.messages = [];
     this.user = null;
     this.isAuthenticated = false;
+    this.meetParticipants = [];
   }
 
   loadMessages(loadNextPage) {
@@ -199,4 +214,37 @@ export default class Store {
           console.log(error);
       });
     }
+
+  sendMeetRequest(friend) {
+    this.app.service('meet-requests').create({
+      fromUser: {
+        _id: this.user._id,
+        email: this.user.email,
+        username: this.user.username
+      },
+      toUser: {
+        _id: friend._id,
+        email: friend.email,
+        username: friend.username,
+        hasAccepted: false
+      } 
+    }).then(result => {
+      console.log('meet request sent!');
+      this.user.meetRequests.push(result);
+    }).catch(error => {
+      console.log('Error sending meet request');
+      console.log(error);
+    });
   }
+
+  deleteMeetRequest(requestToRemove) {
+    let meetRequests = this.user.meetRequests;
+    
+    meetRequests = meetRequests.filter((request) => {
+      request._id != requestToRemove._id;
+    });
+
+    this.user.meetRequests = meetRequests;
+  }
+
+}
