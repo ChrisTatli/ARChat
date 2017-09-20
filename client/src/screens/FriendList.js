@@ -4,15 +4,17 @@ import {
   ScrollView,
   Text,
   Image,
-  View } from 'react-native';
+  View,
+  Alert
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import NavIcons from '../components/NavIcons';
 import { NavigationActions } from 'react-navigation';
-// import {autobind} from 'core-decorators';
-// import {observable} from 'mobx';
-// import {observer} from 'mobx-react/native';
+import {autobind} from 'core-decorators';
+import {observable} from 'mobx';
+import {observer} from 'mobx-react/native';
 
-// @autobind @observer
+@observer @autobind
 export default class FriendList extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Friends',
@@ -23,33 +25,36 @@ export default class FriendList extends Component {
  constructor(props) {
     super(props);
     this.store = this.props.screenProps.store;
-    this.friends = [
-      {
-        _id: "59af9b954a6fb439b3950521",
-        name: "Marco",
-        avatar: "https://www.gravatar.com/avatar/0a9c48e5aae9e009e099bf46bca361d0?s=60&d=retro"
-      },
-      {
-        _id: "59afaeb64a6fb439b395053a",
-        name: "William",
-        avatar: "https://www.gravatar.com/avatar/6340835627f09b4e97c16e78e4dc3b08?s=60&d=retro"
-      }
-    ];
+    this.meetRequests = this.store.user.meetRequests;
+    this.friends = this.store.user.friends;
   }
-
-  generateFriendList(friends) {
-    return friends.map((friend) =>
+ 
+  generateFriendsList() {
+    return this.friends.map((friend) => 
     <View key={friend._id} style={{flex: 2, flexDirection: 'row', margin:5, paddingLeft:10, 
       paddingRight:10, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#48fdf6'}}>
       <Image source={{uri: friend.avatar}} style={styles.avatar} /> 
-      <Text style={{fontSize:18, textAlign:'left', color: '#48fdf6'}} >{friend.name}</Text>
+      <Text style={{fontSize:18, textAlign:'left', color: '#48fdf6'}} >{friend.username}</Text>
+      {
+        this.meetRequests.length == 0 ? this.noMeetRequest(friend, false)
+         :  friend._id == this.meetRequests[0].toUser._id ? this.sentMeetRequest()
+         : friend._id == this.meetRequests[0].fromUser._id ? this.receivedMeetRequest()
+         : this.noMeetRequest(friend, true)
+      }
+    </View>
+    );
+  }
+
+  noMeetRequest(friend, disabled) {
+    return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
         <Button title='meet'
-          onPress={() => {}}
+          onPress={() => this.store.sendMeetRequest(friend)}
           backgroundColor='#48fdf6'
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}
+          disabled={disabled}
           >
         </Button>
         <Button title='remove'
@@ -61,14 +66,62 @@ export default class FriendList extends Component {
           >
         </Button>
       </View>
-    </View>
     );
   }
+
+  sentMeetRequest() {
+    return (
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <Button title='waiting...'
+          onPress={() => {}}
+          backgroundColor='#48fdf6'
+          color={'black'}
+          fontSize={10}
+          buttonStyle={styles.button}
+          disabled={false}
+          >
+        </Button>
+        <Button title='cancel'
+          onPress={() => {}}
+          backgroundColor='#48fdf6'
+          color={'black'}
+          fontSize={10}
+          buttonStyle={styles.button}
+          >
+        </Button>
+      </View>
+    );
+  }
+
+  receivedMeetRequest() {
+    return (
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <Button title='accept'
+          onPress={() => {}}
+          backgroundColor='#48fdf6'
+          color={'black'}
+          fontSize={10}
+          buttonStyle={styles.button}
+          disabled={false}
+          >
+        </Button>
+        <Button title='decline'
+          onPress={() => {}}
+          backgroundColor='#48fdf6'
+          color={'black'}
+          fontSize={10}
+          buttonStyle={styles.button}
+          >
+        </Button>
+      </View>
+    );
+  }
+
 
   render() {
     return (
         <ScrollView style={styles.container}>
-          {this.generateFriendList(this.friends)}
+          {this.generateFriendsList()}
         </ScrollView>
     );
   }
