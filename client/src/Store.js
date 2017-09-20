@@ -108,6 +108,7 @@ export default class Store {
       console.log('authenticated successfully', user._id, user.email);
       this.user = user;
       this.isAuthenticated = true;
+      this.loadFriends();
       return Promise.resolve(user);
     }).catch(error => {
       console.log('authenticated failed', error.message);
@@ -238,13 +239,23 @@ export default class Store {
   }
 
   deleteMeetRequest(requestToRemove) {
-    let meetRequests = this.user.meetRequests;
-    
-    meetRequests = meetRequests.filter((request) => {
-      request._id != requestToRemove._id;
-    });
+   this.user.meetRequests.length > 0 && 
+    this.user.meetRequests[0]._id == requestToRemove._id
+      && this.user.meetRequests.shift(); 
+  }
 
-    this.user.meetRequests = meetRequests;
+  loadFriends() {
+    this.app.service('users').find({ query: {$limit: 100, email: {$ne: this.user.email}}})
+      .then(response => {
+          const friends = [];
+            
+            for(let friend of response.data) {
+              friends.push(friend);
+            }
+            this.user.friends = friends;
+        }).catch(error => {
+        console.log(error);
+      });
   }
 
 }
