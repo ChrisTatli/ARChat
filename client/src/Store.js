@@ -7,8 +7,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
-const PLACEHOLDER = 'http://thecatapi.com/api/images/get?format=src&type=png';
-const API_URL = 'http://10.12.38.99:8080';
+const API_URL = 'http://52.62.125.103:8080';
 
 @autobind
 export default class Store {
