@@ -8,7 +8,7 @@ import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
 const PLACEHOLDER = 'http://thecatapi.com/api/images/get?format=src&type=png';
-const API_URL = 'http://52.62.125.103:8080';
+const API_URL = 'http://10.12.38.99:8080';
 
 @autobind
 export default class Store {
@@ -42,18 +42,13 @@ export default class Store {
       this.deleteMessage(removedMessage);
     });
 
-    this.app.service('meet-requests').on('created', createdMeetRequest => {
-      if(createdMeetRequest.toUser._id == this.user._id) {
-        this.user.meetRequests.push(createdMeetRequest);
+    this.app.service('users').on('updated', updatedUser => {
+      if(this.user == null) {
+        return;
       }
-    });
-
-    this.app.service('meet-requests').on('removed', removedMeetRequest => {
-      if(removedMeetRequest.toUser._id == this.user._id ||
-          removedMeetRequest.fromUser._id == this.user._id) {
-          this.deleteMeetRequest(removedMeetRequest);
-      }   
-    });
+      updatedUser.friends = this.user.friends;
+      this.user = updatedUser;
+    })      
 
     if (this.app.get('accessToken')) {
       this.isAuthenticated = this.app.get('accessToken') !== null;
@@ -231,7 +226,6 @@ export default class Store {
       } 
     }).then(result => {
       console.log('meet request sent!');
-      this.user.meetRequests.push(result);
     }).catch(error => {
       console.log('Error sending meet request');
       console.log(error);
@@ -239,11 +233,10 @@ export default class Store {
   }
 
   deleteMeetRequest(requestToRemove) {
-   this.user.meetRequests.length > 0 && 
-    this.user.meetRequests[0]._id == requestToRemove._id
-      && this.user.meetRequests.shift(); 
+    this.app.service('meet-requests').remove(requestToRemove._id);
   }
 
+  // Temporarily loading all other users for testing purposes
   loadFriends() {
     this.app.service('users').find({ query: {$limit: 100, email: {$ne: this.user.email}}})
       .then(response => {
