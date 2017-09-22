@@ -104,11 +104,16 @@ export default class FriendList extends Component {
     );
   }
 
+  acceptMeetRequest(request) {
+   this.store.activateMeet(request);
+   this.props.navigation.navigate('MeetView');     
+  }
+
   receivedMeetRequest(request) {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
         <Button title='accept'
-          onPress={() => {}}
+          onPress={() => { this.acceptMeetRequest(request) } } 
           backgroundColor='#48fdf6'
           color={'black'}
           fontSize={10}
@@ -117,7 +122,7 @@ export default class FriendList extends Component {
           >
         </Button>
         <Button title='decline'
-          onPress={() => {this.store.deleteMeetRequest(request)}}
+          onPress={() => { this.store.deleteMeetRequest(request) } }
           backgroundColor='#48fdf6'
           color={'black'}
           fontSize={10}

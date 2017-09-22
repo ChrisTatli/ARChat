@@ -31,6 +31,10 @@ export default class MainMenu extends Component {
      this.props.navigation.navigate('FriendRequest');
  }
 
+  _showMap() {
+    this.props.navigation.navigate('MeetView');
+  }
+
   render() {
     const user = this.props.screenProps.store.user;
 
@@ -52,7 +56,7 @@ export default class MainMenu extends Component {
                   color={'black'}
                   buttonStyle={styles.navButton}/>
           <Button title='Map'
-                  onPress={() => {}} // no defined route yet, page not done
+                  onPress={this._showMap}
                   backgroundColor='#48fdf6'
                   color={'black'}
                   buttonStyle={styles.navButton}/>
