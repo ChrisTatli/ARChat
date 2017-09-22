@@ -44,10 +44,10 @@ export default class FriendList extends Component {
     else {
       for (let request of this.store.user.meetRequests) {
         if(friend._id == request.toUser._id) {
-          return this.sentMeetRequest();
+          return this.sentMeetRequest(request);
         }
         else if(friend._id == request.fromUser._id) {
-          return this.receivedMeetRequest();
+          return this.receivedMeetRequest(request);
         }
         else {
           return this.noMeetRequest(friend, true);
@@ -80,7 +80,7 @@ export default class FriendList extends Component {
     );
   }
 
-  sentMeetRequest() {
+  sentMeetRequest(request) {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
         <Button title='waiting...'
@@ -93,7 +93,7 @@ export default class FriendList extends Component {
           >
         </Button>
         <Button title='cancel'
-          onPress={() => {}}
+          onPress={() => {this.store.deleteMeetRequest(request)}}
           backgroundColor='#48fdf6'
           color={'black'}
           fontSize={10}
@@ -104,7 +104,7 @@ export default class FriendList extends Component {
     );
   }
 
-  receivedMeetRequest() {
+  receivedMeetRequest(request) {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
         <Button title='accept'
@@ -117,7 +117,7 @@ export default class FriendList extends Component {
           >
         </Button>
         <Button title='decline'
-          onPress={() => {}}
+          onPress={() => {this.store.deleteMeetRequest(request)}}
           backgroundColor='#48fdf6'
           color={'black'}
           fontSize={10}
