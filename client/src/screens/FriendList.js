@@ -38,7 +38,6 @@ export default class FriendList extends Component {
   }
 
   generateButtons(friend) {
-
     if(this.store.user.meetRequests.length == 0) {        
      return this.noMeetRequest(friend, false);
     } 
