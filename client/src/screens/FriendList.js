@@ -25,24 +25,35 @@ export default class FriendList extends Component {
  constructor(props) {
     super(props);
     this.store = this.props.screenProps.store;
-    this.meetRequests = this.store.user.meetRequests;
-    this.friends = this.store.user.friends;
   }
  
   generateFriendsList() {
-    return this.friends.map((friend) => 
-    <View key={friend._id} style={{flex: 2, flexDirection: 'row', margin:5, paddingLeft:10, 
-      paddingRight:10, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#48fdf6'}}>
-      <Image source={{uri: friend.avatar}} style={styles.avatar} /> 
-      <Text style={{fontSize:18, textAlign:'left', color: '#48fdf6'}} >{friend.username}</Text>
-      {
-        this.meetRequests.length == 0 ? this.noMeetRequest(friend, false)
-         :  friend._id == this.meetRequests[0].toUser._id ? this.sentMeetRequest()
-         : friend._id == this.meetRequests[0].fromUser._id ? this.receivedMeetRequest()
-         : this.noMeetRequest(friend, true)
-      }
-    </View>
+    return this.store.user.friends.map((friend) => 
+      <View key={friend._id} style={styles.friendRow}>
+        <Image source={{ uri: friend.avatar }} style={styles.avatar} />
+        <Text style={styles.username}>{ friend.username }</Text>
+        { this.generateButtons(friend) }
+      </View>
     );
+  }
+
+  generateButtons(friend) {
+    if(this.store.user.meetRequests.length == 0) {        
+     return this.noMeetRequest(friend, false);
+    } 
+    else {
+      for (let request of this.store.user.meetRequests) {
+        if(friend._id == request.toUser._id) {
+          return this.sentMeetRequest();
+        }
+        else if(friend._id == request.fromUser._id) {
+          return this.receivedMeetRequest();
+        }
+        else {
+          return this.noMeetRequest(friend, true);
+        }
+      }
+    }
   }
 
   noMeetRequest(friend, disabled) {
@@ -121,7 +132,7 @@ export default class FriendList extends Component {
   render() {
     return (
         <ScrollView style={styles.container}>
-          {this.generateFriendsList()}
+          { this.generateFriendsList() }
         </ScrollView>
     );
   }
@@ -148,5 +159,20 @@ const styles = StyleSheet.create({
     height: 25,
     borderRadius: 50,
     marginRight: 10
+  },
+  friendRow: {
+    flex: 2, 
+    flexDirection: 'row', 
+    margin: 5, 
+    paddingLeft: 10, 
+    paddingRight: 10, 
+    paddingBottom: 10, 
+    borderBottomWidth: 1, 
+    borderBottomColor: '#48fdf6' 
+  },
+  username: {
+    fontSize: 18, 
+    textAlign: 'left', 
+    color: '#48fdf6'    
   }
 });
