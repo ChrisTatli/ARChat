@@ -16,7 +16,7 @@ export default class Store {
   @observable isConnecting = false;
   @observable user = null;
   @observable messages = [];
-  @observable meetParticipants = []; 
+  @observable currentlyMeeting = false;
   @observable hasMoreMessages = false;
   @observable skip = 0;
 
@@ -47,7 +47,11 @@ export default class Store {
       }
       updatedUser.friends = this.user.friends;
       this.user = updatedUser;
-    })      
+    });
+
+    this.app.service('meets').on('created', createdMeet => {
+      this.currentlyMeeting = true;
+    })
 
     if (this.app.get('accessToken')) {
       this.isAuthenticated = this.app.get('accessToken') !== null;
@@ -215,12 +219,14 @@ export default class Store {
       fromUser: {
         _id: this.user._id,
         email: this.user.email,
-        username: this.user.username
+        username: this.user.username,
+        avatar: this.user.avatar
       },
       toUser: {
         _id: friend._id,
         email: friend.email,
         username: friend.username,
+        avatar: friend.avatar,
         hasAccepted: false
       } 
     }).then(result => {
@@ -248,6 +254,44 @@ export default class Store {
         }).catch(error => {
         console.log(error);
       });
+  }
+
+  // meet initially restricted to 2 participants
+  activateMeet(request) {
+    this.app.service('meets').create({
+      participants: [
+        { 
+          _id: request.fromUser._id,
+          email: request.fromUser.email,
+          username: request.fromUser.username,
+          avatar: request.fromUser.avatar,
+          location: {
+            latitude: null,
+            longitude: null
+          }
+        },
+        {
+          _id: request.toUser._id,
+          email: request.toUser.email,
+          username: request.toUser.username,
+          avatar: request.toUser.avatar,
+          location: {
+            latitude: null,
+            longitude: null
+          }
+        }
+      ]
+    }).then(result => {
+      console.log('Meet activated!');
+      this.app.service('meet-requests').remove(request._id)
+      .then(result => {
+        console.log('Successfully removed accepted meet request.');
+      }).catch(error => {
+        console.log('Error removing accepted meet request.');
+      })
+    }).catch(error => {
+      console.log('Error activating meet.', error);
+    }) 
   }
 
 }

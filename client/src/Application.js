@@ -34,7 +34,7 @@ const MainNavigator = StackNavigator({
   FriendRequest: {screen: FriendRequest},
   FriendSearch: {screen: FriendSearch},
   MainMenu: {screen: MainMenu},
-  //MeetView: {screen: MeetView},
+  MeetView: {screen: MeetView},
   //XRay: {screen: XRay},
 }, {mode: 'modal'});
 
