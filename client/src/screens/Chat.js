@@ -17,13 +17,14 @@ import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 import {GiftedChat, Message, Avatar, Bubble, LoadEarlier, Send} from 'react-native-gifted-chat';
 import NavIcons from '../components/NavIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const maxHeight = Platform.OS === 'ios' ? Dimensions.get('window').height - 65 : Dimensions.get('window').height - 85;
 
 class CustomMessage extends Message {
   renderAvatar() {
     return (
-      <Avatar {...this.getInnerComponentProps()} />    
+      <Avatar {...this.getInnerComponentProps()} />
     );
   }
 }
@@ -33,7 +34,15 @@ export default class Chat extends Component {
   static navigationOptions = ({navigation}) => ({
     headerRight: NavIcons.settingsButton(navigation.navigate),
     headerLeft: NavIcons.menuButton(navigation.navigate),
-    gesturesEnabled: false
+    gesturesEnabled: false,
+    tabBarLabel: 'Chat',
+    tabBarIcon: ({tintColor, focused }) => (
+      <Ionicons
+         name={focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline'}
+         size={26}
+         style={{color: tintColor}}
+      />
+   ),
   });
 
 
@@ -42,7 +51,7 @@ export default class Chat extends Component {
   }
 
 renderBubble(props) {
-  if(props.isSameUser(props.currentMessage, props.previousMessage) && 
+  if(props.isSameUser(props.currentMessage, props.previousMessage) &&
       props.isSameDay(props.currentMessage, props.previousMessage)) {
   return (
        <Bubble
@@ -180,5 +189,4 @@ const styles = StyleSheet.create({
   username: {
     color: '#48fdf6'
   },
-
 });

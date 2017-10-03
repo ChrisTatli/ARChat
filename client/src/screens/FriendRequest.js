@@ -10,12 +10,21 @@ import {
 import {Button} from 'react-native-elements';
 import NavIcons from "../components/NavIcons";
 import {NavigationActions} from 'react-navigation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //@autobind @observer
 export default class FriendRequest extends Component{
    static navigationOptions = ({navigation}) => ({
       title: "Friend Requests",
-      headerLeft: NavIcons.closeButton(navigation.goBack)
+      headerLeft: NavIcons.closeButton(navigation.goBack),
+      tabBarLabel: 'Requests',
+      tabBarIcon: ({tintColor, focused }) => (
+        <Ionicons
+           name={focused ? 'ios-person-add' : 'ios-person-add-outline'}
+           size={26}
+           style={{color: tintColor}}
+        />
+     ),
    });
 
    constructor(props) {

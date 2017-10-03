@@ -13,13 +13,22 @@ import { NavigationActions } from 'react-navigation';
 import {autobind} from 'core-decorators';
 import {observable} from 'mobx';
 import {observer} from 'mobx-react/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 @observer @autobind
 export default class FriendList extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Friends',
     headerLeft: NavIcons.closeButton(navigation.goBack),
-    headerRight: NavIcons.addfriendButton(navigation.navigate)
+    headerRight: NavIcons.addfriendButton(navigation.navigate),
+    tabBarLabel: 'Friends',
+    tabBarIcon: ({tintColor, focused }) => (
+      <Ionicons
+         name={focused ? 'ios-people' : 'ios-people-outline'}
+         size={26}
+         style={{color: tintColor}}
+      />
+   ),
   });
 
  constructor(props) {

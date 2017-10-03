@@ -16,6 +16,8 @@ const baseStyles = require('../baseStyles');
 
 import { NavigationActions } from 'react-navigation'
 
+
+
 @autobind @observer
 export default class MainMenu extends Component {
   static navigationOptions = ({navigation}) => ({

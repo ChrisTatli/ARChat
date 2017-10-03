@@ -11,6 +11,7 @@ import {autobind} from 'core-decorators';
 import {observer} from 'mobx-react/native';
 import {Button} from 'react-native-elements';
 import NavIcons from '../components/NavIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const baseStyles = require('../baseStyles');
 
@@ -20,7 +21,15 @@ import { NavigationActions } from 'react-navigation'
 export default class MeetView extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Map',
-    headerLeft: NavIcons.closeButton(navigation.goBack)
+    headerLeft: NavIcons.closeButton(navigation.goBack),
+    tabBarLabel: 'Meet',
+    tabBarIcon: ({tintColor, focused }) => (
+      <Ionicons
+         name={focused ? 'ios-compass' : 'ios-compass-outline'}
+         size={26}
+         style={{color: tintColor}}
+      />
+   ),
   });
 
   render() {
