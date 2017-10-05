@@ -45,7 +45,7 @@ export default class Store {
       if(this.user == null) {
         return;
       }
-      updatedUser.friends = this.user.friends;
+      // updatedUser.friends = this.user.friends;
       this.user = updatedUser;
     });
 
@@ -79,8 +79,8 @@ export default class Store {
 
   createAccount(email, username, password) {
     const userData = {
-      email, 
-      username, 
+      email,
+      username,
       password,
       friends : [],
       friendRequests : [],
@@ -150,7 +150,7 @@ export default class Store {
     let $skip = this.skip;
 
     const query = {query: {$sort: {createdAt: -1}, $skip}};
-    
+
     return this.app.service('messages').find(query).then(response => {
       const messages = [];
       const skip = response.skip + response.limit;
@@ -228,7 +228,7 @@ export default class Store {
         username: friend.username,
         avatar: friend.avatar,
         hasAccepted: false
-      } 
+      }
     }).then(result => {
       console.log('meet request sent!');
     }).catch(error => {
@@ -242,25 +242,25 @@ export default class Store {
   }
 
   // Temporarily loading all other users for testing purposes
-  loadFriends() {
-    this.app.service('users').find({ query: {$limit: 100, email: {$ne: this.user.email}}})
-      .then(response => {
-          const friends = [];
-            
-            for(let friend of response.data) {
-              friends.push(friend);
-            }
-            this.user.friends = friends;
-        }).catch(error => {
-        console.log(error);
-      });
-  }
+  // loadFriends() {
+  //   this.app.service('users').find({ query: {$limit: 100, email: {$ne: this.user.email}}})
+  //     .then(response => {
+  //         const friends = [];
+  //
+  //           for(let friend of response.data) {
+  //             friends.push(friend);
+  //           }
+  //           this.user.friends = friends;
+  //       }).catch(error => {
+  //       console.log(error);
+  //     });
+  // }
 
   // meet initially restricted to 2 participants
   activateMeet(request) {
     this.app.service('meets').create({
       participants: [
-        { 
+        {
           _id: request.fromUser._id,
           email: request.fromUser.email,
           username: request.fromUser.username,
@@ -291,7 +291,15 @@ export default class Store {
       })
     }).catch(error => {
       console.log('Error activating meet.', error);
-    }) 
+    })
+  }
+  removeFriend(friend) {
+    this.app.service('users').update(this.user._id,
+      { $pull :{ friends: { _id : friend._id } } } )
+      .then(result => {
+      }).catch(error => {
+        Alert.alert('Error removing friends', JSON.stringify(error, null, 2));
+      })
   }
 
 }

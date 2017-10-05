@@ -1,14 +1,14 @@
 Arguments: 
-  /usr/bin/nodejs /usr/bin/yarn install
+  /usr/bin/node /usr/share/yarn/bin/yarn.js install
 
 PATH: 
-  /home/marco/bin:/home/marco/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/home/saksham/Android/Sdk/tools:/home/saksham/Android/Sdk/platform-tools
 
 Yarn version: 
-  0.21.3
+  1.1.0
 
 Node version: 
-  6.10.0
+  8.6.0
 
 Platform: 
   linux x64
@@ -32,10 +32,13 @@ npm manifest:
   		"mobx-react": "^4.1.0",
   		"react": "~15.4.1",
   		"react-native": "0.42.3",
+  		"react-native-atoz-listview": "0.0.7",
   		"react-native-elements": "^0.10.2",
   		"react-native-gifted-chat": "0.1.3",
+  		"react-native-search-box": "0.0.11",
   		"react-native-vector-icons": "^4.0.0",
   		"react-navigation": "1.0.0-beta.9",
+  		"react-redux": "^5.0.6",
   		"socket.io-client": "^1.7.3"
   	},
   	"devDependencies": {
@@ -1860,6 +1863,18 @@ Lockfile:
       semver "^5.1.0"
       through2 "^2.0.0"
   
+  fbjs@^0.8.16:
+    version "0.8.16"
+    resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
+    dependencies:
+      core-js "^1.0.0"
+      isomorphic-fetch "^2.1.1"
+      loose-envify "^1.0.0"
+      object-assign "^4.1.0"
+      promise "^7.1.1"
+      setimmediate "^1.0.5"
+      ua-parser-js "^0.7.9"
+  
   fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9:
     version "0.8.11"
     resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.11.tgz#340b590b8a2278a01ef7467c07a16da9b753db24"
@@ -2227,6 +2242,10 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
   
+  hoist-non-react-statics@^2.2.1:
+    version "2.3.1"
+    resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
+  
   home-or-tmp@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"
@@ -2329,7 +2348,7 @@ Lockfile:
       strip-ansi "^3.0.0"
       through "^2.3.6"
   
-  invariant@^2.2.0:
+  invariant@^2.0.0, invariant@^2.2.0:
     version "2.2.2"
     resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
     dependencies:
@@ -2899,6 +2918,10 @@ Lockfile:
       p-locate "^2.0.0"
       path-exists "^3.0.0"
   
+  lodash-es@^4.2.0:
+    version "4.17.4"
+    resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
+  
   lodash._basecopy@^3.0.0:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/lodash._basecopy/-/lodash._basecopy-3.0.1.tgz#8da0e6a876cf344c0ad8a54882111dd3c5c7ca36"
@@ -3006,7 +3029,7 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   
-  loose-envify@^1.0.0, loose-envify@^1.1.0:
+  loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.3.1.tgz#d1a8ad33fa9ce0e713d65fdd0ac8b748d478c848"
     dependencies:
@@ -3041,7 +3064,7 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
   
-  merge@^1.1.3:
+  merge@^1.1.3, merge@^1.2.0:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/merge/-/merge-1.2.0.tgz#7531e39d4949c281a66b8c5a6e0265e8b05894da"
   
@@ -3261,7 +3284,7 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
   
-  object-assign@^4.0.1, object-assign@^4.1.0:
+  object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   
@@ -3492,6 +3515,14 @@ Lockfile:
     dependencies:
       asap "~2.0.3"
   
+  prop-types@^15.5.10:
+    version "15.6.0"
+    resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
+    dependencies:
+      fbjs "^0.8.16"
+      loose-envify "^1.3.1"
+      object-assign "^4.1.1"
+  
   prop-types@^15.5.8:
     version "15.5.8"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
@@ -3560,6 +3591,12 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
   
+  react-native-atoz-listview@0.0.7:
+    version "0.0.7"
+    resolved "https://registry.yarnpkg.com/react-native-atoz-listview/-/react-native-atoz-listview-0.0.7.tgz#ae1d8ac11a224aeacdf3b6f1c938b030c92788cd"
+    dependencies:
+      merge "^1.2.0"
+  
   react-native-communications@2.1.1:
     version "2.1.1"
     resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.1.1.tgz#ff6f917c305e6d3fa935a89908aea5dc39b247d4"
@@ -3621,6 +3658,12 @@ Lockfile:
   react-native-scrollable-mixin@^1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/react-native-scrollable-mixin/-/react-native-scrollable-mixin-1.0.1.tgz#34a32167b64248594154fd0d6a8b03f22740548e"
+  
+  react-native-search-box@0.0.11:
+    version "0.0.11"
+    resolved "https://registry.yarnpkg.com/react-native-search-box/-/react-native-search-box-0.0.11.tgz#1746ff2f051ab7565e240800e19089d127415afe"
+    dependencies:
+      prop-types "^15.5.10"
   
   react-native-side-menu@^0.20.1:
     version "0.20.1"
@@ -3743,6 +3786,17 @@ Lockfile:
     dependencies:
       lodash "^4.6.1"
       react-deep-force-update "^1.0.0"
+  
+  react-redux@^5.0.6:
+    version "5.0.6"
+    resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.6.tgz#23ed3a4f986359d68b5212eaaa681e60d6574946"
+    dependencies:
+      hoist-non-react-statics "^2.2.1"
+      invariant "^2.0.0"
+      lodash "^4.2.0"
+      lodash-es "^4.2.0"
+      loose-envify "^1.1.0"
+      prop-types "^15.5.10"
   
   react-test-renderer@~15.4.1:
     version "15.4.2"
@@ -4688,7 +4742,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
 
 Trace: 
-  Error: getaddrinfo EAI_AGAIN github.com:443
-      at Object.exports._errnoException (util.js:1022:11)
-      at errnoException (dns.js:33:15)
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:76:26)
+  Error: https://registry.yarnpkg.com/express/-/express-4.15.2.tgz: ETIMEDOUT
+      at Timeout._onTimeout (/usr/share/yarn/lib/cli.js:122581:19)
+      at ontimeout (timers.js:469:11)
+      at tryOnTimeout (timers.js:304:5)
+      at Timer.listOnTimeout (timers.js:264:5)

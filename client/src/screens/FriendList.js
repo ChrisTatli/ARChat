@@ -26,9 +26,9 @@ export default class FriendList extends Component {
     super(props);
     this.store = this.props.screenProps.store;
   }
- 
+
   generateFriendsList() {
-    return this.store.user.friends.map((friend) => 
+    return this.store.user.friends.map((friend) =>
       <View key={friend._id} style={styles.friendRow}>
         <Image source={{ uri: friend.avatar }} style={styles.avatar} />
         <Text style={styles.username}>{ friend.username }</Text>
@@ -38,9 +38,9 @@ export default class FriendList extends Component {
   }
 
   generateButtons(friend) {
-    if(this.store.user.meetRequests.length == 0) {        
+    if(this.store.user.meetRequests.length == 0) {
      return this.noMeetRequest(friend, false);
-    } 
+    }
     else {
       for (let request of this.store.user.meetRequests) {
         if(friend._id == request.toUser._id) {
@@ -69,7 +69,7 @@ export default class FriendList extends Component {
           >
         </Button>
         <Button title='remove'
-          onPress={() => {}}
+          onPress={() => {this.store.removeFriend(friend)}}
           backgroundColor='#48fdf6'
           color={'black'}
           fontSize={10}
@@ -106,14 +106,14 @@ export default class FriendList extends Component {
 
   acceptMeetRequest(request) {
    this.store.activateMeet(request);
-   this.props.navigation.navigate('MeetView');     
+   this.props.navigation.navigate('MeetView');
   }
 
   receivedMeetRequest(request) {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
         <Button title='accept'
-          onPress={() => { this.acceptMeetRequest(request) } } 
+          onPress={() => { this.acceptMeetRequest(request) } }
           backgroundColor='#48fdf6'
           color={'black'}
           fontSize={10}
@@ -166,18 +166,18 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   friendRow: {
-    flex: 2, 
-    flexDirection: 'row', 
-    margin: 5, 
-    paddingLeft: 10, 
-    paddingRight: 10, 
-    paddingBottom: 10, 
-    borderBottomWidth: 1, 
-    borderBottomColor: '#48fdf6' 
+    flex: 2,
+    flexDirection: 'row',
+    margin: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#48fdf6'
   },
   username: {
-    fontSize: 18, 
-    textAlign: 'left', 
-    color: '#48fdf6'    
+    fontSize: 18,
+    textAlign: 'left',
+    color: '#48fdf6'
   }
 });
