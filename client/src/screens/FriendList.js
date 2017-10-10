@@ -68,18 +68,24 @@ export default class FriendList extends Component {
   noMeetRequest(friend, disabled) {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <Button title='meet'
+        <Button title='Meet'
           onPress={() => this.store.sendMeetRequest(friend)}
-          backgroundColor='#48fdf6'
+          backgroundColor='#aee283'
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}
           disabled={disabled}
           >
         </Button>
+<<<<<<< Updated upstream
         <Button title='remove'
           onPress={() => {this.store.removeFriend(friend)}}
           backgroundColor='#48fdf6'
+=======
+        <Button title='Remove'
+          onPress={() => {}}
+          backgroundColor='#e87175'
+>>>>>>> Stashed changes
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}
@@ -92,18 +98,18 @@ export default class FriendList extends Component {
   sentMeetRequest(request) {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <Button title='waiting...'
+        <Button title='Waiting...'
           onPress={() => {}}
-          backgroundColor='#48fdf6'
+          backgroundColor='#89bbfe'
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}
           disabled={false}
           >
         </Button>
-        <Button title='cancel'
+        <Button title='Cancel'
           onPress={() => {this.store.deleteMeetRequest(request)}}
-          backgroundColor='#48fdf6'
+          backgroundColor='#a1a8ad'
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}
@@ -157,7 +163,7 @@ const styles = StyleSheet.create({
    flex: 1,
    flexDirection: 'column',
    paddingTop: 5,
-   backgroundColor: 'black'
+   backgroundColor: 'white'
   },
   button: {
     borderRadius: 5,
@@ -172,7 +178,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     borderRadius: 50,
-    marginRight: 10
+    marginRight: 10,
   },
   friendRow: {
     flex: 2,
@@ -182,11 +188,11 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#48fdf6'
+    borderBottomColor: '#dee1e5'
   },
   username: {
     fontSize: 18,
     textAlign: 'left',
-    color: '#48fdf6'
+    color: 'black'
   }
 });

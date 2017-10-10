@@ -105,7 +105,7 @@ export default class Login extends Component {
               <Button title='Login'
                       onPress={this.login}
                       color='#000'
-                      backgroundColor='#48fdf6'
+                      backgroundColor='#89bbfe'
                       buttonStyle={{marginTop: 10, borderRadius: 5}}/>
             </View>
           </View>

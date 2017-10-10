@@ -5,11 +5,16 @@ import {
    StyleSheet,
    Text,
    View,
-   Image
+   Image,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import NavIcons from "../components/NavIcons";
-import {NavigationActions} from 'react-navigation';
+
+import {
+   NavigationActions,
+} from 'react-navigation';
+
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //@autobind @observer
@@ -47,21 +52,21 @@ export default class FriendRequest extends Component{
     generateFriendRequestList(requests) {
      return requests.map((request) =>
      <View key={request._id} style={{flex: 2, flexDirection: 'row', margin:5, paddingLeft:10,
-       paddingRight:10, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#48fdf6'}}>
+       paddingRight:10, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#dee1e5'}}>
        <Image source={{uri: request.avatar}} style={styles.avatar} />
-       <Text style={{fontSize:18, textAlign:'left', color: '#48fdf6'}} >{request.name}</Text>
+       <Text style={{fontSize:18, textAlign:'left', color: 'black'}} >{request.name}</Text>
        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-         <Button title='accept'
+         <Button title='Accept'
            onPress={() => {}}
-           backgroundColor='#48fdf6'
+           backgroundColor='#aee283'
            color={'black'}
            fontSize={10}
            buttonStyle={styles.button}
            >
          </Button>
-         <Button title='decline'
+         <Button title='Decline'
            onPress={() => {}}
-           backgroundColor='#48fdf6'
+           backgroundColor='#e87175'
            color={'black'}
            fontSize={10}
            buttonStyle={styles.button}
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
    flex: 1,
    flexDirection: 'column',
    paddingTop: 5,
-   backgroundColor: 'black'
+   backgroundColor: 'white'
   },
   button: {
     borderRadius: 5,

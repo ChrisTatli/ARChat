@@ -58,18 +58,18 @@ renderBubble(props) {
          {...props}
           wrapperStyle={{
             right: {
-            backgroundColor: 'black'
+            backgroundColor: '#dee1e5'
            },
            left: {
-             backgroundColor: 'black'
+             backgroundColor: '#dee1e5'
           }
         }}
         textStyle={{
            left: {
-            color: 'white',
+            color: 'black',
            },
           right: {
-            color: 'white'
+            color: 'black'
             }
           }}
         />
@@ -77,23 +77,23 @@ renderBubble(props) {
   }
   return (
     <View>
-    <Text style={{color: '#48fdf6'}}>{props.currentMessage.user.name}</Text>
+    <Text style={{color: '#5c626d'}}>{props.currentMessage.user.name}</Text>
       <Bubble
         {...props}
         wrapperStyle={{
             right: {
-            backgroundColor: 'black'
+            backgroundColor: '#dee1e5'
            },
            left: {
-             backgroundColor: 'black'
+             backgroundColor: '#dee1e5'
           }
         }}
         textStyle={{
            left: {
-            color: 'white'
+            color: 'black'
            },
           right: {
-            color: 'white'
+            color: 'black'
             }
           }}
         />
@@ -106,7 +106,7 @@ renderLoadEarlier(props) {
     <LoadEarlier
       {...props}
       wrapperStyle={{
-        backgroundColor: '#48fdf6'
+        backgroundColor: '#89bbfe'
       }}
       textStyle={{
         color: 'black'
@@ -159,7 +159,7 @@ render() {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'black'
+    backgroundColor: 'white'
   },
   banner: {
     position: 'absolute',
@@ -185,8 +185,5 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 10
-  },
-  username: {
-    color: '#48fdf6'
   },
 });

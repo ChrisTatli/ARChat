@@ -242,6 +242,7 @@ export default class Store {
   }
 
   // Temporarily loading all other users for testing purposes
+<<<<<<< Updated upstream
   // loadFriends() {
   //   this.app.service('users').find({ query: {$limit: 100, email: {$ne: this.user.email}}})
   //     .then(response => {
@@ -255,6 +256,21 @@ export default class Store {
   //       console.log(error);
   //     });
   // }
+=======
+  loadFriends() {
+    this.app.service('users').find({ query: {$limit: 100, email: {$ne: this.user.email}}})
+      .then(response => {
+          const friends = [];
+
+            for(let friend of response.data) {
+              friends.push(friend);
+            }
+            this.user.friends = friends;
+        }).catch(error => {
+        console.log(error);
+      });
+  }
+>>>>>>> Stashed changes
 
   // meet initially restricted to 2 participants
   activateMeet(request) {
@@ -292,6 +308,7 @@ export default class Store {
     }).catch(error => {
       console.log('Error activating meet.', error);
     })
+<<<<<<< Updated upstream
   }
   removeFriend(friend) {
     this.app.service('users').update(this.user._id,
@@ -300,6 +317,8 @@ export default class Store {
       }).catch(error => {
         Alert.alert('Error removing friends', JSON.stringify(error, null, 2));
       })
+=======
+>>>>>>> Stashed changes
   }
 
 }

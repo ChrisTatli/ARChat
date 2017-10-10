@@ -37,12 +37,12 @@ export default class Launch extends Component {
           <Button title='Sign In'
                   onPress={this._showLogin}
                   color='#000'
-                  backgroundColor='#48fdf6'
+                  backgroundColor='#89bbfe'
                   buttonStyle={{borderRadius: 5}}/>
           <Button title='Create Account'
                   onPress={this._showSignup}
                   color='#000'
-                  backgroundColor='#48fdf6'
+                  backgroundColor='#89bbfe'
                   buttonStyle={{marginTop: 10, borderRadius: 5}}/>
         </View>
       </View>
@@ -53,7 +53,7 @@ export default class Launch extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000'
+    backgroundColor: '#fff'
   },
   logo: {
     resizeMode: 'contain',
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 28,
     fontWeight: '200',
-    color: '#48fdf6',
+    color: 'black',
   },
   bottomSection: {
     position: 'absolute',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     width: 150,
     height: 150,
-    backgroundColor: '#48fdf6',
+    backgroundColor: 'black',
   },
   innerCircle: {
     flex: 1,
@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     margin: 2,
-    backgroundColor: '#000'
+    backgroundColor: '#89bbfe'
   }
 });

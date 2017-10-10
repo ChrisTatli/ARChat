@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, ToolbarAndroid, StyleSheet} from 'react-native';
 import {autobind} from 'core-decorators';
 import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
@@ -15,8 +15,7 @@ import {Launch,
         FriendRequest,
         MeetView,
         XRay,
-        MainMenu
-
+        MainMenu,
 } from './screens'
 
 import Store from './Store';
@@ -42,7 +41,7 @@ const TabNav = TabNavigator({
    Chat: {screen: Chat},
    FriendList: {screen: FriendList},
    MeetView: {screen: MeetView},
-   FriendRequest: {screen: FriendRequest},
+   Requests: {screen: FriendRequest},
    Settings: {screen: Settings},
 }, {
    tabBarPosition : 'bottom',
@@ -79,9 +78,24 @@ export default class Application extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        {this.store.isAuthenticated ? <TabNav screenProps={{store: this.store}}/> :
+         {this.store.isAuthenticated ?
+            <ToolbarAndroid
+               screenProps={{store: this.store}}
+               title = 'ARChat'
+               style = {styles.toolbar}
+               titleColor = 'black'
+            /> : null}
+         {this.store.isAuthenticated ? <TabNav screenProps={{store: this.store}}/> :
           <UnauthenticatedNavigator screenProps={{store: this.store}}/>}
+
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+   toolbar: {
+        height: 56,
+        backgroundColor: '#89bbfe',
+    },
+})
