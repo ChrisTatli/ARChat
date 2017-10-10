@@ -292,6 +292,7 @@ export default class Store {
     }).catch(error => {
       console.log('Error activating meet.', error);
     })
+
   }
   removeFriend(friend) {
     this.app.service('users').update(this.user._id,
@@ -300,6 +301,7 @@ export default class Store {
       }).catch(error => {
         Alert.alert('Error removing friends', JSON.stringify(error, null, 2));
       })
+
   }
 
 }

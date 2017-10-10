@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, ToolbarAndroid, StyleSheet} from 'react-native';
 import {autobind} from 'core-decorators';
 import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
-import {StackNavigator} from 'react-navigation';
+import {StackNavigator,TabNavigator} from 'react-navigation';
 
 import {Launch,
         Login,
@@ -15,8 +15,7 @@ import {Launch,
         FriendRequest,
         MeetView,
         XRay,
-        MainMenu
-
+        MainMenu,
 } from './screens'
 
 import Store from './Store';
@@ -38,6 +37,37 @@ const MainNavigator = StackNavigator({
   //XRay: {screen: XRay},
 }, {mode: 'modal'});
 
+const TabNav = TabNavigator({
+   Chat: {screen: Chat},
+   FriendList: {screen: FriendList},
+   MeetView: {screen: MeetView},
+   Requests: {screen: FriendRequest},
+   Settings: {screen: Settings},
+}, {
+   tabBarPosition : 'bottom',
+   animationEnabled: true,
+   tabBarOptions: {
+      inactiveTintColor: '#5c626d',
+      activeTintColor: '#000',
+      showIcon: true,
+      upperCaseLabel: false,
+      indicatorStyle: {
+         backgroundColor: '#615d6c',
+      },
+      labelStyle: {
+         fontSize: 11,
+      },
+      tabStyle: {
+         width: 80,
+      },
+      style: {
+         backgroundColor:'#89bbfe',
+         height: 60,
+      }
+   },
+
+});
+
 @autobind @observer
 export default class Application extends Component {
   constructor(props) {
@@ -48,9 +78,24 @@ export default class Application extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        {this.store.isAuthenticated ? <MainNavigator screenProps={{store: this.store}}/> :
+         {this.store.isAuthenticated ?
+            <ToolbarAndroid
+               screenProps={{store: this.store}}
+               title = 'ARChat'
+               style = {styles.toolbar}
+               titleColor = 'black'
+            /> : null}
+         {this.store.isAuthenticated ? <TabNav screenProps={{store: this.store}}/> :
           <UnauthenticatedNavigator screenProps={{store: this.store}}/>}
+
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+   toolbar: {
+        height: 56,
+        backgroundColor: '#89bbfe',
+    },
+})

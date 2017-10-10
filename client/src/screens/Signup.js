@@ -31,7 +31,7 @@ export default class Signup extends React.Component {
     super(props);
     this.store = this.props.screenProps.store;
   }
-  
+
   onChangeEmail(text) {
     this.email = text;
   }
@@ -49,7 +49,7 @@ export default class Signup extends React.Component {
      // Alert.alert('Please enter a valid email, username or password.');
      // return;
     //}
-    
+
     const submittedEmail = Utils.validateEmail(this.email);
     const submittedUsername = Utils.validateUsername(this.username);
     const submittedPassword = Utils.validatePassword(this.password);
@@ -125,7 +125,7 @@ export default class Signup extends React.Component {
               <Button title='Create Account Now'
                       onPress={this.register}
                       color='#000'
-                      backgroundColor='#48fdf6'
+                      backgroundColor='#89bbfe'
                       buttonStyle={{marginTop: 10, borderRadius: 5}}/>
             </View>
           </View>

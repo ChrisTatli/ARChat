@@ -11,6 +11,7 @@ import {autobind} from 'core-decorators';
 import {observer} from 'mobx-react/native';
 import {Button} from 'react-native-elements';
 import NavIcons from '../components/NavIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const baseStyles = require('../baseStyles');
 
@@ -20,7 +21,15 @@ import { NavigationActions } from 'react-navigation'
 export default class Settings extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Settings',
-    headerLeft: NavIcons.closeButton(navigation.goBack)
+    headerLeft: NavIcons.closeButton(navigation.goBack),
+    tabBarLabel: 'Settings',
+    tabBarIcon: ({tintColor, focused }) => (
+     <Ionicons
+         name={focused ? 'ios-settings' : 'ios-settings'}
+         size={26}
+         style={{color: tintColor}}
+     />
+   ),
   });
 
   render() {
@@ -37,6 +46,11 @@ export default class Settings extends Component {
           <Text style={styles.email}>{user.email}</Text>
         </View>
         <View style={styles.bottomSection}>
+          <Button title='Sign Out'
+                  onPress={this.props.screenProps.store.promptForLogout}
+                  backgroundColor='#e87175'
+                  color={'black'}
+                  buttonStyle={styles.signoutButton}/>
         </View>
       </View>
     );
@@ -57,7 +71,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontSize: 20,
     fontWeight: "200",
-    color: '#48fdf6'
+    color: 'black'
   },
   bottomSection: {
     position: 'absolute',

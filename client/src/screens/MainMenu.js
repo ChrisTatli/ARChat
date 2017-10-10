@@ -14,7 +14,9 @@ import NavIcons from '../components/NavIcons';
 
 const baseStyles = require('../baseStyles');
 
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
+
+
 
 @autobind @observer
 export default class MainMenu extends Component {
@@ -61,13 +63,6 @@ export default class MainMenu extends Component {
                   color={'black'}
                   buttonStyle={styles.navButton}/>
 
-        </View>
-        <View style={styles.bottomSection}>
-          <Button title='Sign Out'
-                  onPress={this.props.screenProps.store.promptForLogout}
-                  backgroundColor='#48fdf6'
-                  color={'black'}
-                  buttonStyle={styles.signoutButton}/>
         </View>
       </View>
     );

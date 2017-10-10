@@ -17,13 +17,14 @@ import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 import {GiftedChat, Message, Avatar, Bubble, LoadEarlier, Send} from 'react-native-gifted-chat';
 import NavIcons from '../components/NavIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const maxHeight = Platform.OS === 'ios' ? Dimensions.get('window').height - 65 : Dimensions.get('window').height - 85;
 
 class CustomMessage extends Message {
   renderAvatar() {
     return (
-      <Avatar {...this.getInnerComponentProps()} />    
+      <Avatar {...this.getInnerComponentProps()} />
     );
   }
 }
@@ -33,7 +34,15 @@ export default class Chat extends Component {
   static navigationOptions = ({navigation}) => ({
     headerRight: NavIcons.settingsButton(navigation.navigate),
     headerLeft: NavIcons.menuButton(navigation.navigate),
-    gesturesEnabled: false
+    gesturesEnabled: false,
+    tabBarLabel: 'Chat',
+    tabBarIcon: ({tintColor, focused }) => (
+      <Ionicons
+         name={focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline'}
+         size={26}
+         style={{color: tintColor}}
+      />
+   ),
   });
 
 
@@ -42,25 +51,25 @@ export default class Chat extends Component {
   }
 
 renderBubble(props) {
-  if(props.isSameUser(props.currentMessage, props.previousMessage) && 
+  if(props.isSameUser(props.currentMessage, props.previousMessage) &&
       props.isSameDay(props.currentMessage, props.previousMessage)) {
   return (
        <Bubble
          {...props}
           wrapperStyle={{
             right: {
-            backgroundColor: 'black'
+            backgroundColor: '#dee1e5'
            },
            left: {
-             backgroundColor: 'black'
+             backgroundColor: '#dee1e5'
           }
         }}
         textStyle={{
            left: {
-            color: 'white',
+            color: 'black',
            },
           right: {
-            color: 'white'
+            color: 'black'
             }
           }}
         />
@@ -68,23 +77,23 @@ renderBubble(props) {
   }
   return (
     <View>
-    <Text style={{color: '#48fdf6'}}>{props.currentMessage.user.name}</Text>
+    <Text style={{color: '#5c626d'}}>{props.currentMessage.user.name}</Text>
       <Bubble
         {...props}
         wrapperStyle={{
             right: {
-            backgroundColor: 'black'
+            backgroundColor: '#dee1e5'
            },
            left: {
-             backgroundColor: 'black'
+             backgroundColor: '#dee1e5'
           }
         }}
         textStyle={{
            left: {
-            color: 'white'
+            color: 'black'
            },
           right: {
-            color: 'white'
+            color: 'black'
             }
           }}
         />
@@ -97,7 +106,7 @@ renderLoadEarlier(props) {
     <LoadEarlier
       {...props}
       wrapperStyle={{
-        backgroundColor: '#48fdf6'
+        backgroundColor: '#89bbfe'
       }}
       textStyle={{
         color: 'black'
@@ -150,7 +159,7 @@ render() {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'black'
+    backgroundColor: 'white'
   },
   banner: {
     position: 'absolute',
@@ -177,8 +186,4 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 10
   },
-  username: {
-    color: '#48fdf6'
-  },
-
 });
