@@ -77,15 +77,9 @@ export default class FriendList extends Component {
           disabled={disabled}
           >
         </Button>
-<<<<<<< Updated upstream
-        <Button title='remove'
-          onPress={() => {this.store.removeFriend(friend)}}
-          backgroundColor='#48fdf6'
-=======
         <Button title='Remove'
-          onPress={() => {}}
+          onPress={() => {this.store.removeFriend(friend)}}
           backgroundColor='#e87175'
->>>>>>> Stashed changes
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}
