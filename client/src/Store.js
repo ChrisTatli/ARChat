@@ -7,7 +7,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
-const API_URL = 'http://52.62.125.103:8080';
+const API_URL = 'http://192.168.0.18:8080';
 
 @autobind
 export default class Store {
@@ -16,7 +16,7 @@ export default class Store {
   @observable isConnecting = false;
   @observable user = null;
   @observable messages = [];
-  @observable currentlyMeeting = false;
+  @observable meetData = [];
   @observable hasMoreMessages = false;
   @observable skip = 0;
 
@@ -45,13 +45,42 @@ export default class Store {
       if(this.user == null) {
         return;
       }
-      // updatedUser.friends = this.user.friends;
-      this.user = updatedUser;
+    //  if(updatedUser.updateType == 'location') {
+      //  this.meetData.map(user => {
+        //  updatedUser.data._id == this.user._id ? 
+         //   return updatedUser.data;
+          //  : return user;
+       // });  
+     // } else {
+        this.user = updatedUser.data;
+    //  }
     });
 
     this.app.service('meets').on('created', createdMeet => {
-      this.currentlyMeeting = true;
-    })
+      this.app.service('users').update(this.user._id, 
+          { $set: { activeMeet: createdMeet } })
+      .then(result => {
+        Alert.alert('Meet participants added to user document.');
+      }).catch(error => {
+        Alert.alert('Error adding meet participants to user document.', JSON.stringify(error, null, 2));
+      });
+
+      this.meetData = createdMeet.participants;
+
+    });
+
+    this.app.service('meets').on('removed', removedMeet => {
+      this.app.service('users').update(this.user._id,
+          { $set: { activeMeet: null } })
+      .then(result => {
+        Alert.alert('Successfully removed meet participants from user document.');
+      }).catch(error => {
+        Alert.alert('Error removing meet participants from user document.', JSON.stringify(error, null, 2));
+      });
+
+      this.meetData = [];
+      
+    });
 
     if (this.app.get('accessToken')) {
       this.isAuthenticated = this.app.get('accessToken') !== null;
@@ -83,6 +112,8 @@ export default class Store {
       username,
       password,
       friends : [],
+      location: null,
+      activeMeet: null,
       friendRequests : [],
       meetRequests: []
     };
@@ -141,9 +172,9 @@ export default class Store {
     this.app.logout();
     this.skip = 0;
     this.messages = [];
+    this.meetData = [];
     this.user = null;
     this.isAuthenticated = false;
-    this.meetParticipants = [];
   }
 
   loadMessages(loadNextPage) {
@@ -241,45 +272,11 @@ export default class Store {
     this.app.service('meet-requests').remove(requestToRemove._id);
   }
 
-  // Temporarily loading all other users for testing purposes
-  // loadFriends() {
-  //   this.app.service('users').find({ query: {$limit: 100, email: {$ne: this.user.email}}})
-  //     .then(response => {
-  //         const friends = [];
-  //
-  //           for(let friend of response.data) {
-  //             friends.push(friend);
-  //           }
-  //           this.user.friends = friends;
-  //       }).catch(error => {
-  //       console.log(error);
-  //     });
-  // }
-
-  // meet initially restricted to 2 participants
   activateMeet(request) {
     this.app.service('meets').create({
       participants: [
-        {
-          _id: request.fromUser._id,
-          email: request.fromUser.email,
-          username: request.fromUser.username,
-          avatar: request.fromUser.avatar,
-          location: {
-            latitude: null,
-            longitude: null
-          }
-        },
-        {
-          _id: request.toUser._id,
-          email: request.toUser.email,
-          username: request.toUser.username,
-          avatar: request.toUser.avatar,
-          location: {
-            latitude: null,
-            longitude: null
-          }
-        }
+          request.fromUser._id,
+          request.toUser._id
       ]
     }).then(result => {
       console.log('Meet activated!');
@@ -302,6 +299,15 @@ export default class Store {
         Alert.alert('Error removing friends', JSON.stringify(error, null, 2));
       })
 
+  }
+
+  cancelMeet(meet) {
+    this.app.service('meets').remove(meet._id)
+    .then(result => {
+      Alert.alert('Successfully cancelled meet.');
+    }).catch(error => {
+      Alert.alert('Error cancelling meet.');
+    });
   }
 
 }

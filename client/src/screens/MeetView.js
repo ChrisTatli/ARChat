@@ -32,12 +32,24 @@ export default class MeetView extends Component {
    ),
   });
 
+  constructor(props) {
+    super(props);
+
+    this.store = this.props.screenProps.store;
+  }
+
   render() {
     return (
       <View style={baseStyles.container}>
         <View style={styles.topSection}>
         </View>
         <View style={styles.bottomSection}>
+        {this.store.user.activeMeet != null && <Button title='Cancel Meet'
+                  onPress={() => { this.store.cancelMeet(this.store.user.activeMeet._id) } }
+                  backgroundColor='#48fdf6'
+                  color={'black'}
+                  buttonStyle={styles.navButton}/>
+        }
         </View>
       </View>
     );
