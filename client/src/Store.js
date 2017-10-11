@@ -70,7 +70,7 @@ export default class Store {
         this.locationWatchId = navigator.geolocation.watchPosition(
             (position) => { this.updateLocation( position.coords.latitude, position.coords.longitude); },
             (error) => { Alert.alert('Error fetching user location.', JSON.stringify(error, null, 2)); },
-           // { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
           );
 
         this.meetData = createdMeet.participants.map(user => {
