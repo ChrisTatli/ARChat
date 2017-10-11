@@ -58,7 +58,7 @@ export default class MeetView extends Component {
             latitude: -38.022037,
             longitude: 145.300863
           },
-          image: require("/usr/local/house-martell-project/client/images/saksham2.png"),
+          image: {uri: ('https://www.gravatar.com/avatar/2ad31b760c740bf3848294285b9fd455?s=60&d=retro')},
           style: {
             height: 22,
             width: 22
@@ -72,7 +72,7 @@ export default class MeetView extends Component {
             latitude: -38.122046,
         	  longitude: 145.300873,
           },
-          image: require("/usr/local/house-martell-project/client/images/Github image.png"),
+         image: {uri: ('https://www.gravatar.com/avatar/3c9226a91b8cc76a84bb45ac18a4ee88?s=60&d=retro')},
           style: {
             height: 22,
             width: 22
@@ -98,7 +98,7 @@ export default class MeetView extends Component {
               latitude: -38.122046,
           	  longitude: 145.300873,
             },
-            image: require("/usr/local/house-martell-project/client/images/Github image.png"),
+            image: {uri: ('https://www.gravatar.com/avatar/2ad31b760c740bf3848294285b9fd455?s=60&d=retro')},
             style: {
               height: 22,
               width: 22
@@ -112,7 +112,7 @@ export default class MeetView extends Component {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude
             },
-            image: require("/usr/local/house-martell-project/client/images/saksham2.png"),
+            image: {uri: ('https://www.gravatar.com/avatar/3c9226a91b8cc76a84bb45ac18a4ee88?s=60&d=retro')},
             style: {
               height: 22,
               width: 22
