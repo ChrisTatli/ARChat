@@ -83,8 +83,6 @@ export default class Store {
           }; 
         });
 
-        Alert.alert('Location Watch Id', this.locationWatchId.toString());
-
       }).catch(error => {
         Alert.alert('Error adding meet participants to user document.', JSON.stringify(error, null, 2));
       });
@@ -98,7 +96,7 @@ export default class Store {
       .then(result => {
         this.meetData = [];
         navigator.geolocation.clearWatch(this.locationWatchId);
-        //this.locationWatchId = null;
+        this.locationWatchId = null;
       }).catch(error => {
         Alert.alert('Error removing meet participants from user document.', JSON.stringify(error, null, 2));
       });
@@ -325,12 +323,16 @@ export default class Store {
   }
 
   cancelMeet(meet) {
-    this.app.service('meets').remove(meet._id)
-    .then(result => {
-      Alert.alert('Successfully cancelled meet.');
-    }).catch(error => {
-      Alert.alert('Error cancelling meet.');
-    });
+    if(this.user.activeMeet == null) {
+      Alert.alert('No meet currently in progress.');
+    } else {
+        this.app.service('meets').remove(meet._id)
+        .then(result => {
+          Alert.alert('Successfully cancelled meet.');
+        }).catch(error => {
+          Alert.alert('Error cancelling meet.');
+        });
+    }
   }
 
   updateLocation(lat, lng) {
