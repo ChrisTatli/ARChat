@@ -17,6 +17,7 @@ export default class Store {
   @observable user = null;
   @observable messages = [];
   @observable meetData = [];
+  @observable locationWatchId = null;
   @observable hasMoreMessages = false;
   @observable skip = 0;
 
@@ -45,27 +46,49 @@ export default class Store {
       if(this.user == null) {
         return;
       }
-    //  if(updatedUser.updateType == 'location') {
-      //  this.meetData.map(user => {
-        //  updatedUser.data._id == this.user._id ? 
-         //   return updatedUser.data;
-          //  : return user;
-       // });  
-     // } else {
-        this.user = updatedUser.data;
-    //  }
+        if(updatedUser.updateType == 'user') {
+          this.user = updatedUser.updateData;
+        } else {
+            let updatedMeet = this.meetData.map(user => { 
+              if(user._id == updatedUser.updateData._id) {
+                return updatedUser.updateData;
+              } else {
+                return user;
+              }
+
+            });
+
+            this.meetData = updatedMeet;
+        }
+
     });
 
     this.app.service('meets').on('created', createdMeet => {
       this.app.service('users').update(this.user._id, 
           { $set: { activeMeet: createdMeet } })
       .then(result => {
-        Alert.alert('Meet participants added to user document.');
+        this.locationWatchId = navigator.geolocation.watchPosition(
+            (position) => { this.updateLocation( position.coords.latitude, position.coords.longitude); },
+            (error) => { Alert.alert('Error fetching user location.', JSON.stringify(error, null, 2)); },
+           // { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+          );
+
+        this.meetData = createdMeet.participants.map(user => {
+          return {
+            _id: user,
+            email: null,
+            username: null,
+            location: null,
+            avatar: null
+          }; 
+        });
+
+        Alert.alert('Location Watch Id', this.locationWatchId.toString());
+
       }).catch(error => {
         Alert.alert('Error adding meet participants to user document.', JSON.stringify(error, null, 2));
       });
 
-      this.meetData = createdMeet.participants;
 
     });
 
@@ -73,13 +96,13 @@ export default class Store {
       this.app.service('users').update(this.user._id,
           { $set: { activeMeet: null } })
       .then(result => {
-        Alert.alert('Successfully removed meet participants from user document.');
+        this.meetData = [];
+        navigator.geolocation.clearWatch(this.locationWatchId);
+        //this.locationWatchId = null;
       }).catch(error => {
         Alert.alert('Error removing meet participants from user document.', JSON.stringify(error, null, 2));
       });
 
-      this.meetData = [];
-      
     });
 
     if (this.app.get('accessToken')) {
@@ -307,6 +330,15 @@ export default class Store {
       Alert.alert('Successfully cancelled meet.');
     }).catch(error => {
       Alert.alert('Error cancelling meet.');
+    });
+  }
+
+  updateLocation(lat, lng) {
+    this.app.service('users').update(this.user._id,
+        { $set: { location: { latitude: lat, longitude: lng } } })
+    .then(result => {
+    }).catch(error => {
+      Alert.alert('Error updating user location.', JSON.stringify(error, null, 2));
     });
   }
 

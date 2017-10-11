@@ -38,10 +38,17 @@ export default class MeetView extends Component {
     this.store = this.props.screenProps.store;
   }
 
+  displayMeetParticipants() {
+    return this.store.meetData.map(user => 
+      <Text key={user._id} style={{color: 'black'}}>User: {user.username} |  Location: {JSON.stringify(user.location)}</Text>      
+    );    
+  }
+
   render() {
     return (
       <View style={baseStyles.container}>
         <View style={styles.topSection}>
+        { this.displayMeetParticipants() }
         </View>
         <View style={styles.bottomSection}>
         {this.store.user.activeMeet != null && <Button title='Cancel Meet'
@@ -80,6 +87,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    bottom: 140
+    bottom: 140,
   }
 });
