@@ -158,7 +158,6 @@ export default class Store {
       console.log('authenticated successfully', user._id, user.email);
       this.user = user;
       this.isAuthenticated = true;
-      this.loadFriends();
       return Promise.resolve(user);
     }).catch(error => {
       console.log('authenticated failed', error.message);
