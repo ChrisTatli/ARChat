@@ -37,13 +37,17 @@ export default class FriendList extends Component {
   }
 
   generateFriendsList() {
-    return this.store.user.friends.map((friend) =>
-      <View key={friend._id} style={styles.friendRow}>
-        <Image source={{ uri: friend.avatar }} style={styles.avatar} />
-        <Text style={styles.username}>{ friend.username }</Text>
-        { this.generateButtons(friend) }
-      </View>
-    );
+    if(this.store.user != null) {
+      return this.store.user.friends.map((friend) =>
+        <View key={friend._id} style={styles.friendRow}>
+          <Image source={{ uri: friend.avatar }} style={styles.avatar} />
+          <Text style={styles.username}>{ friend.username }</Text>
+          { this.generateButtons(friend) }
+        </View>
+      );
+    } else {
+      return
+    }
   }
 
   generateButtons(friend) {
