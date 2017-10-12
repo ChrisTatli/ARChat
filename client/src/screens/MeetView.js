@@ -41,88 +41,34 @@ export default class MeetView extends Component {
    ),
   });
 
-
-
   constructor(props) {
     super(props);
 
-    this.state = {
-        latitude: -38.022037,
-        longitude: 145.300863,
+    this.store = this.props.screenProps.store;
+    
+    this.initialRegion = {
+      latitude: -37.8136,
+      longitude: 144.9631,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONG_DELTA
+    };
 
-        markers: [{
-          key: 1,
-          title: 'Friend',
-          description: "Distance to friend",
-          coordinates: {
-            latitude: -38.022037,
-            longitude: 145.300863
-          },
-          image: {uri: ('https://www.gravatar.com/avatar/2ad31b760c740bf3848294285b9fd455?s=60&d=retro')},
-          style: {
-            height: 22,
-            width: 22
-          },
-        },
-        {
-          key: 2,
-          title: "Yourself",
-          description: "This is your current location",
-          coordinates: {
-            latitude: -38.122046,
-        	  longitude: 145.300873,
-          },
-         image: {uri: ('https://www.gravatar.com/avatar/3c9226a91b8cc76a84bb45ac18a4ee88?s=60&d=retro')},
-          style: {
-            height: 22,
-            width: 22
-          },
-        }]
     }
-  }
 
-  watchID: ?number = null
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          latitude: parseFloat(position.coords.latitude),
-          longitude: parseFloat(position.coords.longitude),
-          error: null,
-          markers: [{
-            key: 1,
-            title: (Math.sqrt(111*111*(position.coords.latitude-this.state.markers[1].coordinates.latitude)*(position.coords.latitude-this.state.markers[1].coordinates.latitude)+111*111*(position.coords.longitude-this.state.markers[1].coordinates.longitude)*(position.coords.longitude-this.state.markers[1].coordinates.longitude))).toFixed(2).toString()+" km",
-            description: "Distance to friend",
-            coordinates: {
-              latitude: -38.122046,
-          	  longitude: 145.300873,
-            },
-            image: {uri: ('https://www.gravatar.com/avatar/2ad31b760c740bf3848294285b9fd455?s=60&d=retro')},
-            style: {
-              height: 22,
-              width: 22
-            },
-          },
-          {
-            key: 2,
-            title: "Yourself",
-            description: "This is your current location",
-            coordinates: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-            },
-            image: {uri: ('https://www.gravatar.com/avatar/3c9226a91b8cc76a84bb45ac18a4ee88?s=60&d=retro')},
-            style: {
-              height: 22,
-              width: 22
-            },
-          }]
-        });
-      },
-      (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 50000, maximumAge: 1000 }
-    );
+  displayUsers() {
+    return this.store.meetData.map(user => {
+      if(user._id != null && user.username != null 
+          && user.location != null && user.avatar != null) {
+        return (
+          <MapView.Marker
+            key={user._id}
+            coordinate={user.location}
+            title={user.username}
+            image={{uri: user.avatar}}
+          />
+        );
+      }
+    });
   }
 
   render() {
@@ -130,22 +76,15 @@ export default class MeetView extends Component {
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          region={{
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONG_DELTA,
-          }}
+          initialRegion={ this.initialRegion }
         >
-          {this.state.markers.map(marker => (
-            <MapView.Marker
-              coordinate={marker.coordinates}
-              title={marker.title}
-              key={marker.key}
-              image={marker.image}
-            />
-          ))}
+        { this.displayUsers() }
         </MapView>
+        <Button title='Cancel Meet'
+          onPress={() => {this.store.cancelMeet(this.store.user.activeMeet)}}
+          backgroundColor='#e87175'
+          color={'black'}
+          buttonStyle={styles.cancelButton}/>
       </View>
     );
   }
@@ -170,5 +109,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  cancelButton: {
+    position: 'absolute',
+    bottom: 20
   }
 });
