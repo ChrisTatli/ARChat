@@ -29,7 +29,6 @@ const LONG_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 @autobind @observer
 export default class MeetView extends Component {
 
-
   constructor(props) {
     super(props);
 
@@ -44,6 +43,10 @@ export default class MeetView extends Component {
 
     }
 
+  _showXRay() {   
+    this.props.navigation.navigate('XRay');   
+  } 
+  
   displayUsers() {
     return this.store.meetData.map(user => {
       if(user._id != null && user.username != null 
@@ -74,6 +77,10 @@ export default class MeetView extends Component {
           backgroundColor='#e87175'
           color={'black'}
           buttonStyle={styles.cancelButton}/>
+        <Button title='AR View'   
+                onPress={this._showXRay}   
+                color={'black'}   
+                buttonStyle={styles.xrayButton}/> 
       </View>
     );
   }
@@ -102,5 +109,17 @@ const styles = StyleSheet.create({
   cancelButton: {
     position: 'absolute',
     bottom: 20
+  }, 
+  xrayButton: {  
+    flex: 1,  
+    position: 'absolute',  
+    justifyContent: 'center',   
+    alignItems: 'center', 
+    right: 40, 
+    bottom: 20,  
+    borderRadius: 20,   
+    borderWidth: 0,   
+    borderColor: 'black',   
+    backgroundColor: '#89bbfe'  
   }
 });
