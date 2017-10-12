@@ -28,18 +28,7 @@ const LONG_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 @autobind @observer
 export default class MeetView extends Component {
-  static navigationOptions = ({navigation}) => ({
-    title: 'Map',
-    headerLeft: NavIcons.closeButton(navigation.goBack),
-    tabBarLabel: 'Meet',
-    tabBarIcon: ({tintColor, focused }) => (
-      <Ionicons
-         name={focused ? 'ios-compass' : 'ios-compass-outline'}
-         size={26}
-         style={{color: tintColor}}
-      />
-   ),
-  });
+
 
   constructor(props) {
     super(props);
