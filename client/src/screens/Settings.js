@@ -19,18 +19,7 @@ import { NavigationActions } from 'react-navigation'
 
 @autobind @observer
 export default class Settings extends Component {
-  static navigationOptions = ({navigation}) => ({
-    title: 'Settings',
-    headerLeft: NavIcons.closeButton(navigation.goBack),
-    tabBarLabel: 'Settings',
-    tabBarIcon: ({tintColor, focused }) => (
-     <Ionicons
-         name={focused ? 'ios-settings' : 'ios-settings'}
-         size={26}
-         style={{color: tintColor}}
-     />
-   ),
-  });
+ 
 
   render() {
     const user = this.props.screenProps.store.user;

@@ -31,20 +31,6 @@ class CustomMessage extends Message {
 
 @observer @autobind
 export default class Chat extends Component {
-  static navigationOptions = ({navigation}) => ({
-    headerRight: NavIcons.settingsButton(navigation.navigate),
-    headerLeft: NavIcons.menuButton(navigation.navigate),
-    gesturesEnabled: false,
-    tabBarLabel: 'Chat',
-    tabBarIcon: ({tintColor, focused }) => (
-      <Ionicons
-         name={focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline'}
-         size={26}
-         style={{color: tintColor}}
-      />
-   ),
-  });
-
 
   componentDidMount() {
     this.props.screenProps.store.loadMessages();
