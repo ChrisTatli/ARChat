@@ -36,10 +36,38 @@ export const FriendStack = StackNavigator({
 export const RequestTab = TabNavigator({
    FriendRequest:{
       screen: FriendRequest,
+      navigationOptions: {
+         tabBarLabel: 'Friend Requests'
+      },
    },
    FriendSearch: {
       screen: FriendSearch,
+      navigationOptions: {
+         tabBarLabel: 'Find Friends'
+      },
    },
+},{
+      tabBarPosition : 'top',
+      animationEnabled: true,
+      tabBarOptions: {
+         inactiveTintColor: '#5c626d',
+         activeTintColor: '#000',
+         showIcon: false,
+         upperCaseLabel: false,
+         indicatorStyle: {
+            backgroundColor: '#615d6c',
+         },
+         labelStyle: {
+            fontSize: 17,
+         },
+         tabStyle: {
+            flex: 1,
+         },
+         style: {
+            backgroundColor:'#89bbfe',
+            height: 60,
+         }
+      },
 });
 
 export const Tabs = TabNavigator({
