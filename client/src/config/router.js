@@ -24,6 +24,21 @@ export const ChatStack = StackNavigator({
    },
 });
 
+export const MeetStack = StackNavigator({
+   Map:{
+      screen: MeetView,
+      navigationOptions: {
+         title: 'Map',
+      },
+   },
+   XRay:{
+      screen: XRay,
+      navigationOptions: {
+         title: 'AR View',
+      },
+   },
+});
+
 export const FriendStack = StackNavigator({
    FriendList:{
       screen: FriendList,
@@ -98,7 +113,7 @@ export const Tabs = TabNavigator({
       }
    },
    MeetView: {
-      screen: MeetView,
+      screen: MeetStack,
       navigationOptions: {
          tabBarLabel: 'Meet',
          tabBarIcon: ({tintColor, focused }) => (
@@ -130,7 +145,7 @@ export const Tabs = TabNavigator({
          tabBarLabel: 'Settings',
          tabBarIcon: ({tintColor, focused }) => (
           <Ionicons
-              name={focused ? 'ios-settings' : 'ios-settings'}
+              name={focused ? 'ios-settings' : 'ios-settings-outline'}
               size={26}
               style={{color: tintColor}}
           />

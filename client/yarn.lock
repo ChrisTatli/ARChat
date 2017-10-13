@@ -3530,6 +3530,12 @@ react-native-atoz-listview@0.0.7:
   dependencies:
     merge "^1.2.0"
 
+react-native-camera@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-0.10.0.tgz#5d973c9a8aab95f68aede395ba310eae0c3cecdd"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-communications@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.1.1.tgz#ff6f917c305e6d3fa935a89908aea5dc39b247d4"
@@ -3601,6 +3607,10 @@ react-native-search-box@0.0.11:
   resolved "https://registry.yarnpkg.com/react-native-search-box/-/react-native-search-box-0.0.11.tgz#1746ff2f051ab7565e240800e19089d127415afe"
   dependencies:
     prop-types "^15.5.10"
+
+react-native-sensor-manager@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/react-native-sensor-manager/-/react-native-sensor-manager-0.1.10.tgz#c228280d67fddb668e715b4d7b823188de504da8"
 
 react-native-side-menu@^0.20.1:
   version "0.20.1"

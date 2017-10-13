@@ -9,6 +9,10 @@ import authentication from 'feathers-authentication-client';
 
 const API_URL = 'http://52.62.125.103:8080';
 
+import React, {   
+  DeviceEventEmitter // will emit events that you can listen to   
+} from 'react-native';   
+import { SensorManager } from 'NativeModules'; 
 @autobind
 export default class Store {
 
