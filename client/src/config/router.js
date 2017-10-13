@@ -154,7 +154,8 @@ export const Tabs = TabNavigator({
    },
 },{
       tabBarPosition : 'bottom',
-      animationEnabled: true,
+      lazy: true,
+      animationEnabled: false,
       tabBarOptions: {
          inactiveTintColor: '#5c626d',
          activeTintColor: '#000',
