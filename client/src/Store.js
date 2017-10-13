@@ -9,10 +9,10 @@ import authentication from 'feathers-authentication-client';
 
 const API_URL = 'http://52.62.125.103:8080';
 
-import React, {   
-  DeviceEventEmitter // will emit events that you can listen to   
-} from 'react-native';   
-import { SensorManager } from 'NativeModules'; 
+import React, {
+  DeviceEventEmitter // will emit events that you can listen to
+} from 'react-native';
+import { SensorManager } from 'NativeModules';
 @autobind
 export default class Store {
 
@@ -24,6 +24,7 @@ export default class Store {
   @observable locationWatchId = null;
   @observable hasMoreMessages = false;
   @observable skip = 0;
+  @observable users= [];
 
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
@@ -53,7 +54,7 @@ export default class Store {
         if(updatedUser.updateType == 'user') {
           this.user = updatedUser.updateData;
         } else {
-            let updatedMeet = this.meetData.map(user => { 
+            let updatedMeet = this.meetData.map(user => {
               if(user._id == updatedUser.updateData._id) {
                 return updatedUser.updateData;
               } else {
@@ -68,7 +69,7 @@ export default class Store {
     });
 
     this.app.service('meets').on('created', createdMeet => {
-      this.app.service('users').update(this.user._id, 
+      this.app.service('users').update(this.user._id,
           { $set: { activeMeet: createdMeet } })
       .then(result => {
         this.locationWatchId = navigator.geolocation.watchPosition(
@@ -84,7 +85,7 @@ export default class Store {
             username: null,
             location: null,
             avatar: null
-          }; 
+          };
         });
 
       }).catch(error => {
@@ -346,5 +347,22 @@ export default class Store {
       Alert.alert('Error updating user location.', JSON.stringify(error, null, 2));
     });
   }
+
+   loadUsers(){
+      const query = {query: {$limit:100, username: {$ne: this.user.username}}};
+
+      this.app.service('users').find(query)
+         .then(response => {
+            const users = [];
+            for(let user of response.data){
+               users.push(user);
+            }
+            console.log(users);
+            this.users = users;
+         }).catch(error => {
+            console.log(error);
+         });
+   }
+
 
 }
