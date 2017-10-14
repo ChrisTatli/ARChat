@@ -4,7 +4,7 @@ import {autobind} from 'core-decorators';
 import {action, observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 import {StackNavigator,TabNavigator} from 'react-navigation';
-import {Tabs} from './config/router';
+import {RootNavigator} from './config/router';
 
 import {Launch,
         Login,
@@ -37,7 +37,7 @@ export default class Application extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-         {this.store.isAuthenticated ? <Tabs screenProps={{store: this.store}}/> :
+         {this.store.isAuthenticated ? <RootNavigator screenProps={{store: this.store}}/> :
           <UnauthenticatedNavigator screenProps={{store: this.store}}/>}
 
       </View>

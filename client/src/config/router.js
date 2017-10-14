@@ -46,6 +46,8 @@ export const FriendStack = StackNavigator({
          title: 'Friends',
       },
    },
+},{
+   headerMode: 'screen'
 });
 
 export const RequestTab = TabNavigator({
@@ -175,4 +177,15 @@ export const Tabs = TabNavigator({
             height: 60,
          }
       },
+});
+
+export const RootNavigator = StackNavigator({
+   Root: {
+      screen: Tabs,
+   },
+   //UserDetails: {
+   //   screen: UserDetails,
+   //}
+},{
+   headerMode : 'none'
 });

@@ -21,6 +21,7 @@ import NavIcons from '../components/NavIcons';
 import Utils from '../Utils';
 
 import SearchInput, {createFilter} from 'react-native-search-filter';
+import {List, ListItem} from 'react-native-elements';
 
 const baseStyles = require('../baseStyles');
 const KEYS_TO_FILTER = ['username'];
@@ -62,10 +63,12 @@ export default class FriendSearch extends Component{
          );
       }
       return filteredUsers.map((user) =>
-         <View key ={user._id} style ={styles.friendRow}>
-            <Image source={{ uri: user.avatar }} style={styles.avatar} />
-            <Text style={styles.username}> {user.username} </Text>
-         </View>
+         <ListItem
+            key ={user._id}
+            roundAvatar
+            avatar={{uri: user.avatar }}
+            title = {`${user.username}`}
+         />
       );
 
 
@@ -75,17 +78,21 @@ export default class FriendSearch extends Component{
 
       return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={baseStyles.container}>
+         <View style= {{flex:1}}>
+            <View>
+              <SearchInput
+                style={styles.searchBar}
+                onChangeText={(term) => {this.onChangeSearchString(term)}}
+              />
+            </View>
 
-               <SearchInput
-                  style={styles.searchBar}
-                  onChangeText={(term) => {this.onChangeSearchString(term)}}
-               />
-
-               <ScrollView style={styles.containers}>
+            <ScrollView style={styles.containers}>
+               <List>
                   {this.generateUserList()}
-               </ScrollView>
-          </View>
+               </List>
+            </ScrollView>
+
+         </View>
         </TouchableWithoutFeedback>
       );
    }
