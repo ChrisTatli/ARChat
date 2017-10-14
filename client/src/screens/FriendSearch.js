@@ -52,6 +52,10 @@ export default class FriendSearch extends Component{
       this.store.loadUsers();
    }
 
+   showUserDetails = (user) => {
+      this.props.navigation.navigate('UserDetails', user);
+   }
+
    generateUserList(){
 
       var filteredUsers = this.store.users.filter(createFilter(this.state.searchTerm,KEYS_TO_FILTER))
@@ -68,6 +72,7 @@ export default class FriendSearch extends Component{
             roundAvatar
             avatar={{uri: user.avatar }}
             title = {`${user.username}`}
+            onPress = {() => this.showUserDetails(user)}
          />
       );
 
