@@ -349,7 +349,7 @@ export default class Store {
   }
 
    loadUsers(){
-      const query = {query: {$limit:100, username: {$ne: this.user.username}}};
+      const query = {query: {username: {$ne: this.user.username}}};
 
       this.app.service('users').find(query)
          .then(response => {
@@ -363,6 +363,51 @@ export default class Store {
             console.log(error);
          });
    }
+
+   sendFriendRequest(friend) {
+    this.app.service('friend-requests').create({
+        f_id: this.user._id,
+        femail: this.user.email,
+        fusername: this.user.username,
+        favatar: this.user.avatar,
+        t_id: friend._id,
+        temail: friend.email,
+        tusername: friend.username,
+        tavatar: friend.avatar,
+        thasAccepted: false
+    }).then(result => {
+      console.log('friend request sent!');
+    }).catch(error => {
+      console.log('Error sending friend request');
+      console.log(error);
+    });
+  }
+
+  loadFriendRequests(){
+    //to get request came to this user from other users
+    var q1 = this.user.email;
+    const query1 = {query: {femail: {$eq: q1} } };
+    this.app.service('friend-requests').find(query1).then(response => {
+      for(let fuser of response.data) {
+        this.requestfromusers.push(fuser);
+       }
+    }).catch(error => {
+      Alert.alert('Error', this.user._id);
+      console.log(error);
+    });
+     //to get request sent to other user from this users
+    var q2 = this.user.email;
+    const query2 = {query: {temail: {$eq: q2} }  };
+    this.app.service('friend-requests').find(query2)
+    .then(response => {
+        for(let tuser of response.data) {
+          this.requesttousers.push(tuser);
+        }
+    }).catch(error => {
+          Alert.alert('Error', 'request sent to users');
+        console.log(error);
+    });
+  }
 
 
 }
