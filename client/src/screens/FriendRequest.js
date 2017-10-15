@@ -136,7 +136,7 @@ export default class FriendRequest extends Component{
           }
 
           declineFriendRequest(tuser){
-            this.store.app.service('friend-requests').deleteOne({"_id": tuser._id});
+            this.store.app.service('friend-requests').remove(tuser._id);
           }
 
 
