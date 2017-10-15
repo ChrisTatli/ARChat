@@ -21,6 +21,8 @@ export default class Store {
   @observable isConnecting = false;
   @observable user = null;
   @observable messages = [];
+  @observable requestfromusers = [];
+  @observable requesttousers = [];
   @observable meetData = [];
   @observable locationWatchId = null;
   @observable hasMoreMessages = false;
@@ -39,6 +41,8 @@ export default class Store {
       }));
 
     this.connect();
+    this.requestfromusers = [];
+    this.requesttousers = [];
 
     this.app.service('messages').on('created', createdMessage => {
       this.messages.unshift(this.formatMessage(createdMessage));
@@ -199,7 +203,10 @@ export default class Store {
     this.skip = 0;
     this.messages = [];
     this.meetData = [];
+    this.requestfromusers = [];
+    this.requesttousers = [];
     this.user = null;
+    this.loadFriendRequests = [];
     this.isAuthenticated = false;
   }
 
@@ -365,24 +372,7 @@ export default class Store {
          });
    }
 
-   sendFriendRequest(friend) {
-    this.app.service('friend-requests').create({
-        f_id: this.user._id,
-        femail: this.user.email,
-        fusername: this.user.username,
-        favatar: this.user.avatar,
-        t_id: friend._id,
-        temail: friend.email,
-        tusername: friend.username,
-        tavatar: friend.avatar,
-        thasAccepted: false
-    }).then(result => {
-      console.log('friend request sent!');
-    }).catch(error => {
-      console.log('Error sending friend request');
-      console.log(error);
-    });
-  }
+
 
   loadFriendRequests(){
     //to get request came to this user from other users

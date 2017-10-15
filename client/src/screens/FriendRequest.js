@@ -35,77 +35,152 @@ export default class FriendRequest extends Component{
    constructor(props) {
       super(props);
       this.store = this.props.screenProps.store;
-      this.requests = [
-        {
-          _id: "59af9b954a6fb439b3950521",
-          name: "Marco",
-          avatar: "https://www.gravatar.com/avatar/0a9c48e5aae9e009e099bf46bca361d0?s=60&d=retro"
-        },
-        {
-          _id: "59afaeb64a6fb439b395053a",
-          name: "William",
-          avatar: "https://www.gravatar.com/avatar/6340835627f09b4e97c16e78e4dc3b08?s=60&d=retro"
-        }
-      ];
     }
 
-    generateFriendRequestList(requests) {
-     return requests.map((request) =>
-     <View key={request._id} style={{flex: 2, flexDirection: 'row', margin:5, paddingLeft:10,
-       paddingRight:10, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#dee1e5'}}>
-       <Image source={{uri: request.avatar}} style={styles.avatar} />
-       <Text style={{fontSize:18, textAlign:'left', color: 'black'}} >{request.name}</Text>
-       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-         <Button title='Accept'
-           onPress={() => {}}
-           backgroundColor='#aee283'
-           color={'black'}
-           fontSize={10}
-           buttonStyle={styles.button}
-           >
-         </Button>
-         <Button title='Decline'
-           onPress={() => {}}
-           backgroundColor='#e87175'
-           color={'black'}
-           fontSize={10}
-           buttonStyle={styles.button}
-           >
-         </Button>
-       </View>
-     </View>
-     );
-   }
-
-   render(){
-      return(
-         <ScrollView style={styles.container}>
-            {this.generateFriendRequestList(this.requests)}
-         </ScrollView>
+    fromUserList(){
+          let frequests = this.store.requestfromusers;
+          return frequests.map((fuser) => {
+          return (
+          <View key={fuser._id} style={styles.friendRow}>
+            <Image source={{uri: fuser.favatar}} style={styles.avatar} />
+            <Text style={styles.username} >{fuser.fusername}</Text>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+              <Button title='Waiting..'
+                onPress={() => {}}
+                backgroundColor='#aee283'
+                color={'black'}
+                fontSize={10}
+                buttonStyle={styles.button}
+                disabled = {false}
+                >
+              </Button>
+              <Button title='Cancel'
+                onPress={() => {this.cancelFriendRequest(fuser)}}
+                backgroundColor='#e87175'
+                color={'black'}
+                fontSize={10}
+                buttonStyle={styles.button}
+                >
+              </Button>
+            </View>
+          </View>
+        )}
       );
-   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-   flex: 1,
-   flexDirection: 'column',
-   paddingTop: 5,
-   backgroundColor: 'white'
-  },
-  button: {
-    borderRadius: 5,
-    borderWidth: 0,
-    borderColor: 'black',
-    width: 80,
-    height: 30,
-    marginRight: 0
-  },
-  avatar: {
-    resizeMode: 'contain',
-    width: 25,
-    height: 25,
-    borderRadius: 50,
-    marginRight: 10
-  }
-})
+        }
+
+        toUserList() {
+
+          let trequests = this.store.requesttousers;
+
+
+            return trequests.map((tuser) => {
+              return (
+               <View key={tuser._id} style={styles.friendRow}>
+                <Image source={{ uri: tuser.tavatar }} style={styles.avatar} />
+                <Text style={styles.username}>{tuser.username }</Text>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                  <Button title='Accept'
+                    onPress={() => {this.acceptFriendRequest(tuser)}}
+                    backgroundColor='#aee283'
+                    color={'black'}
+                    fontSize={10}
+                    buttonStyle={styles.button}
+                    disabled = {false}
+                    >
+                  </Button>
+                  <Button title='Decline'
+                    onPress={() => {this.declineFriendRequest(tuser)}}
+                    backgroundColor='#e87175'
+                    color={'black'}
+                    fontSize={10}
+                    buttonStyle={styles.button}
+                    >
+                  </Button>
+                </View>
+              </View>
+            )}
+
+          );
+
+          }
+
+          acceptFriendRequest(tuser){
+            this.store.app.service('user').update(this.store.user.friends,
+            {$push: {"_id": f_id, "username":fusername, "email":femail,"avatar":favatar} } )
+            .then(result => {
+
+            }).catch(error =>{
+              Alert.alert('Error', "Error while updating friend in this user");
+            });
+
+
+            this.app.service('user').update( _id: tuser.f_id,
+            {$push: {"_id": t_id,"username":tusername,"email":temail,"avatar":tavatar} } )
+            .then(result =>{
+
+            }).catch(error => {
+              Alert.alert('Error', "Error while updating other user");
+            });
+
+           {this.declineFriendRequest(tuser)}
+          }
+
+
+          cancelFriendRequest(fuser){
+            this.store.app.service('friend-requests').remove({"_id": fuser._id});
+          }
+
+          declineFriendRequest(tuser){
+            this.store.app.service('friend-requests').deleteOne({"_id": tuser._id});
+          }
+
+
+       render(){
+          return(
+             <ScrollView style={styles.container}>
+                {this.toUserList()}
+                {this.fromUserList()}
+             </ScrollView>
+          );
+       }
+    }
+
+    const styles = StyleSheet.create({
+      container: {
+       flex: 1,
+       flexDirection: 'column',
+       paddingTop: 5,
+       backgroundColor: 'white'
+      },
+      button: {
+        borderRadius: 5,
+        borderWidth: 0,
+        borderColor: 'black',
+        width: 80,
+        height: 30,
+        marginRight: 0
+      },
+      avatar: {
+        resizeMode: 'contain',
+        width: 25,
+        height: 25,
+        borderRadius: 50,
+        marginRight: 10
+      },
+      friendRow: {
+        flex: 2,
+        flexDirection: 'row',
+        margin: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#48fdf6'
+      },
+      username: {
+        fontSize: 18,
+        textAlign: 'left',
+        color: 'black'
+      }
+    })
