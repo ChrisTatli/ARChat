@@ -178,14 +178,3 @@ export const Tabs = TabNavigator({
          }
       },
 });
-
-export const RootNavigator = StackNavigator({
-   Root: {
-      screen: Tabs,
-   },
-   //UserDetails: {
-   //   screen: UserDetails,
-   //}
-},{
-   headerMode : 'none'
-});
