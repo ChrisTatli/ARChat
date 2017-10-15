@@ -38,7 +38,7 @@ export default class UserDetails extends Component {
                icon = {{name: 'person-add',color:'black'}}
                color = "black"
                backgroundColor ="#aee283"
-               onPress={() => {this.store.sendFriendRequest(user)}}
+               onPress={() => {this.store.sendFriendRequest(this.store.user)}}
             />
             </View>
          </ScrollView>
