@@ -9,6 +9,7 @@ export default class UserDetails extends Component {
       this.store = this.props.screenProps.store;
    }
 
+
    render(){
       const {avatar, username, email} = this.props.navigation.state.params;
       return(
@@ -37,6 +38,7 @@ export default class UserDetails extends Component {
                icon = {{name: 'person-add',color:'black'}}
                color = "black"
                backgroundColor ="#aee283"
+               onPress={() => {this.store.sendFriendRequest(user)}}
             />
             </View>
          </ScrollView>
