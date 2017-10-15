@@ -6,6 +6,7 @@ import {
    Text,
    View,
    Image,
+   Alert
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import NavIcons from "../components/NavIcons";
@@ -35,15 +36,21 @@ export default class FriendRequest extends Component{
    constructor(props) {
       super(props);
       this.store = this.props.screenProps.store;
+      // this.store.loadFriendRequests();
     }
+
+    // componentDidMount(){
+    //   this.props.screenProps.store.loadFriendRequests();
+    // }
 
     fromUserList(){
           let frequests = this.store.requestfromusers;
+          // Alert.alert('Error',JSON.stringify(frequests));
           return frequests.map((fuser) => {
           return (
           <View key={fuser._id} style={styles.friendRow}>
-            <Image source={{uri: fuser.favatar}} style={styles.avatar} />
-            <Text style={styles.username} >{fuser.fusername}</Text>
+            <Image source={{uri: fuser.tavatar}} style={styles.avatar} />
+            <Text style={styles.username} >{fuser.tusername}</Text>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
               <Button title='Waiting..'
                 onPress={() => {}}
@@ -72,13 +79,13 @@ export default class FriendRequest extends Component{
         toUserList() {
 
           let trequests = this.store.requesttousers;
-
+          // Alert.alert('Error',JSON.stringify(trequests));
 
             return trequests.map((tuser) => {
               return (
                <View key={tuser._id} style={styles.friendRow}>
-                <Image source={{ uri: tuser.tavatar }} style={styles.avatar} />
-                <Text style={styles.username}>{tuser.username }</Text>
+                <Image source={{ uri: tuser.favatar }} style={styles.avatar} />
+                <Text style={styles.username}>{tuser.fusername }</Text>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <Button title='Accept'
                     onPress={() => {this.acceptFriendRequest(tuser)}}
@@ -139,6 +146,7 @@ export default class FriendRequest extends Component{
        render(){
           return(
              <ScrollView style={styles.container}>
+                {this.store.loadFriendRequests()}
                 {this.toUserList()}
                 {this.fromUserList()}
              </ScrollView>

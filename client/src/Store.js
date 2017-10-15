@@ -167,6 +167,7 @@ export default class Store {
     return this._authenticate(options).then(user => {
       console.log('authenticated successfully', user._id, user.email);
       this.user = user;
+      this.loadFriendRequests();
       this.isAuthenticated = true;
       return Promise.resolve(user);
     }).catch(error => {
@@ -206,7 +207,7 @@ export default class Store {
     this.requestfromusers = [];
     this.requesttousers = [];
     this.user = null;
-    this.loadFriendRequests = [];
+    // this.loadFriendRequests = [];
     this.isAuthenticated = false;
   }
 
