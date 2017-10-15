@@ -54,12 +54,15 @@ export const FriendStack = StackNavigator({
 export const SearchStack = StackNavigator({
    FriendSearch:{
       screen: FriendSearch,
+      navigationOptions: {
+         header: null,
+      },
    },
    UserDetails:{
       screen: UserDetails,
    }
 },{
-   headerMode: 'none'
+   headerMode: 'screen'
 })
 
 export const RequestTab = TabNavigator({
