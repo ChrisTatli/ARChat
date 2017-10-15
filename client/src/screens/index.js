@@ -10,4 +10,5 @@ module.exports = {
   get MeetView() { return require('./MeetView').default; },
   get XRay() { return require('./XRay').default; },
   get MainMenu() { return require('./MainMenu').default ;},
+  get UserDetails() { return require('./UserDetails').default;}
 };

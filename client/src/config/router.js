@@ -13,6 +13,7 @@ import {Launch,
         MeetView,
         XRay,
         MainMenu,
+        UserDetails,
 } from '../screens'
 
 export const ChatStack = StackNavigator({
@@ -50,6 +51,20 @@ export const FriendStack = StackNavigator({
    headerMode: 'screen'
 });
 
+export const SearchStack = StackNavigator({
+   FriendSearch:{
+      screen: FriendSearch,
+      navigationOptions: {
+         header: null,
+      },
+   },
+   UserDetails:{
+      screen: UserDetails,
+   }
+},{
+   headerMode: 'screen'
+})
+
 export const RequestTab = TabNavigator({
    FriendRequest:{
       screen: FriendRequest,
@@ -58,7 +73,7 @@ export const RequestTab = TabNavigator({
       },
    },
    FriendSearch: {
-      screen: FriendSearch,
+      screen: SearchStack,
       navigationOptions: {
          tabBarLabel: 'Find Friends'
       },
