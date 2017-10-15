@@ -36,16 +36,13 @@ export default class FriendRequest extends Component{
    constructor(props) {
       super(props);
       this.store = this.props.screenProps.store;
-      // this.store.loadFriendRequests();
+
     }
 
-    // componentDidMount(){
-    //   this.props.screenProps.store.loadFriendRequests();
-    // }
+
 
     fromUserList(){
           let frequests = this.store.requestfromusers;
-          // Alert.alert('Error',JSON.stringify(frequests));
           return frequests.map((fuser) => {
           return (
           <View key={fuser._id} style={styles.friendRow}>
@@ -135,7 +132,7 @@ export default class FriendRequest extends Component{
 
 
           cancelFriendRequest(fuser){
-            this.store.app.service('friend-requests').remove({"_id": fuser._id});
+            this.store.app.service('friend-requests').remove(fuser._id);
           }
 
           declineFriendRequest(tuser){
@@ -146,7 +143,6 @@ export default class FriendRequest extends Component{
        render(){
           return(
              <ScrollView style={styles.container}>
-                {this.store.loadFriendRequests()}
                 {this.toUserList()}
                 {this.fromUserList()}
              </ScrollView>
