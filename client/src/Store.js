@@ -29,7 +29,10 @@ export default class Store {
 
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
-    const socket = io(API_URL_LOCAL, options);
+    // 1. USE THIS FOR ONLINE SERVER
+    const socket = io(API_URL, options);
+    // 2. USE THIS FOR LOCAL SERVER
+    //const socket = io(API_URL_LOCAL, options);
 
     this.app = feathers()
       .configure(socketio(socket))
