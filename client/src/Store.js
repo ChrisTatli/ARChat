@@ -163,7 +163,6 @@ export default class Store {
     return this._authenticate(options).then(user => {
       console.log('authenticated successfully', user._id, user.email);
       this.user = user;
-      // this.loadFriendRequests();
       this.isAuthenticated = true;
       return Promise.resolve(user);
     }).catch(error => {
@@ -387,18 +386,18 @@ export default class Store {
      console.log('Error sending friend request');
      console.log(error);
    });
-   this.app.service('users').update(this.user._id,
-   { $push: {friendRequests: {fromUser:{_id: this.user._id,
-      username:this.user.username, email:this.user.email, avatar:this.user.avatar},
-    toUser:{_id:toid, username: tousername, email: toemail,
-    avatar:toavatar} } }
+  //  this.app.service('users').update(this.user._id,
+  //  { $push: {friendRequests: {fromUser:{_id: this.user._id,
+  //     username:this.user.username, email:this.user.email, avatar:this.user.avatar},
+  //   toUser:{_id:toid, username: tousername, email: toemail,
+  //   avatar:toavatar} } }
 //need to update other user friend request
-   });
+
  }
 
  acceptFriendRequest(tuser){
-   this.app.service('users').update(this.user._id,
-   {$push: {friends: {_id: tuser.f_id, username:tuser.fusername, email:tuser.femail,avatar:tuser.favatar} } } )
+   this.app.service('friend-requests').update(tuser._id,
+   { $set: { hasAccepted: true } })
    .then(result => {
 
    }).catch(error =>{
@@ -421,16 +420,16 @@ export default class Store {
  cancelFriendRequest(fuser){
    this.app.service('friend-requests').remove(fuser._id);
    //this query removes data from users document --- friendRequests Array
-   this.app.service('users').update(this.user._id,
-   {$pull:{"friendRequests":{"toUser":{"username":fuser.username} } } },
-   {multi:true} );
+  //  this.app.service('users').update(this.user._id,
+  //  {$pull:{"friendRequests":{"toUser":{"username":fuser.username} } } },
+  //  {multi:true} );
 
  }
 
  declineFriendRequest(tuser){
    this.app.service('friend-requests').remove(tuser._id);
    //this query removes data from users document --- friendRequests Array
-   this.app.service('users').update(this.user._id,
-   {$pull: {friendRequests: {toUser: {username:tuser.username} } } } );
+ //   this.app.service('users').update(this.user._id,
+ //   {$pull: {friendRequests: {toUser: {username:tuser.username} } } } );
  }
 }
