@@ -8,7 +8,7 @@ import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
 const API_URL = 'http://52.62.125.103:8080';
-
+const API_URL_LOCAL = 'http://10.13.172.136:8080'
 
 import React, {
   DeviceEventEmitter // will emit events that you can listen to
@@ -21,8 +21,6 @@ export default class Store {
   @observable isConnecting = false;
   @observable user = null;
   @observable messages = [];
-  @observable requestfromusers = [];
-  @observable requesttousers = [];
   @observable meetData = [];
   @observable locationWatchId = null;
   @observable hasMoreMessages = false;
@@ -31,7 +29,7 @@ export default class Store {
 
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
-    const socket = io(API_URL, options);
+    const socket = io(API_URL_LOCAL, options);
 
     this.app = feathers()
       .configure(socketio(socket))
@@ -41,8 +39,6 @@ export default class Store {
       }));
 
     this.connect();
-    this.requestfromusers = [];
-    this.requesttousers = [];
 
     this.app.service('messages').on('created', createdMessage => {
       this.messages.unshift(this.formatMessage(createdMessage));
@@ -167,7 +163,7 @@ export default class Store {
     return this._authenticate(options).then(user => {
       console.log('authenticated successfully', user._id, user.email);
       this.user = user;
-      this.loadFriendRequests();
+      // this.loadFriendRequests();
       this.isAuthenticated = true;
       return Promise.resolve(user);
     }).catch(error => {
@@ -204,10 +200,7 @@ export default class Store {
     this.skip = 0;
     this.messages = [];
     this.meetData = [];
-    this.requestfromusers = [];
-    this.requesttousers = [];
     this.user = null;
-    // this.loadFriendRequests = [];
     this.isAuthenticated = false;
   }
 
@@ -373,33 +366,71 @@ export default class Store {
          });
    }
 
+  sendFriendRequest(toid,tousername,toemail,toavatar) {
+   this.app.service('friend-requests').create({
+     fromUser: {
+       _id: this.user._id,
+       email: this.user.email,
+       username: this.user.username,
+       avatar: this.user.avatar
+     },
+     toUser: {
+       _id: toid,
+       email: toemail,
+       username: tousername,
+       avatar: toavatar,
+       hasAccepted: false
+     }
+   }).then(result => {
+     console.log('friend request sent!');
+   }).catch(error => {
+     console.log('Error sending friend request');
+     console.log(error);
+   });
+   this.app.service('users').update(this.user._id,
+   { $push: {friendRequests: {fromUser:{_id: this.user._id,
+      username:this.user.username, email:this.user.email, avatar:this.user.avatar},
+    toUser:{_id:toid, username: tousername, email: toemail,
+    avatar:toavatar} } }
+//need to update other user friend request
+   });
+ }
 
+ acceptFriendRequest(tuser){
+   this.app.service('users').update(this.user._id,
+   {$push: {friends: {_id: tuser.f_id, username:tuser.fusername, email:tuser.femail,avatar:tuser.favatar} } } )
+   .then(result => {
 
-  loadFriendRequests(){
-    //to get request came to this user from other users
-    var q1 = this.user.email;
-    const query1 = {query: {femail: {$eq: q1} } };
-    this.app.service('friend-requests').find(query1).then(response => {
-      for(let fuser of response.data) {
-        this.requestfromusers.push(fuser);
-       }
-    }).catch(error => {
-      Alert.alert('Error', this.user._id);
-      console.log(error);
-    });
-     //to get request sent to other user from this users
-    var q2 = this.user.email;
-    const query2 = {query: {temail: {$eq: q2} }  };
-    this.app.service('friend-requests').find(query2)
-    .then(response => {
-        for(let tuser of response.data) {
-          this.requesttousers.push(tuser);
-        }
-    }).catch(error => {
-          Alert.alert('Error', 'request sent to users');
-        console.log(error);
-    });
-  }
+   }).catch(error =>{
+     Alert.alert('Error', "Error while updating friend in this user", JSON.stringify(error,null,2));
+   });
 
+   //query is not working because of authentication
 
+  //  this.app.service('users').update( tuser.f_id,
+  //  {$push: {"friends": {"_id": tuser.t_id,"username":tuser.tusername,"email":tuser.temail,"avatar":tuser.tavatar} } } )
+  //  .then(result =>{
+   //
+  //  }).catch(error => {
+  //    Alert.alert('Error', "Error while updating other user", JSON.stringify(error,null,2));
+  //  });
+
+  {this.declineFriendRequest(tuser)}
+ }
+
+ cancelFriendRequest(fuser){
+   this.app.service('friend-requests').remove(fuser._id);
+   //this query removes data from users document --- friendRequests Array
+   this.app.service('users').update(this.user._id,
+   {$pull:{"friendRequests":{"toUser":{"username":fuser.username} } } },
+   {multi:true} );
+
+ }
+
+ declineFriendRequest(tuser){
+   this.app.service('friend-requests').remove(tuser._id);
+   //this query removes data from users document --- friendRequests Array
+   this.app.service('users').update(this.user._id,
+   {$pull: {friendRequests: {toUser: {username:tuser.username} } } } );
+ }
 }

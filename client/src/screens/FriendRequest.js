@@ -10,7 +10,9 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import NavIcons from "../components/NavIcons";
-
+import {autobind} from 'core-decorators';
+import {observable} from 'mobx';
+import {observer} from 'mobx-react/native';
 import {
    NavigationActions,
 } from 'react-navigation';
@@ -18,7 +20,7 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-//@autobind @observer
+@autobind @observer
 export default class FriendRequest extends Component{
    static navigationOptions = ({navigation}) => ({
       title: "Friend Requests",
@@ -33,6 +35,7 @@ export default class FriendRequest extends Component{
      ),
    });
 
+
    constructor(props) {
       super(props);
       this.store = this.props.screenProps.store;
@@ -40,111 +43,103 @@ export default class FriendRequest extends Component{
     }
 
 
+    generateFriendRequestList() {
+      if(this.store.user != null) {
 
-    fromUserList(){
-          let frequests = this.store.requestfromusers;
-          return frequests.map((fuser) => {
-          return (
-          <View key={fuser._id} style={styles.friendRow}>
-            <Image source={{uri: fuser.tavatar}} style={styles.avatar} />
-            <Text style={styles.username} >{fuser.tusername}</Text>
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-              <Button title='Waiting..'
-                onPress={() => {}}
-                backgroundColor='#aee283'
-                color={'black'}
-                fontSize={10}
-                buttonStyle={styles.button}
-                disabled = {false}
-                >
-              </Button>
-              <Button title='Cancel'
-                onPress={() => {this.cancelFriendRequest(fuser)}}
-                backgroundColor='#e87175'
-                color={'black'}
-                fontSize={10}
-                buttonStyle={styles.button}
-                >
-              </Button>
-            </View>
-          </View>
-        )}
-      );
+        return this.store.user.friendRequests.map((friend) =>
+        <View key={friend.fromUser._id + friend.toUser._id}>
+            {this.generateNamesFrom(friend)}
+            {this.generateNamesTo(friend)}
 
-        }
+        </View>
+        );
+      } else {
+        return
+      }
+    }
 
-        toUserList() {
+    generateNamesTo(friend){
+      if(this.store.user.username == friend.toUser.username){
+      return(
+      <View style={styles.friendRow}>
+      <Image source={{ uri: friend.fromUser.avatar }} style={styles.avatar} />
+      <Text style={styles.username}>{ friend.fromUser.username }</Text>
+      { this.generateButtonsTo(friend) }
+      </View>
+    );
+    }
+  }
 
-          let trequests = this.store.requesttousers;
-          // Alert.alert('Error',JSON.stringify(trequests));
+  generateNamesFrom(friend){
+    if(this.store.user.username == friend.fromUser.username){
+    return(
+    <View style={styles.friendRow}>
+    <Image source={{ uri: friend.toUser.avatar }} style={styles.avatar} />
+    <Text style={styles.username}>{ friend.toUser.username }</Text>
+    { this.generateButtonsFrom(friend) }
+    </View>
+  );
+  }
+}
 
-            return trequests.map((tuser) => {
-              return (
-               <View key={tuser._id} style={styles.friendRow}>
-                <Image source={{ uri: tuser.favatar }} style={styles.avatar} />
-                <Text style={styles.username}>{tuser.fusername }</Text>
-                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <Button title='Accept'
-                    onPress={() => {this.acceptFriendRequest(tuser)}}
-                    backgroundColor='#aee283'
-                    color={'black'}
-                    fontSize={10}
-                    buttonStyle={styles.button}
-                    disabled = {false}
-                    >
-                  </Button>
-                  <Button title='Decline'
-                    onPress={() => {this.declineFriendRequest(tuser)}}
-                    backgroundColor='#e87175'
-                    color={'black'}
-                    fontSize={10}
-                    buttonStyle={styles.button}
-                    >
-                  </Button>
-                </View>
-              </View>
-            )}
+    generateButtonsTo(friend){
+      if(this.store.user.username == friend.toUser.username){
+      return(
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <Button title='Accept'
+          onPress={() => {this.store.acceptFriendRequest(friend)}}
+          backgroundColor='#aee283'
+          color={'black'}
+          fontSize={10}
+          buttonStyle={styles.button}
+          disabled = {false}
+          >
+        </Button>
+        <Button title='Decline'
+          onPress={() => {this.declineFriendRequest(friend)}}
+          backgroundColor='#e87175'
+          color={'black'}
+          fontSize={10}
+          buttonStyle={styles.button}
+          >
+        </Button>
+      </View>
+    );
+    }
+  }
 
-          );
+    generateButtonsFrom(friend){
+      if(this.store.user.username == friend.fromUser.username){
+      return(
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+          <Button title='Waiting..'
+            onPress={() => {}}
+            backgroundColor='#89bbfe'
+            color={'black'}
+            fontSize={10}
+            buttonStyle={styles.button}
+            disabled = {false}
+            >
+          </Button>
+          <Button title='Cancel'
+            onPress={() => {this.store.cancelFriendRequest(friend)}}
+            backgroundColor='#a1a8ad'
+            color={'black'}
+            fontSize={10}
+            buttonStyle={styles.button}
+            >
+          </Button>
+        </View>
+    );
+  }
+    }
 
-          }
-
-          acceptFriendRequest(tuser){
-            this.store.app.service('user').update(this.store.user.friends,
-            {$push: {"_id": f_id, "username":fusername, "email":femail,"avatar":favatar} } )
-            .then(result => {
-
-            }).catch(error =>{
-              Alert.alert('Error', "Error while updating friend in this user");
-            });
-
-
-            this.app.service('user').update( _id: tuser.f_id,
-            {$push: {"_id": t_id,"username":tusername,"email":temail,"avatar":tavatar} } )
-            .then(result =>{
-
-            }).catch(error => {
-              Alert.alert('Error', "Error while updating other user");
-            });
-
-           {this.declineFriendRequest(tuser)}
-          }
-
-
-          cancelFriendRequest(fuser){
-            this.store.app.service('friend-requests').remove(fuser._id);
-          }
-
-          declineFriendRequest(tuser){
-            this.store.app.service('friend-requests').remove(tuser._id);
-          }
 
 
        render(){
           return(
              <ScrollView style={styles.container}>
-                {this.toUserList()}
-                {this.fromUserList()}
+                {this.generateFriendRequestList()}
              </ScrollView>
           );
        }
