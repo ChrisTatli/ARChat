@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {
   AppRegistry,
   Dimensions,
+  Alert,
+  Image,
   StyleSheet,
   Text,
   TouchableHighlight,
-  View,
-  DeviceEventEmitter,
-  Alert,
-  Image
+  View
 } from 'react-native';   
 import {autobind} from 'core-decorators';
 import {observer} from 'mobx-react/native';
@@ -24,10 +23,8 @@ type Props = {
   children: any
 }
 import { decorator as sensors } from 'react-native-sensors';
-
 import RNSimpleCompass from 'react-native-simple-compass';
-const degree_update_rate = 3; // Number of degrees changed before the callback is triggered
-
+const degreeUpdateRate = 3; // Number of degrees changed before the callback is triggered
 @autobind @observer   
 class XRay extends Component{ // no lifecycle needed   
   static navigationOptions = ({navigation}) => ({
@@ -41,7 +38,7 @@ class XRay extends Component{ // no lifecycle needed
   }
   
   componentDidMount() {
-    RNSimpleCompass.start(degree_update_rate, (degree) => {
+    RNSimpleCompass.start(degreeUpdateRate, (degree) => {
       console.log('You are facing', degree);
       this.store.degree = degree;
     });
@@ -56,25 +53,35 @@ class XRay extends Component{ // no lifecycle needed
       this.store.accelerometer = this.props.Accelerometer.z;
     }
   }
-
-displayUsers() {
-  if(this.store.meetData.length == 0) {
-      return;
-  } else {
+  
+  displayUsers() {
+    if(this.store.meetData.length != 0) {
       return this.store.meetData.map(user => {
-        if(user._id == this.store.user._id) {
-          return;
-        } else if(user._id == null || user.username == null 
-          || user.location == null || user.avatar == null) {
-              return;
-          } else if(this.store.degree > 200 && this.store.degree < 300){
-            return (
-            <Text style={{color: '#FFF'}}>{user.avatar}</Text>
-            );
-          } 
+        if(user._id != this.store.user._id) {
+          if(user._id != null && user.username != null 
+             && user.location != null || user.avatar != null) {
+            // define calculateBearing(location1, location2) in Utils.js
+            // then check if user is pointing towards other user:
+            // let bearing = calculateBearing(this.user.location, user.location);
+            // if(this.store.degrees < bearing + 10 && this.store.bearing > bearing - 10) { display avatar }
+            // if(Utils.calculateDistance(this.user.location, user.location))    
+              if(this.store.degree > 200 && this.store.degree < 300) {
+              //Alert.alert('Looking at user', JSON.stringify(user.avatar, null, 2));
+                return (
+                  <Image source={{uri: user.avatar}}
+                         style={styles.defaultAvatar}/>
+                );
+              } else {
+                return (
+                  <Image source={{uri: user.avatar}}
+                         style={{opacity: 0}}/>
+                );
+              }
+          }
+        }
       });
+    }
   }
-}
 
   render() {
     return (
@@ -98,7 +105,7 @@ export default sensors({
   Accelerometer: {
     updateInterval: 100, // optional
   },
-  Gyroscope: true,
+  Gyroscope: false,
 })(XRay);
  
 const styles = StyleSheet.create({
@@ -110,7 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
-  avatar: {   
+  defaultAvatar: {
     resizeMode: 'contain',
     width: 100,
     height: 100,
