@@ -7,7 +7,7 @@ import {observer} from 'mobx-react/native';
 
 @autobind @observer
 export default class UserDetails extends Component {
-  
+
   constructor(props) {
     super(props);
     this.store = this.props.screenProps.store;
@@ -45,7 +45,7 @@ export default class UserDetails extends Component {
 
   requestsent() {
     return(
-      <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20}}>
+      <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom: 20}}>
         <Button title= "Request Sent"
                 icon = {{name: 'person-add',color:'black'}}
                 color = "black"
@@ -58,7 +58,7 @@ export default class UserDetails extends Component {
 
   addfriend(id,username,email,avatar){
     return(
-      <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20}}>
+      <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom:20}}>
         <Button title= "Add Friend"
                 icon = {{name: 'person-add',color:'black'}}
                 color = "black"
@@ -70,14 +70,14 @@ export default class UserDetails extends Component {
 
   alreadyFriend(){
     return(
-      <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20}}>
+      <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom:20}}>
       <Button
         title= "Friend"
         icon = {{name: 'person-add',color:'black'}}
         color = "black"
         backgroundColor ="#aee283"
         onPress={() => {}}
-        diabled = {true}
+        disabled = {true}
       />
       </View>
     );

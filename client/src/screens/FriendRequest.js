@@ -46,8 +46,12 @@ export default class FriendRequest extends Component{
       if(this.store.user != null) {
         return this.store.user.friendRequests.map((friend) =>
         <View key={friend.fromUser._id + friend.toUser._id}>
+         <View>
             {this.generateNamesFrom(friend)}
+         </View>
+         <View>
             {this.generateNamesTo(friend)}
+         </View>
         </View>
         );
       } else {

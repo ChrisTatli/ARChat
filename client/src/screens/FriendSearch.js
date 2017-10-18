@@ -86,7 +86,8 @@ export default class FriendSearch extends Component{
          <View style= {{flex:1}}>
             <View>
               <SearchBar
-                lightTheme
+              round
+               lightTheme
                 onChangeText={(term) => {this.onChangeSearchString(term)}}
               />
             </View>
