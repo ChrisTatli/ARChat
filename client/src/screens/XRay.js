@@ -1,3 +1,12 @@
+
+import {     
+  AppRegistry,   
+  Dimensions,   
+  StyleSheet,   
+  Text,   
+  TouchableHighlight,   
+  View,   
+  DeviceEventEmitter   
 import React, {Component} from 'react';
 import {
   AppRegistry,
@@ -24,6 +33,7 @@ type Props = {
   children: any
 }
 import { decorator as sensors } from 'react-native-sensors';
+  
 import RNSimpleCompass from 'react-native-simple-compass';
 const DEGREE_UPDATE_RATE = 3; // Number of degrees changed before the callback is triggered, for RNSimpleCompass
 const MAX_DIST_BETWEEN_USERS = 500; // Limit maximum distnace between two users in meters
@@ -43,6 +53,7 @@ class XRay extends Component{ // no lifecycle needed
       usernameMeet: null
     }
   }
+ 
   
   componentDidMount() {
     RNSimpleCompass.start(DEGREE_UPDATE_RATE, (degree) => {
