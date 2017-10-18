@@ -45,11 +45,11 @@ export default class MeetView extends Component {
 
   }
 
-  displayUserInfo(user) {
-    if(user._id == this.user._id) {
-      return '';
+  displayDistance(user) {
+    if(user._id == this.store.user._id) {
+      return;
     } else {
-      return Utils.calculate_distance(this.user.location, user.location)
+      return `Distance: ${Utils.calculateDistance(this.store.user.location, user.location)}m`;
     }
   }
 
@@ -62,9 +62,9 @@ export default class MeetView extends Component {
             key={user._id}
             coordinate={user.location}
             image={{uri: user.avatar}}
-            title={this.displayUserInfo(user)}
+            title={user.username}
+            description={this.displayDistance(user)}
           >
-            <Text style={styles.pinText}>{user.username}</Text>
           </MapView.Marker>
         );
       }

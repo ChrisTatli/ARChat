@@ -57,6 +57,25 @@ export default class Utils {
     return { valid: true, message: 'Nice job, champ!'}
   }
 
+  static calculateDistance(location1, location2) {
+    let latDist = 111*(location1.latitude - location2.latitude);
+    let longDist = 111*(location1.longitude - location2.longitude);
+    let dist = Math.sqrt(Math.pow(latDist, 2)+Math.pow(longDist, 2));
+    return (dist*1000).toFixed(2).toString();
+  }
+
+  static calculateBearing(location1, location2) {
+    let latDist = location1.latitude - location2.latitude;
+    let longDist = location1.longitude - location2.longitude;
+    let theta = Math.tan(longDist / latDist);
+    if(longDist < 0) {
+      let phi = 180 + theta;
+    } else {
+      let phi = 180 - theta;
+    }
+    return phi.toFixed(2).toString();
+  }
+
 }
 
 
