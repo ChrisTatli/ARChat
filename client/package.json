@@ -24,6 +24,7 @@
     "react-native-search-box": "0.0.11",
     "react-native-search-filter": "^0.1.1",
     "react-native-sensors": "^2.4.1",
+    "react-native-simple-compass": "^1.0.0",
     "react-native-vector-icons": "^4.0.0",
     "react-navigation": "1.0.0-beta.9",
     "react-redux": "^5.0.6",
