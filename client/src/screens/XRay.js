@@ -14,106 +14,69 @@ import {Button} from 'react-native-elements';
 import NavIcons from '../components/NavIcons';   
 import Ionicons from 'react-native-vector-icons/Ionicons';  
   
-const baseStyles = require('../baseStyles');   
-import {SensorManager} from 'NativeModules'; // from react-native-sensor-manager   
+const baseStyles = require('../baseStyles');
    
 import Camera from 'react-native-camera';   
-import { NavigationActions } from 'react-navigation';   
-   
-const mSensorManager = require('NativeModules').SensorManager;   
+import { NavigationActions } from 'react-navigation';
+type Props = {
+  Accelerometer: Object,
+  children: any
+}
+import { decorator as sensors } from 'react-native-sensors';
   
 @autobind @observer   
-export default class XRay extends Component{ // no lifecycle needed   
-  static navigationOptions = ({navigation}) => ({  
+class XRay extends Component{ // no lifecycle needed   
+  static navigationOptions = ({navigation}) => ({
     title: 'XRay',  
-    headerLeft: NavIcons.closeButton(navigation.goBack) 
-  }); 
+    headerLeft: NavIcons.closeButton(navigation.goBack)
+  });
+
+  constructor(props) {
+    super(props);
+    this.store = this.props.screenProps.store;
+  }
  
-  componentWillMount() {}  
- 
-  componentDidMount() { 
-    mSensorManager.startAccelerometer(100); // To start the accelerometer with a minimum delay of 100ms between events.   
-    DeviceEventEmitter.addListener('Accelerometer', function (data) {   
-      /**   
-      * data.x   
-      * data.y   
-      * data.z   
-      **/   
-    });   
-  } 
- 
-  render() {  
-    return (   
+  componentWillReceiveProps() {
+    if (this.props.Accelerometer) {
+      this.store.accelerometer = this.props.Accelerometer.z;
+    }
+  }
+  render() {
+    return (
       <View style={styles.container}>   
-        <Camera   
-          ref={(cam) => {   
+        <Camera
+          ref={(cam) => {
             this.camera = cam;   
-          }}   
-          style={styles.preview}   
-          aspect={Camera.constants.Aspect.fill}>  
-          <Button title='TAKE PICTURE' 
-                  onPress={this.takePicture.bind(this)}   
-                  color={'black'}   
-                  buttonStyle={styles.capture}/>  
-        </Camera>   
-      </View>   
+          }}
+          style={styles.preview}
+          aspect={Camera.constants.Aspect.fill}>
+          <Text style={{color: '#FFF'}}>Accelerometer Z: {this.store.accelerometer}</Text>
+        </Camera>
+      </View>
     );   
-  }   
-   
-  takePicture() {   
-    const options = {};   
-    //options.location = ...   
-    this.camera.capture({metadata: options})   
-      .then((data) => console.log(data))   
-      .catch(err => console.error(err));   
-  }   
-} 
+  }
+}
+
+export default sensors({
+  Accelerometer: {
+    updateInterval: 100, // optional
+  },
+  Gyroscope: true,
+})(XRay);
  
-//mSensorManager.stopAccelerometer();  
- 
-const styles = StyleSheet.create({   
-  container: {   
-    flex: 1   
-  },   
-  preview: {   
-    flex: 1,   
-    justifyContent: 'flex-end',   
-    alignItems: 'center'   
-  },   
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
   avatar: {   
-    resizeMode: 'contain',   
-    width: 100,   
-    height: 100,   
-    borderRadius: 50   
-  },   
-  bottomSection: {   
-    flex: 1,   
-    position: 'absolute',   
-    justifyContent: 'center',   
-    alignItems: 'center',   
-    left: 0,   
-    right: 0,   
-    bottom: 15,   
-  },   
-  topSection: {   
-    flex: 1,   
-    justifyContent: 'center',   
-    alignItems: 'center',   
-    position: 'absolute',   
-    left: 0,   
-    right: 0,   
-    top: 0,   
-    bottom: 140   
-  },  
-  capture: {  
-    flex: 1,  
-    position: 'absolute',  
-    justifyContent: 'center',   
-    alignItems: 'center',  
-    bottom: 25,  
-    borderRadius: 20,   
-    borderWidth: 0,   
-    borderColor: 'black',   
-    backgroundColor: '#89bbfe'  
-  }  
-}); 
+    resizeMode: 'contain',
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  }
+});
