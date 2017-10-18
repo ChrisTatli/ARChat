@@ -350,7 +350,7 @@ export default class Store {
   }
 
    loadUsers(){
-      const query = {query: {username: {$limit:100, $ne: this.user.username}}};
+      const query = {query: {$limit:100, username: {$ne: this.user.username}}};
 
       this.app.service('users').find(query)
          .then(response => {
