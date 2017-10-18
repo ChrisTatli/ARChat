@@ -60,7 +60,10 @@ export const SearchStack = StackNavigator({
    },
    UserDetails:{
       screen: UserDetails,
-   }
+      navigationOptions: ({navigation}) => ({
+         title: `${navigation.state.params.username}`,
+      }),
+   },
 },{
    headerMode: 'screen'
 })
