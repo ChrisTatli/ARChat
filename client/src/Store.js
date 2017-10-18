@@ -8,7 +8,7 @@ import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
 const API_URL = 'http://52.62.125.103:8080';
-const API_URL_LOCAL = 'http://10.13.172.136:8080'
+
 
 import React, {
   DeviceEventEmitter // will emit events that you can listen to
@@ -29,7 +29,7 @@ export default class Store {
 
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
-    const socket = io(API_URL_LOCAL, options);
+    const socket = io(API_URL, options);
 
     this.app = feathers()
       .configure(socketio(socket))
@@ -350,7 +350,7 @@ export default class Store {
   }
 
    loadUsers(){
-      const query = {query: {username: {$ne: this.user.username}}};
+      const query = {query: {username: {$limit:100, $ne: this.user.username}}};
 
       this.app.service('users').find(query)
          .then(response => {
