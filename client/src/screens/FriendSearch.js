@@ -16,7 +16,7 @@ import {
 import {autobind} from 'core-decorators';
 import {observable} from 'mobx';
 import {observer} from 'mobx-react/native';
-import {Button} from 'react-native-elements';
+import {Button,SearchBar} from 'react-native-elements';
 import NavIcons from '../components/NavIcons';
 import Utils from '../Utils';
 
@@ -85,8 +85,8 @@ export default class FriendSearch extends Component{
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
          <View style= {{flex:1}}>
             <View>
-              <SearchInput
-                style={styles.searchBar}
+              <SearchBar
+                lightTheme
                 onChangeText={(term) => {this.onChangeSearchString(term)}}
               />
             </View>
@@ -137,5 +137,11 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       fontSize: 18,
       textAlign: 'left',
+   },
+   searchContainer:{
+      backgroundColor: 'white',
+      paddingLeft:10,
+      paddingRight:10,
+
    }
 });

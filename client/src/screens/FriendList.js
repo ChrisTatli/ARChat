@@ -113,18 +113,18 @@ export default class FriendList extends Component {
   receivedMeetRequest(request) {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <Button title='accept'
+        <Button title='Accept'
           onPress={() => { this.acceptMeetRequest(request) } }
-          backgroundColor='#48fdf6'
+          backgroundColor='#aee283'
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}
           disabled={false}
           >
         </Button>
-        <Button title='decline'
+        <Button title='Decline'
           onPress={() => { this.store.deleteMeetRequest(request) } }
-          backgroundColor='#48fdf6'
+          backgroundColor='#e87175'
           color={'black'}
           fontSize={10}
           buttonStyle={styles.button}

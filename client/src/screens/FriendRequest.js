@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#48fdf6'
+    borderBottomColor: '#dee1e5'
   },
   username: {
     fontSize: 18,
