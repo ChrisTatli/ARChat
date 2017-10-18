@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "core-decorators": "^0.15.0",
     "feathers": "2.1.1",
     "feathers-authentication-client": "0.3.1",
