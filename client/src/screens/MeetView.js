@@ -63,12 +63,34 @@ export default class MeetView extends Component {
             coordinate={user.location}
             image={{uri: user.avatar}}
             title={user.username}
-            description={this.displayDistance(user)}
-          >
-          </MapView.Marker>
+            description={this.displayDistance(user)}/>
         );
       }
     });
+  }
+
+  showCancelButton() {
+    if (this.store.meetData && this.store.meetData.length) {
+      return (
+        <Button title='Cancel Meet'
+                onPress={() => {this.store.cancelMeet(this.store.user.activeMeet)}}
+                backgroundColor='#e87175'
+                color={'black'}
+                buttonStyle={styles.cancelButton}/>
+      );
+    }
+  }
+
+  showXRayButton() {
+    if (this.store.meetData && this.store.meetData.length) {
+      return (
+        <Button title={<Text style={{fontSize: 30}}>AR</Text>}
+                onPress={() => {this.props.navigation.navigate('XRay')}}
+                backgroundColor='#34E0B9'
+                color={'black'}
+                buttonStyle={styles.xrayButton}/>
+      );
+    }
   }
 
   render() {
@@ -78,13 +100,10 @@ export default class MeetView extends Component {
           style={styles.map}
           initialRegion={ this.initialRegion }
         >
-        { this.displayUsers() }
+          { this.displayUsers() }
         </MapView>
-        <Button title='Cancel Meet'
-          onPress={() => {this.store.cancelMeet(this.store.user.activeMeet)}}
-          backgroundColor='#e87175'
-          color={'black'}
-          buttonStyle={styles.cancelButton}/>
+        { this.showCancelButton() }
+        { this.showXRayButton() }
       </View>
     );
   }
@@ -121,4 +140,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginBottom: 20,
   },
+  xrayButton: {
+    position: 'absolute',
+    height: 75,
+    width: 75,
+    bottom: 8,
+    right: 8,
+    borderRadius: 40
+  }
 });
