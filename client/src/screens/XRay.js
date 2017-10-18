@@ -13,7 +13,8 @@ import {autobind} from 'core-decorators';
 import {observer} from 'mobx-react/native';
 import {Button} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-  
+import Utils from '../Utils';
+
 const baseStyles = require('../baseStyles');
    
 import Camera from 'react-native-camera';   
@@ -24,7 +25,9 @@ type Props = {
 }
 import { decorator as sensors } from 'react-native-sensors';
 import RNSimpleCompass from 'react-native-simple-compass';
-const degreeUpdateRate = 3; // Number of degrees changed before the callback is triggered
+const DEGREE_UPDATE_RATE = 3; // Number of degrees changed before the callback is triggered, for RNSimpleCompass
+const MAX_DIST_BETWEEN_USERS = 500; // Limit maximum distnace between two users
+
 @autobind @observer   
 class XRay extends Component{ // no lifecycle needed   
   static navigationOptions = ({navigation}) => ({
@@ -35,12 +38,14 @@ class XRay extends Component{ // no lifecycle needed
   constructor(props) {
     super(props);
     this.store = this.props.screenProps.store;
+    this.degree = null;
   }
   
   componentDidMount() {
-    RNSimpleCompass.start(degreeUpdateRate, (degree) => {
+    RNSimpleCompass.start(DEGREE_UPDATE_RATE, (degree) => {
       console.log('You are facing', degree);
-      this.store.degree = degree;
+      //this.store.degree = degree;
+      this.degree = degree;
     });
   }
 
@@ -53,31 +58,28 @@ class XRay extends Component{ // no lifecycle needed
       this.store.accelerometer = this.props.Accelerometer.z;
     }
   }
-  
+
   displayUsers() {
     if(this.store.meetData.length != 0) {
       return this.store.meetData.map(user => {
-        if(user._id != this.store.user._id) {
+        if(user._id != this.store.user._id) { 
           if(user._id != null && user.username != null 
              && user.location != null || user.avatar != null) {
-            // 1. Check if users are nearby
-            // if(Utils.calculateDistance(this.user.location, user.location))
-            // 2. Define calculateBearing(location1, location2) in Utils.js
-            // then check if user is pointing towards other user:
-            // let bearing = calculateBearing(this.user.location, user.location);
-            // if(this.store.degree < bearing + 10 && this.store.bearing > bearing - 10) { display avatar }
-            // 3. Render image size in accordance to distance
-              if(this.store.degree > 200 && this.store.degree < 300) {
-              //Alert.alert('Looking at user', JSON.stringify(user.avatar, null, 2));
-                return (
-                  <Image source={{uri: user.avatar}}
-                         style={styles.defaultAvatar}/>
-                );
-              } else {
-                return (
-                  <Image source={{uri: user.avatar}}
-                         style={{opacity: 0}}/>
-                );
+              if (parseFloat(Utils.calculateDistance(this.store.user.location, user.location)) <= MAX_DIST_BETWEEN_USERS) {
+                if(this.degree < parseFloat(Utils.calculateBearing(this.store.user.location, user.location)) + 10
+                   && this.degree > parseFloat(Utils.calculateBearing(this.store.user.location, user.location) - 10)) {
+                  // Alert.alert('Looking at user', JSON.stringify(user.avatar, null, 2));
+                  return (
+                    // TODO: Render image size in accordance to distance
+                    <Image source={{uri: user.avatar}}
+                          style={styles.defaultAvatar}/>
+                  );
+                } else {
+                  return (
+                    <Image source={{uri: user.avatar}}
+                          style={{opacity: 0}}/>
+                  );
+                }
               }
           }
         }
@@ -96,7 +98,7 @@ class XRay extends Component{ // no lifecycle needed
           aspect={Camera.constants.Aspect.fill}>
           {this.displayUsers()}
           <Text style={{color: '#FFF'}}>Accelerometer Z: {this.store.accelerometer}</Text>
-          <Text style={{color: '#FFF'}}>Degree: {this.store.degree}</Text>
+          <Text style={{color: '#FFF'}}>Degree: {this.degree}</Text>
         </Camera>
       </View>
     );   

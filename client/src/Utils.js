@@ -58,22 +58,29 @@ export default class Utils {
   }
 
   static calculateDistance(location1, location2) {
-    let latDist = 111*(location1.latitude - location2.latitude);
-    let longDist = 111*(location1.longitude - location2.longitude);
-    let dist = Math.sqrt(Math.pow(latDist, 2)+Math.pow(longDist, 2));
-    return (dist*1000).toFixed(2).toString();
+    if (location1.latitude != null && location1.longitude != null &&
+        location2.latitude != null && location2.longitude != null) {
+      let latDist = 111*(location1.latitude - location2.latitude);
+      let longDist = 111*(location1.longitude - location2.longitude);
+      let dist = Math.sqrt(Math.pow(latDist, 2)+Math.pow(longDist, 2));
+      return (dist*1000).toFixed(2).toString();
+    }
   }
 
   static calculateBearing(location1, location2) {
-    let latDist = location1.latitude - location2.latitude;
-    let longDist = location1.longitude - location2.longitude;
-    let theta = Math.tan(longDist / latDist);
-    if(longDist < 0) {
-      let phi = 180 + theta;
-    } else {
-      let phi = 180 - theta;
+    if (location1.latitude != null && location1.longitude != null &&
+        location2.latitude != null && location2.longitude != null) {
+      let latDist = location1.latitude - location2.latitude;
+      let longDist = location1.longitude - location2.longitude;
+      let theta = Math.tan(longDist / latDist);
+      let phi = 0;
+      if(longDist < 0) {
+        phi = 180 + theta;
+      } else {
+        phi = 180 - theta;
+      }
+      return phi.toFixed(2).toString();
     }
-    return phi.toFixed(2).toString();
   }
 
 }
