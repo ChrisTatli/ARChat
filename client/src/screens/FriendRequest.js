@@ -61,50 +61,50 @@ export default class FriendRequest extends Component{
     generateNamesTo(friend){
       if(this.store.user.username == friend.toUser.username){
       return(
-      <View style={styles.friendRow}>
-      <Image source={{ uri: friend.fromUser.avatar }} style={styles.avatar} />
-      <Text style={styles.username}>{ friend.fromUser.username }</Text>
-      { this.generateButtonsTo(friend) }
-      </View>
-    );
+        <View style={styles.friendRow}>
+        <Image source={{ uri: friend.fromUser.avatar }} style={styles.avatar} />
+        <Text style={styles.username}>{ friend.fromUser.username }</Text>
+          { this.generateButtonsTo(friend) }
+          </View>
+        );
+      }
     }
-  }
 
   generateNamesFrom(friend){
     if(this.store.user.username == friend.fromUser.username){
-    return(
-    <View style={styles.friendRow}>
-    <Image source={{ uri: friend.toUser.avatar }} style={styles.avatar} />
-    <Text style={styles.username}>{ friend.toUser.username }</Text>
-    { this.generateButtonsFrom(friend) }
-    </View>
-  );
+      return(
+        <View style={styles.friendRow}>
+        <Image source={{ uri: friend.toUser.avatar }} style={styles.avatar} />
+        <Text style={styles.username}>{ friend.toUser.username }</Text>
+          { this.generateButtonsFrom(friend) }
+        </View>
+      );
+    }
   }
-}
 
-    generateButtonsTo(friend){
-      if(this.store.user.username == friend.toUser.username){
+  generateButtonsTo(friend){
+    if(this.store.user.username == friend.toUser.username){
       return(
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <Button title='Accept'
-          onPress={() => {this.store.acceptFriendRequest(friend)}}
-          backgroundColor='#aee283'
-          color={'black'}
-          fontSize={10}
-          buttonStyle={styles.button}
-          disabled = {false}
-          >
-        </Button>
-        <Button title='Decline'
-          onPress={() => {this.declineFriendRequest(friend)}}
-          backgroundColor='#e87175'
-          color={'black'}
-          fontSize={10}
-          buttonStyle={styles.button}
-          >
-        </Button>
+      <Button title='Accept'
+        onPress={() => {this.store.acceptFriendRequest(friend)}}
+        backgroundColor='#aee283'
+        color={'black'}
+        fontSize={10}
+        buttonStyle={styles.button}
+        disabled = {false}
+      >
+      </Button>
+      <Button title='Decline'
+        onPress={() => {this.store.declineFriendRequest(friend)}}
+        backgroundColor='#e87175'
+        color={'black'}
+        fontSize={10}
+        buttonStyle={styles.button}
+      >
+      </Button>
       </View>
-    );
+      );
     }
   }
 
@@ -130,8 +130,8 @@ export default class FriendRequest extends Component{
             >
           </Button>
         </View>
-    );
-  }
+        );
+      }
     }
 
 
@@ -141,9 +141,9 @@ export default class FriendRequest extends Component{
              <ScrollView style={styles.container}>
                 {this.generateFriendRequestList()}
              </ScrollView>
-          );
-       }
-    }
+            );
+          }
+        }
 
     const styles = StyleSheet.create({
       container: {

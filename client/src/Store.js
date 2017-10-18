@@ -386,12 +386,6 @@ export default class Store {
      console.log('Error sending friend request');
      console.log(error);
    });
-  //  this.app.service('users').update(this.user._id,
-  //  { $push: {friendRequests: {fromUser:{_id: this.user._id,
-  //     username:this.user.username, email:this.user.email, avatar:this.user.avatar},
-  //   toUser:{_id:toid, username: tousername, email: toemail,
-  //   avatar:toavatar} } }
-//need to update other user friend request
 
  }
 
@@ -404,32 +398,20 @@ export default class Store {
      Alert.alert('Error', "Error while updating friend in this user", JSON.stringify(error,null,2));
    });
 
-   //query is not working because of authentication
 
-  //  this.app.service('users').update( tuser.f_id,
-  //  {$push: {"friends": {"_id": tuser.t_id,"username":tuser.tusername,"email":tuser.temail,"avatar":tuser.tavatar} } } )
-  //  .then(result =>{
-   //
-  //  }).catch(error => {
-  //    Alert.alert('Error', "Error while updating other user", JSON.stringify(error,null,2));
-  //  });
 
   {this.declineFriendRequest(tuser)}
  }
 
  cancelFriendRequest(fuser){
    this.app.service('friend-requests').remove(fuser._id);
-   //this query removes data from users document --- friendRequests Array
-  //  this.app.service('users').update(this.user._id,
-  //  {$pull:{"friendRequests":{"toUser":{"username":fuser.username} } } },
-  //  {multi:true} );
 
  }
 
  declineFriendRequest(tuser){
    this.app.service('friend-requests').remove(tuser._id);
-   //this query removes data from users document --- friendRequests Array
- //   this.app.service('users').update(this.user._id,
- //   {$pull: {friendRequests: {toUser: {username:tuser.username} } } } );
+
  }
+
+
 }
