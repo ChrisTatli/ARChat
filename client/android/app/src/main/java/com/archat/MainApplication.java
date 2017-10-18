@@ -3,8 +3,8 @@ package com.archat;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.sensors.RNSensorsPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.sensormanager.SensorManagerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -26,8 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSensorsPackage(),
             new RCTCameraPackage(),
-            new SensorManagerPackage(),
             new MapsPackage()
       );
     }

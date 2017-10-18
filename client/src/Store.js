@@ -9,11 +9,19 @@ import authentication from 'feathers-authentication-client';
 
 const API_URL = 'http://52.62.125.103:8080';
 
-
-import React, {
-  DeviceEventEmitter // will emit events that you can listen to
-} from 'react-native';
-import { SensorManager } from 'NativeModules';
+import Rx from 'rxjs/Rx';
+Rx.Observable.of(1,2,3)
+import { Accelerometer, Gyroscope } from 'react-native-sensors';
+const accelerationObservable = new Accelerometer({
+  updateInterval: 100, // defaults to 100ms
+});
+accelerationObservable
+  .map(({ x, y, z }) => x + y + z)
+  .filter(speed => speed > 20)
+  .subscribe(speed => console.log(`You moved your phone with ${speed}`));
+setTimeout(() => {
+  accelerationObservable.stop();
+}, 1000);
 @autobind
 export default class Store {
 
@@ -26,6 +34,7 @@ export default class Store {
   @observable hasMoreMessages = false;
   @observable skip = 0;
   @observable users= [];
+  @observable accelerometer = null;
 
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
