@@ -1,3 +1,12 @@
+
+import {     
+  AppRegistry,   
+  Dimensions,   
+  StyleSheet,   
+  Text,   
+  TouchableHighlight,   
+  View,   
+  DeviceEventEmitter   
 import React, {Component} from 'react';
 import {
   AppRegistry,
@@ -23,6 +32,7 @@ type Props = {
   children: any
 }
 import { decorator as sensors } from 'react-native-sensors';
+  
 import RNSimpleCompass from 'react-native-simple-compass';
 const degreeUpdateRate = 3; // Number of degrees changed before the callback is triggered
 @autobind @observer   
@@ -36,6 +46,7 @@ class XRay extends Component{ // no lifecycle needed
     super(props);
     this.store = this.props.screenProps.store;
   }
+ 
   
   componentDidMount() {
     RNSimpleCompass.start(degreeUpdateRate, (degree) => {
