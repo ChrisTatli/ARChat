@@ -91,7 +91,7 @@ export default class FriendRequest extends Component{
                     buttonStyle={styles.button}
                     disabled = {false}/>
             <Button title='Decline'
-                    onPress={() => {this.declineFriendRequest(friend)}}
+                    onPress={() => {this.store.declineFriendRequest(friend)}}
                     backgroundColor='#e87175'
                     color={'black'}
                     fontSize={10}
