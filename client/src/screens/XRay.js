@@ -71,11 +71,13 @@ class XRay extends Component{ // no lifecycle needed
         if(user._id != this.store.user._id) {
           if(user._id != null && user.username != null 
              && user.location != null || user.avatar != null) {
-            // define calculateBearing(location1, location2) in Utils.js
+            // 1. Check if users are nearby
+            // if(Utils.calculateDistance(this.user.location, user.location))
+            // 2. Define calculateBearing(location1, location2) in Utils.js
             // then check if user is pointing towards other user:
             // let bearing = calculateBearing(this.user.location, user.location);
-            // if(this.store.degrees < bearing + 10 && this.store.bearing > bearing - 10) { display avatar }
-            // if(Utils.calculateDistance(this.user.location, user.location))    
+            // if(this.store.degree < bearing + 10 && this.store.bearing > bearing - 10) { display avatar }
+            // 3. Render image size in accordance to distance
               if(this.store.degree > 200 && this.store.degree < 300) {
               //Alert.alert('Looking at user', JSON.stringify(user.avatar, null, 2));
                 return (
