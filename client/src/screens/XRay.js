@@ -67,10 +67,9 @@ displayUsers() {
         } else if(user._id == null || user.username == null 
           || user.location == null || user.avatar == null) {
               return;
-          } else {
-            Alert.alert('user', JSON.stringify(user, null, 2));
+          } else if(this.store.degree > 200 && this.store.degree < 300){
             return (
-            <Text style={{color: '#FFF'}}>{user.username}</Text>
+            <Text style={{color: '#FFF'}}>{user.avatar}</Text>
             );
           } 
       });
