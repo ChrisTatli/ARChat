@@ -1,18 +1,19 @@
-import React, {Component} from 'react';   
-import {     
-  AppRegistry,   
-  Dimensions,   
-  StyleSheet,   
-  Text,   
-  TouchableHighlight,   
-  View,   
-  DeviceEventEmitter   
+import React, {Component} from 'react';
+import {
+  AppRegistry,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  DeviceEventEmitter,
+  Alert,
+  Image
 } from 'react-native';   
-import {autobind} from 'core-decorators';   
-import {observer} from 'mobx-react/native';   
-import {Button} from 'react-native-elements';   
-import NavIcons from '../components/NavIcons';   
-import Ionicons from 'react-native-vector-icons/Ionicons';  
+import {autobind} from 'core-decorators';
+import {observer} from 'mobx-react/native';
+import {Button} from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
   
 const baseStyles = require('../baseStyles');
    
@@ -23,7 +24,10 @@ type Props = {
   children: any
 }
 import { decorator as sensors } from 'react-native-sensors';
-  
+
+import RNSimpleCompass from 'react-native-simple-compass';
+const degree_update_rate = 3; // Number of degrees changed before the callback is triggered
+
 @autobind @observer   
 class XRay extends Component{ // no lifecycle needed   
   static navigationOptions = ({navigation}) => ({
@@ -35,12 +39,44 @@ class XRay extends Component{ // no lifecycle needed
     super(props);
     this.store = this.props.screenProps.store;
   }
- 
+  
+  componentDidMount() {
+    RNSimpleCompass.start(degree_update_rate, (degree) => {
+      console.log('You are facing', degree);
+      this.store.degree = degree;
+    });
+  }
+
+  componentWillUnmount() {
+    RNSimpleCompass.stop();
+  }
+
   componentWillReceiveProps() {
     if (this.props.Accelerometer) {
       this.store.accelerometer = this.props.Accelerometer.z;
     }
   }
+
+displayUsers() {
+  if(this.store.meetData.length == 0) {
+      return;
+  } else {
+      return this.store.meetData.map(user => {
+        if(user._id == this.store.user._id) {
+          return;
+        } else if(user._id == null || user.username == null 
+          || user.location == null || user.avatar == null) {
+              return;
+          } else {
+            Alert.alert('user', JSON.stringify(user, null, 2));
+            return (
+            <Text style={{color: '#FFF'}}>{user.username}</Text>
+            );
+          } 
+      });
+  }
+}
+
   render() {
     return (
       <View style={styles.container}>   
@@ -50,7 +86,9 @@ class XRay extends Component{ // no lifecycle needed
           }}
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
+          {this.displayUsers()}
           <Text style={{color: '#FFF'}}>Accelerometer Z: {this.store.accelerometer}</Text>
+          <Text style={{color: '#FFF'}}>Degree: {this.store.degree}</Text>
         </Camera>
       </View>
     );   

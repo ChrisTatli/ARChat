@@ -34,7 +34,8 @@ export default class Store {
   @observable hasMoreMessages = false;
   @observable skip = 0;
   @observable users= [];
-  @observable accelerometer = null;
+  @observable accelerometer = 0;
+  @observable degree = 0;
 
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
