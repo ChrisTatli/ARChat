@@ -12,6 +12,7 @@ import {observer} from 'mobx-react/native';
 import {Button} from 'react-native-elements';
 import NavIcons from '../components/NavIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Utils from '../Utils';
 
 const baseStyles = require('../baseStyles');
 
@@ -29,11 +30,12 @@ const LONG_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 @autobind @observer
 export default class MeetView extends Component {
 
+
   constructor(props) {
     super(props);
 
     this.store = this.props.screenProps.store;
-    
+
     this.initialRegion = {
       latitude: -37.8136,
       longitude: 144.9631,
@@ -41,23 +43,29 @@ export default class MeetView extends Component {
       longitudeDelta: LONG_DELTA
     };
 
-    }
+  }
 
-  _showXRay() {   
-    this.props.navigation.navigate('XRay');   
-  } 
-  
+  displayUserInfo(user) {
+    if(user._id == this.user._id) {
+      return '';
+    } else {
+      return Utils.calculate_distance(this.user.location, user.location)
+    }
+  }
+
   displayUsers() {
     return this.store.meetData.map(user => {
-      if(user._id != null && user.username != null 
+      if(user._id != null && user.username != null
           && user.location != null && user.avatar != null) {
         return (
           <MapView.Marker
             key={user._id}
             coordinate={user.location}
-            title={user.username}
             image={{uri: user.avatar}}
-          />
+            title={this.displayUserInfo(user)}
+          >
+            <Text style={styles.pinText}>{user.username}</Text>
+          </MapView.Marker>
         );
       }
     });
@@ -77,10 +85,6 @@ export default class MeetView extends Component {
           backgroundColor='#e87175'
           color={'black'}
           buttonStyle={styles.cancelButton}/>
-        <Button title='AR View'   
-                onPress={this._showXRay}   
-                color={'black'}   
-                buttonStyle={styles.xrayButton}/> 
       </View>
     );
   }
@@ -109,17 +113,12 @@ const styles = StyleSheet.create({
   cancelButton: {
     position: 'absolute',
     bottom: 20
-  }, 
-  xrayButton: {  
-    flex: 1,  
-    position: 'absolute',  
-    justifyContent: 'center',   
-    alignItems: 'center', 
-    right: 40, 
-    bottom: 20,  
-    borderRadius: 20,   
-    borderWidth: 0,   
-    borderColor: 'black',   
-    backgroundColor: '#89bbfe'  
-  }
+  },
+  pinText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 10,
+    marginBottom: 20,
+  },
 });
