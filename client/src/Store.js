@@ -7,7 +7,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
-const API_URL = 'http://52.62.125.103:8080';
+const API_URL = 'http://192.168.0.18:8080';
 
 import Rx from 'rxjs/Rx';
 Rx.Observable.of(1,2,3)
@@ -84,7 +84,7 @@ export default class Store {
       .then(result => {
         this.locationWatchId = navigator.geolocation.watchPosition(
             (position) => { this.updateLocation( position.coords.latitude, position.coords.longitude); },
-            (error) => { Alert.alert('Error fetching user location.', JSON.stringify(error, null, 2)); },
+            (error) => { console.log('Error fetching user location.', error); },
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
           );
 
@@ -208,6 +208,7 @@ export default class Store {
     this.skip = 0;
     this.messages = [];
     this.meetData = [];
+    this.users = [];
     this.user = null;
     this.isAuthenticated = false;
   }
@@ -240,17 +241,17 @@ export default class Store {
   }
 
   formatMessage(message) {
-    return {
-      _id: message._id,
-      text: message.text,
-      position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
-      createdAt: message.createdAt,
-      user: {
-        _id: message.user._id ? message.user._id : '',
-        name: message.user.username,
-        avatar: message.user.avatar
-      }
-    };
+      return {
+        _id: message._id,
+        text: message.text,
+        position: message.user._id.toString() === this.user._id.toString() ? 'left' : 'right',
+        createdAt: message.createdAt,
+        user: {
+          _id: message.user._id ? message.user._id : '',
+          name: message.user.username,
+          avatar: message.user.avatar
+        }
+      };
   }
 
   deleteMessage(messageToRemove) {
