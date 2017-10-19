@@ -65,7 +65,7 @@ class XRay extends Component{ // no lifecycle needed
       return this.store.meetData.map(user => {
         if(user._id != this.store.user._id) { 
           if(user._id != null && user.username != null 
-             && user.location != null || user.avatar != null && this.store.user.location != null) {
+             && user.location != null && user.avatar != null) {
               if (parseFloat(Utils.calculateDistance(this.store.user.location, user.location)) <= MAX_DIST_BETWEEN_USERS) {
                 if(this.degree < parseFloat(Utils.calculateBearing(this.store.user.location, user.location)) + 10
                    && this.degree > parseFloat(Utils.calculateBearing(this.store.user.location, user.location) - 10)) {
@@ -91,7 +91,7 @@ class XRay extends Component{ // no lifecycle needed
     return this.store.meetData.map(user => { 
       if(user._id != this.store.user._id) { 
         if(user._id != null && user.username != null  
-            && user.location != null || user.avatar != null && this.store.user.location != null) {
+            && user.location != null && user.avatar != null) {
             this.distance = parseFloat(Utils.calculateDistance(this.store.user.location, user.location));
             if (this.distance <= MAX_DIST_BETWEEN_USERS) { 
               return ( 
