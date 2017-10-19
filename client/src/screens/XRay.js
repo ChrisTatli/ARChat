@@ -65,8 +65,8 @@ class XRay extends Component{ // no lifecycle needed
       return this.store.meetData.map(user => {
         if(user._id != this.store.user._id) { 
           if(user._id != null && user.username != null 
-             && user.location != null || user.avatar != null) {
-              if (this.parseFloat(Utils.calculateDistance(this.store.user.location, user.location)) <= MAX_DIST_BETWEEN_USERS) {
+             && user.location != null || user.avatar != null && this.store.user.location != null) {
+              if (parseFloat(Utils.calculateDistance(this.store.user.location, user.location)) <= MAX_DIST_BETWEEN_USERS) {
                 if(this.degree < parseFloat(Utils.calculateBearing(this.store.user.location, user.location)) + 10
                    && this.degree > parseFloat(Utils.calculateBearing(this.store.user.location, user.location) - 10)) {
                   return (
@@ -91,16 +91,16 @@ class XRay extends Component{ // no lifecycle needed
     return this.store.meetData.map(user => { 
       if(user._id != this.store.user._id) { 
         if(user._id != null && user.username != null  
-            && user.location != null || user.avatar != null) {
+            && user.location != null || user.avatar != null && this.store.user.location != null) {
             this.distance = parseFloat(Utils.calculateDistance(this.store.user.location, user.location));
-            if (distance <= MAX_DIST_BETWEEN_USERS) { 
+            if (this.distance <= MAX_DIST_BETWEEN_USERS) { 
               return ( 
-                <Text style={{color: '#FFF'}}>{user.username} is {distance}m away.</Text> 
+                <Text style={{color: '#FFF'}}>{user.username} is {this.distance}m away.</Text> 
               ); 
             } else { 
               return ( 
                 <Text style={{color: '#FFF'}}>{user.username} is not nearby.</Text> 
-              ) 
+              )
             } 
         } 
       } 
