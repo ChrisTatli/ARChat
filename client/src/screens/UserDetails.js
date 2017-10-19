@@ -14,31 +14,33 @@ export default class UserDetails extends Component {
   }
 
   generateButtons(id,username,email,avatar) {
-    if(this.store.user.friendRequests.length == 0){
-        // Alert.alert('Error0');
-      return this.addfriend(id,username,email,avatar);
-    }
-
-    else {
-      for(let request of this.store.user.friendRequests){
-
-        var flag = 0;
-
-        if(this._id == request.toUser._id && this.store.user._id == request.fromUser._id){
-          // Alert.alert('Error');
-          flag = 1;
-          return this.requestsent(id,username,email,avatar);
-        }
-        if (this.username == this.store.user.friends.username){
-          // Alert.alert('Error1');
-          flag = 1;
-          return this.alreadyFriend();
-        }
+    if(this.store.user != null) {
+      if(this.store.user.friendRequests.length == 0){
+          // Alert.alert('Error0');
+        return this.addfriend(id,username,email,avatar);
       }
 
-      if (flag == 0 ){
-        // Alert.alert('Error2');
-        return this.addfriend(id,username,email,avatar);
+      else {
+        for(let request of this.store.user.friendRequests){
+
+          var flag = 0;
+
+          if(this._id == request.toUser._id && this.store.user._id == request.fromUser._id){
+            // Alert.alert('Error');
+            flag = 1;
+            return this.requestsent(id,username,email,avatar);
+          }
+          if (this.username == this.store.user.friends.username){
+            // Alert.alert('Error1');
+            flag = 1;
+            return this.alreadyFriend();
+          }
+        }
+
+        if (flag == 0 ){
+          // Alert.alert('Error2');
+          return this.addfriend(id,username,email,avatar);
+        }
       }
     }
   }

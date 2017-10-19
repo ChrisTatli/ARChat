@@ -188,7 +188,7 @@ export const Tabs = TabNavigator({
             fontSize: 11,
          },
          tabStyle: {
-            width: 80,
+           flex: 1,
          },
          style: {
             backgroundColor:'#89bbfe',
