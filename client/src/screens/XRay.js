@@ -1,12 +1,3 @@
-
-import {     
-  AppRegistry,   
-  Dimensions,   
-  StyleSheet,   
-  Text,   
-  TouchableHighlight,   
-  View,   
-  DeviceEventEmitter   
 import React, {Component} from 'react';
 import {
   AppRegistry,
