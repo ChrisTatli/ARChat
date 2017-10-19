@@ -38,19 +38,14 @@ class XRay extends Component{ // no lifecycle needed
   constructor(props) {
     super(props);
     this.store = this.props.screenProps.store;
-    this.state = {
-      degree: null,
-      distanceBetweenUsers: null,
-      usernameMeet: null
-    }
+    this.degree = null;
   }
  
   
   componentDidMount() {
     RNSimpleCompass.start(DEGREE_UPDATE_RATE, (degree) => {
       console.log('You are facing', degree);
-      //this.store.degree = degree;
-      this.state.degree = degree;
+      this.degree = degree;
     });
   }
 
@@ -70,14 +65,10 @@ class XRay extends Component{ // no lifecycle needed
         if(user._id != this.store.user._id) { 
           if(user._id != null && user.username != null 
              && user.location != null || user.avatar != null) {
-               this.state.usernameMeet = user.username;
-               this.state.distBetweenUsers = parseFloat(Utils.calculateDistance(this.store.user.location, user.location));
-              if (this.distBetweenUsers <= MAX_DIST_BETWEEN_USERS) {
-                if(this.state.degree < parseFloat(Utils.calculateBearing(this.store.user.location, user.location)) + 10
-                   && this.state.degree > parseFloat(Utils.calculateBearing(this.store.user.location, user.location) - 10)) {
-                  // Alert.alert('Looking at user', JSON.stringify(user.avatar, null, 2));
+              if (this.parseFloat(Utils.calculateDistance(this.store.user.location, user.location)) <= MAX_DIST_BETWEEN_USERS) {
+                if(this.degree < parseFloat(Utils.calculateBearing(this.store.user.location, user.location)) + 10
+                   && this.degree > parseFloat(Utils.calculateBearing(this.store.user.location, user.location) - 10)) {
                   return (
-                    // TODO: Render image size in accordance to distance, not sure how that'll work though
                     <Image source={{uri: user.avatar}}
                            style={styles.defaultAvatar}/>
                   );
@@ -94,6 +85,29 @@ class XRay extends Component{ // no lifecycle needed
     }
   }
 
+  displayUsernameDist() {
+  if(this.store.meetData.length != 0) { 
+    return this.store.meetData.map(user => { 
+      if(user._id != this.store.user._id) { 
+        if(user._id != null && user.username != null  
+            && user.location != null || user.avatar != null) {
+            let distance = null;
+            distance = parseFloat(Utils.calculateDistance(this.store.user.location, user.location));
+            if (distance <= MAX_DIST_BETWEEN_USERS) { 
+              return ( 
+                <Text style={{color: '#FFF'}}>{user.username} is {distance}m away.</Text> 
+              ); 
+            } else { 
+              return ( 
+                <Text style={{color: '#FFF'}}>{user.username} is not nearby.</Text> 
+              ) 
+            } 
+        } 
+      } 
+    }); 
+  } 
+}
+
   render() {
     return (
       <View style={styles.container}>   
@@ -104,10 +118,9 @@ class XRay extends Component{ // no lifecycle needed
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
           {this.displayUsers()}
-          <Text style={{color: '#FFF'}}>{this.state.usernameMeet}</Text>
-          <Text style={{color: '#FFF'}}>Distance Away: {this.state.distBetweenUsers}m</Text>
+          {this.displayUsernameDist()}
           <Text style={{color: '#FFF'}}>Accelerometer Z: {this.store.accelerometer}</Text>
-          <Text style={{color: '#FFF'}}>Degree: {this.state.degree}</Text>
+          <Text style={{color: '#FFF'}}>Degree: {this.degree}</Text>
         </Camera>
       </View>
     );   
