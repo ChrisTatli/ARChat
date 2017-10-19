@@ -36,8 +36,7 @@ import { decorator as sensors } from 'react-native-sensors';
   
 import RNSimpleCompass from 'react-native-simple-compass';
 const DEGREE_UPDATE_RATE = 3; // Number of degrees changed before the callback is triggered, for RNSimpleCompass
-const MAX_DIST_BETWEEN_USERS = 500; // Limit maximum distnace between two users
-
+const MAX_DIST_BETWEEN_USERS = 500; // Limit maximum distnace between two users in meters
 @autobind @observer   
 class XRay extends Component{ // no lifecycle needed   
   static navigationOptions = ({navigation}) => ({
@@ -48,7 +47,11 @@ class XRay extends Component{ // no lifecycle needed
   constructor(props) {
     super(props);
     this.store = this.props.screenProps.store;
-    this.degree = null;
+    this.state = {
+      degree: null,
+      distanceBetweenUsers: null,
+      usernameMeet: null
+    }
   }
  
   
@@ -56,7 +59,7 @@ class XRay extends Component{ // no lifecycle needed
     RNSimpleCompass.start(DEGREE_UPDATE_RATE, (degree) => {
       console.log('You are facing', degree);
       //this.store.degree = degree;
-      this.degree = degree;
+      this.state.degree = degree;
     });
   }
 
@@ -76,19 +79,21 @@ class XRay extends Component{ // no lifecycle needed
         if(user._id != this.store.user._id) { 
           if(user._id != null && user.username != null 
              && user.location != null || user.avatar != null) {
-              if (parseFloat(Utils.calculateDistance(this.store.user.location, user.location)) <= MAX_DIST_BETWEEN_USERS) {
-                if(this.degree < parseFloat(Utils.calculateBearing(this.store.user.location, user.location)) + 10
-                   && this.degree > parseFloat(Utils.calculateBearing(this.store.user.location, user.location) - 10)) {
+               this.state.usernameMeet = user.username;
+               this.state.distBetweenUsers = parseFloat(Utils.calculateDistance(this.store.user.location, user.location));
+              if (this.distBetweenUsers <= MAX_DIST_BETWEEN_USERS) {
+                if(this.state.degree < parseFloat(Utils.calculateBearing(this.store.user.location, user.location)) + 10
+                   && this.state.degree > parseFloat(Utils.calculateBearing(this.store.user.location, user.location) - 10)) {
                   // Alert.alert('Looking at user', JSON.stringify(user.avatar, null, 2));
                   return (
-                    // TODO: Render image size in accordance to distance
+                    // TODO: Render image size in accordance to distance, not sure how that'll work though
                     <Image source={{uri: user.avatar}}
-                          style={styles.defaultAvatar}/>
+                           style={styles.defaultAvatar}/>
                   );
                 } else {
                   return (
                     <Image source={{uri: user.avatar}}
-                          style={{opacity: 0}}/>
+                           style={{opacity: 0}}/>
                   );
                 }
               }
@@ -108,8 +113,10 @@ class XRay extends Component{ // no lifecycle needed
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
           {this.displayUsers()}
+          <Text style={{color: '#FFF'}}>{this.state.usernameMeet}</Text>
+          <Text style={{color: '#FFF'}}>Distance Away: {this.state.distBetweenUsers}m</Text>
           <Text style={{color: '#FFF'}}>Accelerometer Z: {this.store.accelerometer}</Text>
-          <Text style={{color: '#FFF'}}>Degree: {this.degree}</Text>
+          <Text style={{color: '#FFF'}}>Degree: {this.state.degree}</Text>
         </Camera>
       </View>
     );   
