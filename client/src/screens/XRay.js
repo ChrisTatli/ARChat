@@ -119,7 +119,6 @@ class XRay extends Component{ // no lifecycle needed
           aspect={Camera.constants.Aspect.fill}>
           {this.displayUsers()}
           {this.displayUsernameDist()}
-          <Text style={{color: '#FFF'}}>Accelerometer Z: {this.store.accelerometer}</Text>
           <Text style={{color: '#FFF'}}>Degree: {this.degree}</Text>
         </Camera>
       </View>
