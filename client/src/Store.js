@@ -7,7 +7,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
-const API_URL = 'http://192.168.0.18:8080';
+const API_URL = 'http://52.62.125.103:8080';
 
 import Rx from 'rxjs/Rx';
 Rx.Observable.of(1,2,3)

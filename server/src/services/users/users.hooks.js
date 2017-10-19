@@ -47,7 +47,34 @@ module.exports = {
     find: [],
     get: [],
     create: [],
-    update: [],
+    update: [
+      hook => {
+        if(JSON.stringify(hook.data).includes('{"$pull":{"friends"')) {
+          
+          hook.app.service('users').get(hook.data.$pull.friends._id).then(result => {
+            let found = false;
+            let friends = result.friends;
+            for(let i=0; i < friends.length; i++) {
+              if(friends[i]._id == hook.params.user._id) {
+                found = true;
+                break;
+              }
+            }
+            if(found) {
+              hook.app.service('users').update(result._id,
+                 { $pull: { friends: { username: hook.params.user.username } } })
+              .then(result => {
+             console.log('Successfully removed friend from both users.');
+             }).catch(error => {
+              console.log('Error removing friend from both users.');
+             });
+          }
+        }).catch(error => {
+            console.log('Error updating both user friends arrays.', error);    
+          });
+        }
+      }
+    ],
     patch: [],
     remove: []
   },
