@@ -69,18 +69,19 @@ export const SearchStack = StackNavigator({
 })
 
 export const RequestTab = TabNavigator({
-   FriendRequest:{
-      screen: FriendRequest,
-      navigationOptions: {
-         tabBarLabel: 'Friend Requests'
-      },
-   },
    FriendSearch: {
       screen: SearchStack,
       navigationOptions: {
          tabBarLabel: 'Find Friends'
       },
    },
+   FriendRequest:{
+      screen: FriendRequest,
+      navigationOptions: {
+         tabBarLabel: 'Friend Requests'
+      },
+   },
+
 },{
       tabBarPosition : 'top',
       animationEnabled: true,
