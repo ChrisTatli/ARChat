@@ -327,6 +327,7 @@ export default class Store {
     })
 
   }
+
   removeFriend(friend) {
     this.app.service('users').update(this.user._id,
       { $pull :{ friends: { _id : friend._id } } } )
@@ -359,6 +360,12 @@ export default class Store {
     });
   }
 
+   /*
+      Updates the observable array users when it is Called
+      Queries the database and returns an array of users that are in he database
+      but not the current user
+      Used to retrieve the current users so our search can filter through users
+   */
    loadUsers(){
       const query = {query: {$limit:100, username: {$ne: this.user.username}}};
 
