@@ -4,4 +4,8 @@
 
 ## Location based Augmented Reality Chat Application
 
-> See client and server READMEs for build instructions
+### Getting Started
+
+1. Clone down the repository
+
+2. See client and server READMEs for build instructions
