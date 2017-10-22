@@ -8,6 +8,7 @@ import hooks from 'feathers-hooks';
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication-client';
 
+// AWS EC2 instance
 const API_URL = 'http://52.62.125.103:8080';
 
 import Rx from 'rxjs/Rx';
@@ -27,6 +28,8 @@ setTimeout(() => {
 @autobind
 export default class Store {
 
+  // Observable fields trigger re-renders in UI components that are dependent
+  // on these values
   @observable isAuthenticated = false;
   @observable isConnecting = false;
   @observable user = null;
@@ -39,10 +42,12 @@ export default class Store {
   @observable accelerometer = null;
   @observable degree = null;
 
+  // Using WebSocket protocol for real-time updates
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
     const socket = io(API_URL, options);
 
+    // Configure client app
     this.app = feathers()
       .configure(socketio(socket))
       .configure(hooks())
@@ -60,6 +65,8 @@ export default class Store {
       this.deleteMessage(removedMessage);
     });
 
+    // Set user to updatedUser if the update type is 'user', otherwise it is a
+    // location update stored in meetData, which is consumed by MeetView.js
     this.app.service('users').on('updated', updatedUser => {
       if(this.user == null) {
         return;
@@ -85,6 +92,8 @@ export default class Store {
       this.app.service('users').update(this.user._id,
           { $set: { activeMeet: createdMeet } })
       .then(result => {
+        // Watch for client location change events and call updateLocation when
+        // this occurs
         this.locationWatchId = navigator.geolocation.watchPosition(
             (position) => { this.updateLocation( position.coords.latitude, position.coords.longitude); },
             (error) => { console.log('Error fetching user location.', error); },
@@ -113,6 +122,7 @@ export default class Store {
           { $set: { activeMeet: null } })
       .then(result => {
         this.meetData = [];
+        // Stop watching client location
         navigator.geolocation.clearWatch(this.locationWatchId);
         this.locationWatchId = null;
       }).catch(error => {
@@ -243,6 +253,7 @@ export default class Store {
     });
   }
 
+  //Transform messages to the format required by Chat.js
   formatMessage(message) {
       return {
         _id: message._id,

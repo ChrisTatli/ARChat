@@ -21,6 +21,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const maxHeight = Platform.OS === 'ios' ? Dimensions.get('window').height - 65 : Dimensions.get('window').height - 85;
 
+// Render gravatar next to user message
 class CustomMessage extends Message {
   renderAvatar() {
     return (
@@ -87,6 +88,7 @@ renderBubble(props) {
   );
 }
 
+// Modify styling of 'load earlier' button
 renderLoadEarlier(props) {
   return (
     <LoadEarlier
@@ -101,6 +103,7 @@ renderLoadEarlier(props) {
   );
 }
 
+// Display send button when input box text length > 0
 renderSend(props) {
   if(props.text.trim().length > 0) {
    return (
@@ -114,6 +117,7 @@ renderSend(props) {
   return null;
 }
 
+// render Chat UI with options provided by react-native-gifted-chat API
 render() {
   return (
     <View style={styles.container}>

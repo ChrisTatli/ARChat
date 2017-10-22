@@ -3,6 +3,8 @@ console.warn('You are using the default filter for the users service. For more i
 
 module.exports = function (data, connection, hook) { // eslint-disable-line no-unused-vars
 
+ // If location field of user document was updated, notify other users
+ // participating in that meet of the updated user data 
  if(JSON.stringify(hook.data).includes('location')) {
   for(let user of connection.user.activeMeet.participants) {
     if(user == data._id) {
@@ -20,6 +22,8 @@ module.exports = function (data, connection, hook) { // eslint-disable-line no-u
   } 
     return false;
 
+// Otherwise only the same user is notified of it's corresponding updated user
+// document
 } else {
    if(data._id == connection.user._id) {
     return {

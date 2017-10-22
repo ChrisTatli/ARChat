@@ -17,7 +17,8 @@ module.exports = {
     find: [],
     get: [],
     create: [
-
+        
+        // Automatically remove meet request from participating user documents after 20000ms
 				hook => {
 					setTimeout(() => {
 						hook.app.service('meet-requests').remove(hook.result._id)
