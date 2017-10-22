@@ -18,11 +18,12 @@ const baseStyles = require('../baseStyles');
 
 import { NavigationActions } from 'react-navigation';
 
-//const {width, height} = Dimensions.get('window');
-
+// Phone dimensions
 const SCREEN_HEIGHT = 592
 const SCREEN_WIDTH = 200
 const ASPECT_RATIO = 200/592
+
+// The amount of 'zoom' displayed on screen
 const LATITUDE_DELTA = 0.0927
 const LONG_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
@@ -30,12 +31,13 @@ const LONG_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 @autobind @observer
 export default class MeetView extends Component {
 
-
   constructor(props) {
     super(props);
-
     this.store = this.props.screenProps.store;
 
+    // Sets the initial region as a placeholder 
+    // while looking for actual location of user 
+    // This shows location as being in Melbourne CBD 
     this.initialRegion = {
       latitude: -37.8136,
       longitude: 144.9631,
@@ -44,12 +46,19 @@ export default class MeetView extends Component {
     };
 
   }
-
+  /**
+   * Function is meant to display the distance away from the user that you are
+   * meeting up with. If it is yourself, diplay message indicates that you're there.
+   */
   displayDistance(user) {
     if(user._id == this.store.user._id) {
-      return;
+      return `I'm here!`;
     } else {
-      return `Distance: ${Utils.calculateDistance(this.store.user.location, user.location)}m`;
+      if (this.store.user.location.latitude == null ) {
+        return `Location cannot be calculated if your own location cannot be determind.`
+      } else {
+        return `Located ${Utils.getDistanceFromLatLonInM(this.store.user.location, user.location).toFixed(2).toString()} meters away.`;
+      }
     }
   }
 
