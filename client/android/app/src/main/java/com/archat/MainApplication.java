@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.sensors.RNSensorsPackage;
+import com.reactlibrary.RNSimpleCompassPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNSensorsPackage(),
+            new RNSimpleCompassPackage(),
             new RCTCameraPackage(),
             new MapsPackage()
       );

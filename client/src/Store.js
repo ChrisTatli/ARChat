@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import {Alert, AsyncStorage} from 'react-native';
 import {observable, action, computed} from 'mobx';
 import {autobind} from 'core-decorators';
@@ -22,6 +23,7 @@ accelerationObservable
 setTimeout(() => {
   accelerationObservable.stop();
 }, 1000);
+
 @autobind
 export default class Store {
 
@@ -35,6 +37,7 @@ export default class Store {
   @observable skip = 0;
   @observable users= [];
   @observable accelerometer = null;
+  @observable degree = null;
 
   constructor() {
     const options = {transports: ['websocket'], pingTimeout: 3000, pingInterval: 5000};
