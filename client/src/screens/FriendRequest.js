@@ -59,7 +59,7 @@ export default class FriendRequest extends Component{
     }
   }
 
-  // Generate list for friend request which came to user 
+  //Generate list for friend request which came to user 
   generateNamesTo(friend) {
     if(this.store.user.username == friend.toUser.username){
       return(
@@ -72,7 +72,7 @@ export default class FriendRequest extends Component{
     }
   }
 
-  // Generate list of friend request sent to other users 
+  //Generate list of friend request sent to other users 
   generateNamesFrom(friend) {
     if(this.store.user.username == friend.fromUser.username){
       return(
@@ -85,7 +85,7 @@ export default class FriendRequest extends Component{
     }
   }
 
-  // Generate buttons for friend request came to user 
+  //Generate buttons for friend request came to user 
   generateButtonsTo(friend) {
     if(this.store.user.username == friend.toUser.username){
       return(
@@ -108,7 +108,7 @@ export default class FriendRequest extends Component{
     }
   }
 
-  // Generate buttons for request sent to other users 
+  //Generate buttons for request sent to other users 
   generateButtonsFrom(friend) {
     if(this.store.user.username == friend.fromUser.username) {
       return(

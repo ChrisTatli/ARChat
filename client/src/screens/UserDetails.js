@@ -14,28 +14,28 @@ export default class UserDetails extends Component {
   }
 
   generateButtons(id,username,email,avatar) {
-    // generate button to add friend if user has no friend request 
+    //generate button to add friend if user has no friend request 
     if(this.store.user != null) {
       if(this.store.user.friendRequests.length == 0){
         return this.addfriend(id,username,email,avatar);
       }
 
       else {
-        // For loop to fetch all the friend requests from the user document to check
+        //For loop to fetch all the friend requests from the user document to check
         for(let request of this.store.user.friendRequests){
           var flag = 0;
-          // if friend request is already sent 
+          //if friend request is already sent 
           if(this._id == request.toUser._id && this.store.user._id == request.fromUser._id){
             flag = 1;
             return this.requestsent(id,username,email,avatar);
           }
-          // if user is already friend then shows Already Friends 
+          //if user is already friend then shows Already Friends 
           if (this.username == this.store.user.friends.username){
             flag = 1;
             return this.alreadyFriend();
           }
         }
-        // flag remained at 0 so user is neither a friend nor received the friend request 
+        //flag remained at 0 so user is neither a friend nor received the friend request 
         if (flag == 0 ){
           return this.addfriend(id,username,email,avatar);
         }
@@ -68,7 +68,7 @@ export default class UserDetails extends Component {
     );
   }
 
-  // disabled button to show user is already friend
+  //Returns the button to be displayed when you are already friends with the user
   alreadyFriend(){
     return(
       <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom:20}}>
