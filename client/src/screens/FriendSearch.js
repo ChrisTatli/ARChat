@@ -24,6 +24,7 @@ import SearchInput, {createFilter} from 'react-native-search-filter';
 import {List, ListItem} from 'react-native-elements';
 
 const baseStyles = require('../baseStyles');
+// Provide keys for our search function to filter from
 const KEYS_TO_FILTER = ['username'];
 
 
@@ -41,9 +42,14 @@ export default class FriendSearch extends Component{
       this.state =  {
          searchTerm: ''
       }
+      //On component intialisation store the users in an array that we can query
+      //when we want to search
       this.store.loadUsers();
    }
 
+   //Called when the search term in our search bar changes, each time it fires
+   //our array is filtered based on the current search string and the list
+   //displaying our users is dynamically updated to reflect the new filtered array
    onChangeSearchString(text){
       this.setState({searchTerm: text})
    }
@@ -52,6 +58,7 @@ export default class FriendSearch extends Component{
       this.store.loadUsers();
    }
 
+   //OnPress function called when we click on a user to find out more info
    showUserDetails = (user) => {
       this.props.navigation.navigate('UserDetails', user);
    }
@@ -59,6 +66,7 @@ export default class FriendSearch extends Component{
    generateUserList(){
 
       var filteredUsers = this.store.users.filter(createFilter(this.state.searchTerm,KEYS_TO_FILTER))
+      //If no users match the search string then we tell the user that the User does not exist in the db
       if(filteredUsers.length == 0){
          return(
             <View>
@@ -66,6 +74,7 @@ export default class FriendSearch extends Component{
             </View>
          );
       }
+      //Maps each user to a new List Item
       return filteredUsers.map((user) =>
          <ListItem
             key ={user._id}

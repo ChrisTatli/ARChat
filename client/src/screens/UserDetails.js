@@ -5,6 +5,11 @@ import {autobind} from 'core-decorators';
 import {observable} from 'mobx';
 import {observer} from 'mobx-react/native';
 
+/*
+   UserDetails Screen displays details about the user as well as there avatar
+   Can be extended to display additional info about the user
+   Also displays the button to add a friend
+*/
 @autobind @observer
 export default class UserDetails extends Component {
 
@@ -12,6 +17,7 @@ export default class UserDetails extends Component {
     super(props);
     this.store = this.props.screenProps.store;
   }
+
 
   generateButtons(id,username,email,avatar) {
     if(this.store.user != null) {
@@ -45,6 +51,7 @@ export default class UserDetails extends Component {
     }
   }
 
+  //Returns the button to be displayed when you have sent a user a friend request
   requestsent() {
     return(
       <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom: 20}}>
@@ -58,6 +65,7 @@ export default class UserDetails extends Component {
     );
   }
 
+  //Returns the button to be displayed when you are able to send a user a friend request
   addfriend(id,username,email,avatar){
     return(
       <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom:20}}>
@@ -70,6 +78,7 @@ export default class UserDetails extends Component {
     );
   }
 
+  //Returns the button to be displayed when you are already friends with a user
   alreadyFriend(){
     return(
       <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom:20}}>
@@ -87,6 +96,7 @@ export default class UserDetails extends Component {
 
 
   render() {
+    //Pass through the user details from the previous screen
     const {avatar, username, email, _id} = this.props.navigation.state.params;
     this.username = username;
     this.email = email;

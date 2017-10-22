@@ -16,6 +16,26 @@ import {Launch,
         UserDetails,
 } from '../screens'
 
+/* This file contains the routing logic for the app
+   The Structure of the Navigator is as follows
+
+   Tabs (Root)
+      |_ChatStack
+      |_MeetStack
+         |_MeetView
+         |_XRay
+      |_FriendStack
+      |_RequestTab
+         |_FriendRequest
+         |_SearchStack
+            |_FriendSearch
+            |_UserDetails
+      |_Settings
+
+   Navigators are nested inside one another to achieve the desired nagigation
+   flow of the app
+*/
+
 export const ChatStack = StackNavigator({
    Chat:{
       screen: Chat,
