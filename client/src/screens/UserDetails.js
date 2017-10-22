@@ -68,7 +68,7 @@ export default class UserDetails extends Component {
     );
   }
 
-  //Returns the button to be displayed when you are already friends with the user
+  //Returns the button to be displayed when you are already friends with a user
   alreadyFriend(){
     return(
       <View style={{flex:1, flexDirection: 'row', alignItems: 'center',justifyContent: 'center', paddingTop:20, paddingBottom:20}}>
